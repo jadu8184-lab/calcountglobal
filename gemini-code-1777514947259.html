@@ -19,6 +19,7 @@
     --orange-mid: #E8521A66;
     --green: #3DBA6E;
     --red: #E84040;
+    --water: #38bdf8;
     --bg: #0f0f0f;
     --surface: #1a1a1a;
     --surface2: #242424;
@@ -81,6 +82,7 @@
   .inp:focus { border-color: var(--orange-mid); }
   .inp::placeholder { color: var(--faint); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   
   .bmi-card { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 16px; margin-top: 4px; margin-bottom: 18px; transition: background 0.4s; }
   .bmi-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
@@ -122,6 +124,10 @@
   .pbar-track { height: 10px; background: var(--surface3); border-radius: 8px; overflow: hidden; transition: background 0.4s; }
   .pbar-fill { height: 100%; border-radius: 8px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.4s; }
 
+  /* Water Buttons */
+  .water-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--water); font-size: 24px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.2s; }
+  .water-btn:active { transform: scale(0.92); }
+
   /* Streak */
   .streak-center { text-align: center; padding: 14px 0 10px; }
   .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; }
@@ -135,16 +141,20 @@
   .dot.today { box-shadow: 0 0 0 2px var(--orange); }
   .dot-day { color: var(--faint); font-size: 9px; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.5px; }
 
-  /* Tracker */
-  .track-inp-row { display: flex; gap: 10px; align-items: stretch; }
-  .track-inp { flex: 1; background: var(--surface3); border: none; border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 16px; outline: none; transition: background 0.4s; }
+  /* Tracker Inputs */
+  .track-inp-row { display: flex; gap: 8px; align-items: stretch; }
+  .track-inp { flex: 1; background: var(--surface3); border: none; border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: background 0.4s; }
+  .track-inp::placeholder { color: var(--faint); font-size: 14px; }
   .add-btn { width: 46px; height: 46px; border-radius: 50%; background: var(--orange); border: none; color: #fff; font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.2s, background 0.4s; flex-shrink: 0; }
   .add-btn:hover { opacity: 0.9; }
   .add-btn:active { transform: scale(0.92); }
+  
+  /* Tracker List */
   .txn { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px; animation: slideIn 0.25s ease; border-left: 3px solid var(--orange); transition: background 0.4s, border-color 0.4s; }
   .txn-name { font-weight: 500; font-size: 14px; }
-  .txn-time { color: var(--muted); font-size: 11px; margin-top: 2px; }
-  .txn-cal { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); transition: color 0.4s; }
+  .txn-time { color: var(--muted); font-size: 11px; margin-top: 4px; }
+  .txn-cal { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--orange); transition: color 0.4s; text-align: right; }
+  .txn-macros { font-size: 10px; color: var(--faint); margin-top: 2px; text-align: right; letter-spacing: 0.5px; }
   .txn-del { background: none; border: none; color: var(--faint); cursor: pointer; font-size: 16px; margin-left: 8px; padding: 4px; border-radius: 6px; transition: color 0.2s; }
   .txn-del:hover { color: var(--red); }
   .empty-state { text-align: center; padding: 32px; color: var(--faint); font-size: 14px; }
@@ -188,9 +198,6 @@
   .nav-label { font-size: 10px; color: var(--muted); font-family: var(--font-body); font-weight: 500; }
   .nav-btn.active .nav-label { color: var(--orange); transition: color 0.4s;}
 
-  .quick-add-btn { display: block; width: calc(100% - 32px); margin: 0 16px 0; background: var(--orange); color: #fff; border: none; border-radius: 14px; padding: 14px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: background 0.4s, opacity 0.2s; }
-  .quick-add-btn:hover { opacity: 0.9; }
-
   .reset-btn { width: calc(100% - 32px); margin: 0 16px; background: transparent; color: var(--faint); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body); font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
   .reset-btn:hover { color: var(--red); border-color: var(--red); }
 
@@ -199,17 +206,23 @@
   .pill-label { display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; user-select: none; }
   .pill-radio:checked + .pill-label { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; }
 
-  /* [NEW] Celebration Animations */
-  @keyframes popIn {
-    0% { transform: scale(0.6); opacity: 0; }
-    70% { transform: scale(1.05); }
-    100% { transform: scale(1); opacity: 1; }
-  }
+  /* Food DB Modal Specific */
+  .db-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
+  .db-tab { flex: 1; text-align: center; padding: 10px; border-bottom: 2px solid var(--surface3); color: var(--muted); font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+  .db-tab.active { border-color: var(--orange); color: var(--orange); }
+  .db-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--surface3); }
+  .db-item:last-child { border-bottom: none; }
+  .db-item-name { font-weight: 500; font-size: 14px; margin-bottom: 4px; color: var(--text); }
+  .db-item-meta { font-size: 11px; color: var(--muted); }
+  .db-add-btn { background: var(--surface3); color: var(--orange); border: none; border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .db-add-btn:hover { background: var(--orange-dim); }
+
+  /* Animations */
+  @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
   .celebrate-box { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-  @keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-  }
+  @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -290,7 +303,24 @@
       <div class="card">
         <div class="card-row"><div class="card-label">CALORIES LEFT TODAY</div><div class="cal-left" id="daily-left">—</div></div>
         <div class="pbar-track"><div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div></div>
-        <div class="cal-meta"><span id="daily-spent">0 spent</span><span id="daily-budget-label">0 budget</span></div>
+        <div class="cal-meta" style="margin-bottom:8px;"><span id="daily-spent">0 spent</span><span id="daily-budget-label">0 budget</span></div>
+        
+        <!-- Daily Macro Summary -->
+        <div style="border-top:1px solid var(--border); padding-top:8px; display:flex; justify-content:space-between; font-size:11px; color:var(--muted); font-weight:600;">
+          <span>Protein: <span id="dash-p" style="color:var(--text)">0g</span></span>
+          <span>Carbs: <span id="dash-c" style="color:var(--text)">0g</span></span>
+          <span>Fats: <span id="dash-f" style="color:var(--text)">0g</span></span>
+        </div>
+      </div>
+
+      <!-- WATER TRACKER -->
+      <div class="card">
+        <div class="card-row"><div class="card-label" style="color:var(--water)">WATER INTAKE (GLASSES)</div><div id="water-count" style="font-family:var(--font-display);font-size:24px;font-weight:900;color:var(--water)">0 / 8</div></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+          <button class="water-btn" onclick="addWater(-1)">-</button>
+          <div style="display:flex; gap: 4px;" id="water-glasses"></div>
+          <button class="water-btn" onclick="addWater(1)">+</button>
+        </div>
       </div>
 
       <div class="card">
@@ -322,7 +352,7 @@
         </div>
       </div>
 
-      <button class="quick-add-btn" onclick="showTab('tracker')">+ LOG CALORIES</button>
+      <button class="btn-primary" style="margin:0 16px 20px; width:calc(100% - 32px);" onclick="showTab('tracker')">+ LOG FOOD</button>
     </div>
 
     <!-- Tracker Tab -->
@@ -332,14 +362,18 @@
         <div class="pbar-track"><div class="pbar-fill" id="tracker-daily-bar" style="width:0%;background:var(--orange)"></div></div>
       </div>
 
-      <div class="card">
-        <div class="card-label">TRACK CALORIES</div>
-        <div class="field" style="margin-bottom:10px"><label class="field-label">LABEL (optional)</label><input class="inp" id="txn-label" type="text" placeholder="e.g. Lunch, Snack, Dinner..."></div>
-        <div class="field" style="margin-bottom:0">
-          <label class="field-label">CALORIES SPENT</label>
-          <div class="track-inp-row"><input class="track-inp" id="txn-cal" type="number" placeholder="500" min="1"><button class="add-btn" id="add-txn-btn">+</button></div>
-        </div>
+      <!-- Action Buttons -->
+      <button class="btn-primary" style="margin: 0 16px 14px; width: calc(100% - 32px); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; padding: 16px; font-weight: 800;" onclick="openFoodDB()">
+        <span style="font-size:20px">🔍</span> SEARCH FOOD DATABASE
+      </button>
+
+      <div style="display:flex; gap:10px; margin: 0 16px 14px;">
+        <button class="reset-btn" style="flex:1; margin:0; padding:12px; font-size:13px; font-weight:600; border-color:var(--border);" onclick="openQuickAddModal()">⚡ Quick Manual Entry</button>
+        <button class="reset-btn" style="flex:1; margin:0; padding:12px; font-size:13px; font-weight:600; color:var(--orange); border-color:var(--orange-mid);" onclick="openCustomMealModal()">➕ Create Meal</button>
       </div>
+
+      <!-- Logs -->
+      <div class="card-label" style="margin: 0 16px 8px;">TODAY'S LOGS</div>
       <div id="txn-list" style="margin:0 16px;"></div>
       <div id="txn-empty" class="empty-state" style="display:none">No entries yet today — start logging!</div>
     </div>
@@ -388,7 +422,6 @@
         </div>
       </div>
 
-      <!-- [NEW] Settings Buttons mapped to Store -->
       <button class="reset-btn" style="margin-bottom:12px;color:var(--orange);border-color:var(--orange-mid);font-weight:600;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
       <button class="reset-btn" style="margin-bottom:12px;color:var(--text);border-color:var(--border);" onclick="openEditModal()">⚖️ Edit Profile Metrics</button>
 
@@ -413,7 +446,108 @@
     </div>
   </div>
 
-  <!-- [NEW] CELEBRATION MODAL -->
+  <!-- HEALTHIFYME-STYLE PORTION ADJUSTER MODAL -->
+  <div id="food-detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1001;align-items:flex-end;justify-content:center;padding:0;">
+    <div style="background:var(--surface);width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:24px 20px 40px;border-top:1px solid var(--border);animation: slideUp 0.3s ease;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+        <div>
+          <div id="fd-name" style="font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--orange);line-height:1.1;margin-bottom:4px;">Food Name</div>
+          <div style="font-size:13px;color:var(--muted);">Adjust your serving size</div>
+        </div>
+        <button style="background:none;border:none;color:var(--faint);font-size:24px;cursor:pointer;line-height:1;" onclick="closeFoodDetail()">✕</button>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);padding:16px;border-radius:16px;margin-bottom:20px;">
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">CALORIES</div>
+          <div id="fd-cal-val" style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--text);">0</div>
+        </div>
+        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">PROTEIN</div>
+          <div style="font-weight:700;color:var(--text);"><span id="fd-p-val">0</span>g</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">CARBS</div>
+          <div style="font-weight:700;color:var(--text);"><span id="fd-c-val">0</span>g</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">FATS</div>
+          <div style="font-weight:700;color:var(--text);"><span id="fd-f-val">0</span>g</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+        <div style="font-weight:600;font-size:15px;">Number of Servings</div>
+        <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);padding:6px;border-radius:12px;">
+          <button style="width:36px;height:36px;border-radius:8px;border:none;background:var(--surface3);color:var(--text);font-size:18px;cursor:pointer;" onclick="adjServing(-0.25)">-</button>
+          <input type="number" id="fd-servings" value="1" step="0.25" min="0.25" style="width:50px;background:transparent;border:none;color:var(--text);font-size:18px;font-weight:700;text-align:center;outline:none;" oninput="updateFoodDetail()">
+          <button style="width:36px;height:36px;border-radius:8px;border:none;background:var(--surface3);color:var(--text);font-size:18px;cursor:pointer;" onclick="adjServing(0.25)">+</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width:100%;" onclick="addFoodFromDetail()">ADD TO DIARY</button>
+    </div>
+  </div>
+
+  <!-- QUICK ADD MANUAL MODAL -->
+  <div id="quick-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
+      <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">QUICK ADD.</div>
+      <div class="field"><label class="field-label">MEAL NAME</label><input class="inp" id="qa-name" type="text" placeholder="e.g. Random Snack"></div>
+      <div class="field"><label class="field-label">TOTAL CALORIES</label><input class="inp" id="qa-cal" type="number" placeholder="e.g. 250"></div>
+      <div class="grid3" style="margin-bottom: 18px;">
+        <div class="field" style="margin-bottom:0;"><label class="field-label">PRO (g)</label><input class="inp" id="qa-p" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:0;"><label class="field-label">CARB (g)</label><input class="inp" id="qa-c" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:0;"><label class="field-label">FAT (g)</label><input class="inp" id="qa-f" type="number" placeholder="0"></div>
+      </div>
+      <div class="grid2">
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="closeQuickAddModal()">CANCEL</button>
+        <button class="btn-primary" onclick="submitQuickAdd()">LOG IT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM MEAL MODAL -->
+  <div id="custom-meal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
+      <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">CREATE MEAL.</div>
+      <div class="field"><label class="field-label">MEAL NAME</label><input class="inp" id="cm-name" type="text" placeholder="e.g. My Protein Shake"></div>
+      <div class="field"><label class="field-label">TOTAL CALORIES</label><input class="inp" id="cm-cal" type="number" placeholder="e.g. 350"></div>
+      <div class="grid3" style="margin-bottom: 18px;">
+        <div class="field" style="margin-bottom:0;"><label class="field-label">PRO (g)</label><input class="inp" id="cm-p" type="number"></div>
+        <div class="field" style="margin-bottom:0;"><label class="field-label">CARB (g)</label><input class="inp" id="cm-c" type="number"></div>
+        <div class="field" style="margin-bottom:0;"><label class="field-label">FAT (g)</label><input class="inp" id="cm-f" type="number"></div>
+      </div>
+      <div class="grid2">
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="closeCustomMealModal()">CANCEL</button>
+        <button class="btn-primary" onclick="saveAndLogCustomMeal()">SAVE & LOG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD DATABASE MODAL -->
+  <div id="food-db-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);width:100%;max-width:400px;border-radius:18px;padding:24px 16px;border:1px solid var(--border);max-height:85vh;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div class="ob-title" style="font-size:24px;margin:0;">FOOD DATABASE</div>
+        <button style="background:none;border:none;color:var(--faint);font-size:20px;cursor:pointer;" onclick="closeFoodDB()">✕</button>
+      </div>
+      
+      <input class="inp" id="food-search" type="text" placeholder="Search foods..." style="margin-bottom:16px;" oninput="renderFoodList()">
+      
+      <div class="db-tabs">
+        <div class="db-tab active" id="tab-db-all" onclick="switchFoodTab('all')">Indian Database</div>
+        <div class="db-tab" id="tab-db-custom" onclick="switchFoodTab('custom')">My Meals</div>
+      </div>
+      
+      <div id="food-list-container" style="flex:1;overflow-y:auto;padding-right:4px;">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CELEBRATION MODAL -->
   <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
     <div id="particles-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;"></div>
     <div class="celebrate-box" style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:32px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 40px rgba(232,82,26,0.3);z-index:2;">
@@ -425,7 +559,7 @@
     </div>
   </div>
 
-  <!-- [NEW] REWARDS STORE MODAL -->
+  <!-- REWARDS STORE MODAL -->
   <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
     <div style="background:var(--surface);width:100%;max-width:400px;border-radius:18px;padding:24px;border:1px solid var(--border);max-height:85vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
@@ -441,7 +575,7 @@
     </div>
   </div>
 
-  <!-- EDIT PROFILE MODAL (METRICS ONLY) -->
+  <!-- EDIT PROFILE MODAL -->
   <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
     <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
       <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">EDIT METRICS.</div>
@@ -483,8 +617,8 @@ const database = firebase.database();
 // ——— STATE ———
 const STORAGE_KEY = 'calcount_v4';
 let state = { onboarded: false, profile: null, dailyLog: {}, userId: null, activeChallenges: [], theme: 'default' };
+let FOOD_DB = [];
 
-// [NEW] Master Bundles Array
 const BUNDLES = [
   { id: 'default', name: 'Default Dark', theme: 'default', avatar: null, title: 'Standard Initials' },
   { id: 'madrid', name: 'Real Madrid Pack', theme: 'madrid', avatar: 'RM.png', title: 'K. Mbappe Avatar' },
@@ -493,6 +627,8 @@ const BUNDLES = [
   { id: 'psg', name: 'PSG Pack', theme: 'psg', avatar: 'PSG.png', title: 'Dembelle Avatar' },
   { id: 'richmond', name: 'Richmond Pack', theme: 'richmond', avatar: 'RFC.png', title: 'Ted Lasso Avatar' }
 ];
+
+let currentFoodTab = 'all';
 
 function load() {
   try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) state = { ...state, ...JSON.parse(raw) }; } catch(e) {}
@@ -514,7 +650,6 @@ function getWeekDays() { const days = []; const startSplit = getWeekStart().spli
 function getMonthDays() { const now = new Date(); const year = now.getFullYear(); const month = now.getMonth(); const todayDate = now.getDate(); const days = []; for (let i = 1; i <= todayDate; i++) days.push(toLocalDateStr(new Date(year, month, i))); return days; }
 function getDaysInMonth() { const now = new Date(); return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); }
 
-
 // ——— UI UTILS ———
 function setAvatarElement(elId, profileObj) {
   const el = document.getElementById(elId);
@@ -528,7 +663,264 @@ function setAvatarElement(elId, profileObj) {
   }
 }
 
-// ——— [NEW] REWARDS & TOKENS SYSTEM ———
+// ——— WATER TRACKER ———
+function addWater(amount) {
+  const t = today();
+  if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  if (typeof state.dailyLog[t].water === 'undefined') state.dailyLog[t].water = 0;
+  
+  state.dailyLog[t].water += amount;
+  if (state.dailyLog[t].water < 0) state.dailyLog[t].water = 0;
+  
+  save();
+  renderDashboard();
+}
+
+// ——— CSV FETCH LOGIC [NEW] ———
+async function fetchCSVDatabase() {
+  const csvUrl = 'https://raw.githubusercontent.com/jadu8184-lab/calcountglobal/refs/heads/main/Indian_Food_Nutrition_Processed.csv'; 
+  
+  try {
+    const response = await fetch(csvUrl);
+    if (!response.ok) throw new Error("Network response was not ok");
+    const csvText = await response.text();
+    
+    FOOD_DB = parseCSV(csvText);
+    console.log("Database successfully loaded from GitHub:", FOOD_DB.length, "items.");
+  } catch (error) {
+    console.error("Failed to fetch CSV, loading fallback database.", error);
+    FOOD_DB = [
+      { label: "Chicken Biryani (1 portion)", cal: 650, p: 35, c: 70, f: 22 },
+      { label: "Roti / Chapati (1 piece)", cal: 110, p: 3, c: 22, f: 1 },
+      { label: "Failed to connect to database. Please check URL.", cal: 0, p: 0, c: 0, f: 0 }
+    ];
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.split('\n');
+  const result = [];
+  
+  // Start from line 1 to skip headers.
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+    
+    // Simple split by comma. Note: If your food names contain commas, you will need a more complex RegEx parser here.
+    const cols = line.split(',');
+    if (cols.length < 5) continue; 
+    
+    const label = cols[0].replace(/"/g, '').trim();
+    const cal = Math.round(parseFloat(cols[1])) || 0;
+    // Assuming Columns: Dish Name(0), Calories(1), Carbs(2), Protein(3), Fats(4)
+    const c = Math.round(parseFloat(cols[2])) || 0;
+    const p = Math.round(parseFloat(cols[3])) || 0;
+    const f = Math.round(parseFloat(cols[4])) || 0;
+    
+    if (cal > 0) {
+      result.push({ label, cal, p, c, f });
+    }
+  }
+  return result;
+}
+
+
+// ——— QUICK ADD (MANUAL LOG) ———
+function openQuickAddModal() {
+  document.getElementById('qa-name').value = '';
+  document.getElementById('qa-cal').value = '';
+  document.getElementById('qa-p').value = '';
+  document.getElementById('qa-c').value = '';
+  document.getElementById('qa-f').value = '';
+  document.getElementById('quick-add-modal').style.display = 'flex';
+}
+
+function closeQuickAddModal() {
+  document.getElementById('quick-add-modal').style.display = 'none';
+}
+
+function submitQuickAdd() {
+  const label = document.getElementById('qa-name').value.trim() || 'Manual Entry';
+  const cal = parseInt(document.getElementById('qa-cal').value);
+  const p = parseInt(document.getElementById('qa-p').value) || 0;
+  const c = parseInt(document.getElementById('qa-c').value) || 0;
+  const f = parseInt(document.getElementById('qa-f').value) || 0;
+
+  if (!cal || cal <= 0) {
+    alert("Please enter valid calories.");
+    return;
+  }
+
+  const t = today();
+  if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, time: timeNow() }); 
+  
+  save();
+  closeQuickAddModal();
+  renderTracker(); 
+  renderDashboard();
+  checkMilestones();
+}
+
+
+// ——— CUSTOM MEALS LOGIC ———
+function openCustomMealModal() {
+  document.getElementById('cm-name').value = '';
+  document.getElementById('cm-cal').value = '';
+  document.getElementById('cm-p').value = '';
+  document.getElementById('cm-c').value = '';
+  document.getElementById('cm-f').value = '';
+  document.getElementById('custom-meal-modal').style.display = 'flex';
+}
+
+function closeCustomMealModal() {
+  document.getElementById('custom-meal-modal').style.display = 'none';
+}
+
+function saveAndLogCustomMeal() {
+  const label = document.getElementById('cm-name').value.trim();
+  const cal = parseInt(document.getElementById('cm-cal').value);
+  const p = parseInt(document.getElementById('cm-p').value) || 0;
+  const c = parseInt(document.getElementById('cm-c').value) || 0;
+  const f = parseInt(document.getElementById('cm-f').value) || 0;
+
+  if (!label || !cal) {
+    alert("Please provide a Meal Name and Total Calories.");
+    return;
+  }
+
+  if (!state.profile.customMeals) state.profile.customMeals = [];
+  
+  const exists = state.profile.customMeals.findIndex(m => m.label.toLowerCase() === label.toLowerCase());
+  if (exists > -1) {
+    state.profile.customMeals[exists] = { label, cal, p, c, f };
+  } else {
+    state.profile.customMeals.push({ label, cal, p, c, f });
+  }
+  
+  const t = today();
+  if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, time: timeNow() }); 
+  
+  save();
+  closeCustomMealModal();
+  renderTracker(); 
+  renderDashboard();
+  checkMilestones();
+}
+
+// ——— FOOD DATABASE & HEALTHIFYME DETAIL MODAL ———
+let currentSelectedFood = null;
+
+function openFoodDB() {
+  document.getElementById('food-search').value = '';
+  document.getElementById('food-db-modal').style.display = 'flex';
+  renderFoodList();
+}
+
+function closeFoodDB() {
+  document.getElementById('food-db-modal').style.display = 'none';
+}
+
+function switchFoodTab(tab) {
+  currentFoodTab = tab;
+  document.getElementById('tab-db-all').classList.toggle('active', tab === 'all');
+  document.getElementById('tab-db-custom').classList.toggle('active', tab === 'custom');
+  renderFoodList();
+}
+
+function renderFoodList() {
+  const container = document.getElementById('food-list-container');
+  container.innerHTML = '';
+  const query = document.getElementById('food-search').value.toLowerCase();
+  
+  let source = currentFoodTab === 'all' ? FOOD_DB : (state.profile.customMeals || []);
+  let filtered = source.filter(f => f.label.toLowerCase().includes(query));
+  
+  if (filtered.length === 0) {
+    container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:13px;">No foods found.</div>`;
+    return;
+  }
+
+  // Only show first 50 results to prevent lag
+  filtered.slice(0, 50).forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'db-item';
+    
+    let mStr = '';
+    if (f.p || f.c || f.f) {
+      mStr = `${f.p||0}P | ${f.c||0}C | ${f.f||0}F`;
+    }
+    
+    const safeLabel = f.label.replace(/'/g, "\\'");
+
+    div.innerHTML = `
+      <div>
+        <div class="db-item-name">${f.label}</div>
+        <div class="db-item-meta">${f.cal} cal ${mStr ? ` • ${mStr}` : ''}</div>
+      </div>
+      <button class="db-add-btn" onclick="openFoodDetail('${safeLabel}', ${f.cal}, ${f.p||0}, ${f.c||0}, ${f.f||0})">+</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function openFoodDetail(label, cal, p, c, f) {
+  currentSelectedFood = { label, cal, p, c, f };
+  document.getElementById('fd-name').textContent = label;
+  document.getElementById('fd-servings').value = 1;
+  
+  updateFoodDetail();
+  document.getElementById('food-detail-modal').style.display = 'flex';
+}
+
+function closeFoodDetail() {
+  document.getElementById('food-detail-modal').style.display = 'none';
+}
+
+function adjServing(amt) {
+  let el = document.getElementById('fd-servings');
+  let current = parseFloat(el.value) || 1;
+  let next = current + amt;
+  if (next < 0.25) next = 0.25;
+  el.value = next;
+  updateFoodDetail();
+}
+
+function updateFoodDetail() {
+  if (!currentSelectedFood) return;
+  let serv = parseFloat(document.getElementById('fd-servings').value) || 1;
+  
+  document.getElementById('fd-cal-val').textContent = Math.round(currentSelectedFood.cal * serv);
+  document.getElementById('fd-p-val').textContent = Math.round(currentSelectedFood.p * serv);
+  document.getElementById('fd-c-val').textContent = Math.round(currentSelectedFood.c * serv);
+  document.getElementById('fd-f-val').textContent = Math.round(currentSelectedFood.f * serv);
+}
+
+function addFoodFromDetail() {
+  let serv = parseFloat(document.getElementById('fd-servings').value) || 1;
+  let c = Math.round(currentSelectedFood.cal * serv);
+  let p = Math.round(currentSelectedFood.p * serv);
+  let cb = Math.round(currentSelectedFood.c * serv);
+  let f = Math.round(currentSelectedFood.f * serv);
+  
+  let finalLabel = currentSelectedFood.label;
+  if (serv !== 1) finalLabel += ` (${serv})`;
+
+  const t = today();
+  if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  state.dailyLog[t].transactions.push({ amount: c, label: finalLabel, p, c: cb, f, time: timeNow() }); 
+  
+  save();
+  closeFoodDetail();
+  closeFoodDB();
+  renderTracker(); 
+  renderDashboard();
+  checkMilestones();
+}
+
+
+// ——— REWARDS & TOKENS SYSTEM ———
 function checkMilestones() {
   if (!state.profile) return;
   const ms = state.profile.maxStreak || 0;
@@ -537,7 +929,6 @@ function checkMilestones() {
   if (typeof state.profile.tokens === 'undefined') state.profile.tokens = 0;
   if (!state.profile.unlockedBundles) state.profile.unlockedBundles = ['default'];
 
-  // Endless unlock loop
   const milestones = [1, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 100];
   let triggered = false;
   let highest = 0;
@@ -556,15 +947,14 @@ function checkMilestones() {
     triggerCelebration(highest);
   }
   
-  // Refresh profile token button display silently
-  document.getElementById('profile-token-count').textContent = state.profile.tokens;
+  const tokenDisplay = document.getElementById('profile-token-count');
+  if(tokenDisplay) tokenDisplay.textContent = state.profile.tokens;
 }
 
 function triggerCelebration(milestone) {
   document.getElementById('celeb-streak-text').textContent = milestone;
   document.getElementById('celebration-modal').style.display = 'flex';
   
-  // Spawn particles
   const container = document.getElementById('particles-container');
   container.innerHTML = '';
   const emojis = ['🔥', '🎉', '🏆', '⭐', '🔥'];
@@ -598,7 +988,6 @@ function openRewardsModal() {
 
 function closeRewardsModal() {
   document.getElementById('rewards-modal').style.display = 'none';
-  // Also refresh profile view to catch token count updates
   document.getElementById('profile-token-count').textContent = state.profile.tokens;
 }
 
@@ -643,7 +1032,7 @@ function unlockBundle(id) {
   state.profile.tokens--;
   state.profile.unlockedBundles.push(id);
   save();
-  equipBundle(id); // Auto equip on purchase
+  equipBundle(id);
 }
 
 function equipBundle(id) {
@@ -657,7 +1046,7 @@ function equipBundle(id) {
   applyThemeUI();
   setAvatarElement('top-avatar', state.profile);
   setAvatarElement('profile-avatar', state.profile);
-  renderRewards(); // Refresh buttons
+  renderRewards();
 }
 
 function applyThemeUI() {
@@ -901,6 +1290,31 @@ function renderDashboard() {
   document.getElementById('daily-bar').style.width = pct + '%'; document.getElementById('daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
   document.getElementById('daily-spent').textContent = fmt(spent) + ' spent'; document.getElementById('daily-budget-label').textContent = fmt(p.dailyBudget) + ' budget';
 
+  // [NEW] Daily Macro Summary Calc
+  let totalP = 0, totalC = 0, totalF = 0;
+  const currentLogs = state.dailyLog[t]?.transactions || [];
+  currentLogs.forEach(tx => {
+    totalP += (tx.p || 0); totalC += (tx.c || 0); totalF += (tx.f || 0);
+  });
+  document.getElementById('dash-p').textContent = totalP + 'g';
+  document.getElementById('dash-c').textContent = totalC + 'g';
+  document.getElementById('dash-f').textContent = totalF + 'g';
+
+  const dailyWater = state.dailyLog[t]?.water || 0;
+  document.getElementById('water-count').textContent = dailyWater + ' / 8';
+  const glassesEl = document.getElementById('water-glasses');
+  glassesEl.innerHTML = '';
+  for(let i=0; i<8; i++) {
+     const g = document.createElement('div');
+     g.style.width = '16px';
+     g.style.height = '24px';
+     g.style.borderRadius = '2px 2px 6px 6px';
+     g.style.border = '2px solid var(--water)';
+     g.style.background = i < dailyWater ? 'var(--water)' : 'transparent';
+     g.style.opacity = i < dailyWater ? '1' : '0.4';
+     glassesEl.appendChild(g);
+  }
+
   const streak = calcStreak();
   document.getElementById('streak-num').textContent = streak; document.getElementById('nav-streak-icon').textContent = '🔥 ' + streak;
   const sl = document.getElementById('streak-label');
@@ -947,22 +1361,26 @@ function renderTracker() {
     emptyEl.style.display = 'none';
     [...txns].reverse().forEach((tx, ri) => {
       const realIdx = txns.length - 1 - ri; const div = document.createElement('div'); div.className = 'txn';
-      div.innerHTML = `<div><div class="txn-name">${tx.label}</div><div class="txn-time">${tx.time}</div></div><div style="display:flex;align-items:center;gap:0"><div class="txn-cal">${fmt(tx.amount)} cal</div><button class="txn-del" data-idx="${realIdx}" title="Remove">✕</button></div>`;
+      
+      const mText = (tx.p || tx.c || tx.f) ? `${tx.p||0}P | ${tx.c||0}C | ${tx.f||0}F` : `Macros not logged`;
+
+      div.innerHTML = `
+        <div>
+          <div class="txn-name">${tx.label}</div>
+          <div class="txn-time">${tx.time}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0">
+          <div>
+            <div class="txn-cal">${fmt(tx.amount)} cal</div>
+            <div class="txn-macros">${mText}</div>
+          </div>
+          <button class="txn-del" data-idx="${realIdx}" title="Remove">✕</button>
+        </div>
+      `;
       listEl.appendChild(div);
     });
     listEl.querySelectorAll('.txn-del').forEach(btn => { btn.addEventListener('click', () => { const idx = parseInt(btn.dataset.idx); state.dailyLog[t].transactions.splice(idx, 1); save(); renderTracker(); renderDashboard(); }); });
   }
-}
-
-document.getElementById('add-txn-btn').addEventListener('click', addTransaction); document.getElementById('txn-cal').addEventListener('keydown', e => { if (e.key === 'Enter') addTransaction(); });
-function addTransaction() {
-  const cal = parseInt(document.getElementById('txn-cal').value); if (!cal || cal <= 0) return;
-  const label = document.getElementById('txn-label').value.trim() || 'Meal'; const t = today();
-  if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [] };
-  state.dailyLog[t].transactions.push({ amount: cal, label, time: timeNow() }); save();
-  document.getElementById('txn-cal').value = ''; document.getElementById('txn-label').value = ''; renderTracker(); renderDashboard();
-  
-  checkMilestones(); // Check unlocks right after logging
 }
 
 function renderProfile() {
@@ -971,7 +1389,7 @@ function renderProfile() {
   document.getElementById('profile-sub').textContent = `Age ${p.age} · ${p.gender === 'male' ? 'Male' : 'Female'}`;
   document.getElementById('stat-bmi').textContent = p.bmi; document.getElementById('stat-bmi-cat').textContent = bmiCategory(p.bmi);
   document.getElementById('stat-weight').textContent = p.currentWeight + 'kg'; document.getElementById('stat-target').textContent = '→ ' + p.targetWeight + 'kg'; document.getElementById('stat-height').textContent = p.height + 'cm';
-  document.getElementById('profile-token-count').textContent = p.tokens || 0; // Sync token count display
+  document.getElementById('profile-token-count').textContent = p.tokens || 0;
 
   const daysLeft = calcDaysLeft(); document.getElementById('days-num').textContent = daysLeft === null ? '—' : daysLeft === 0 ? '🎉 0' : daysLeft;
   const kgToLose = p.currentWeight - p.targetWeight; document.getElementById('days-sub').textContent = kgToLose > 0 ? `${kgToLose.toFixed(1)} kg to lose · ~7,000 cal per kg` : 'Goal reached!';
@@ -1037,12 +1455,15 @@ async function bootApp() {
   if (!state.profile.lastWeightUpdate) state.profile.lastWeightUpdate = today();
   if (!state.activeChallenges) state.activeChallenges = [];
   
+  // Kick off asynchronous CSV fetch
+  fetchCSVDatabase();
+
   applyThemeUI();
   await handleChallengeDeepLink();
   syncSocialScore();
   renderDashboard();
   checkTDEENudge();
-  checkMilestones(); // Check if any milestones were crossed during boot
+  checkMilestones(); 
 }
 
 load();
