@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CALCOUNT.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Firebase Realtime Database SDKs[cite: 2] -->
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #E8521A;
+    --orange-dim: #E8521A22;
+    --orange-mid: #E8521A66;
+    --green: #3DBA6E;
+    --red: #E84040;
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --surface3: #2e2e2e;
+    --border: #2e2e2e;
+    --text: #f0f0f0;
+    --muted: #888;
+    --faint: #444;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overscroll-behavior: none;
+  }
+  #app {
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    background: var(--bg);
+  }
+
+  /* ——— ONBOARDING ——— */
+  #onboarding {
+    min-height: 100vh;
+    padding: 40px 24px 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  .ob-logo { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--orange); letter-spacing: 3px; margin-bottom: 36px; }
+  .ob-progress { display: flex; gap: 6px; margin-bottom: 32px; }
+  .ob-bar { height: 3px; flex: 1; border-radius: 2px; background: var(--surface3); transition: background 0.4s; }
+  .ob-bar.active { background: var(--orange); }
+  .ob-title { font-family: var(--font-display); font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+  .ob-sub { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+  .field-label { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+  .field { margin-bottom: 18px; }
+  .inp {
+    width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .inp:focus { border-color: var(--orange-mid); }
+  .inp::placeholder { color: var(--faint); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .bmi-card {
+    background: var(--surface); border-radius: 14px; border: 1px solid var(--border);
+    padding: 16px; margin-top: 4px; margin-bottom: 18px; animation: fadeIn 0.3s ease;
+  }
+  .bmi-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
+  .bmi-val { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--orange); }
+  .bmi-cat { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .preview-box {
+    background: var(--surface); border-radius: 14px; border: 1px solid var(--border);
+    padding: 16px; margin-bottom: 18px; animation: fadeIn 0.3s ease;
+  }
+  .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .preview-item .pval { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
+  .preview-item .psub { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .preview-item .plabel { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 2px; }
+  select.inp { appearance: none; cursor: pointer; }
+  .btn-primary {
+    width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 14px;
+    padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700;
+    letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: opacity 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { background: var(--surface3); color: var(--faint); cursor: not-allowed; }
+
+  /* ——— MAIN APP ——— */
+  #main { display: none; flex-direction: column; min-height: 100vh; }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 20px 10px;
+  }
+  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--orange-dim); border: 2px solid var(--orange-mid);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
+    font-weight: 900; font-size: 14px; color: var(--orange); letter-spacing: 1px;
+  }
+
+  /* Tabs */
+  .tab-content { display: none; padding-bottom: 90px; }
+  .tab-content.active { display: block; }
+
+  /* Cards */
+  .card {
+    margin: 0 16px 14px; background: var(--surface); border-radius: 18px;
+    padding: 16px 18px; border: 1px solid var(--border);
+  }
+  .card-label { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .card-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .cal-left { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
+  .cal-left.over { color: var(--red); }
+  .cal-meta { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; margin-top: 7px; }
+
+  /* Progress bar */
+  .pbar-track { height: 10px; background: var(--surface3); border-radius: 8px; overflow: hidden; }
+  .pbar-fill {
+    height: 100%; border-radius: 8px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* Streak */
+  .streak-center { text-align: center; padding: 14px 0 10px; }
+  .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; }
+  .streak-label { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); letter-spacing: 2px; margin-top: 4px; }
+  .streak-empty { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+  /* Week dots */
+  .week-dots { display: flex; justify-content: space-between; margin-top: 12px; }
+  .dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .dot {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; transition: all 0.3s;
+  }
+  .dot.today { box-shadow: 0 0 0 2px var(--orange); }
+  .dot-day { color: var(--faint); font-size: 9px; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.5px; }
+
+  /* Tracker */
+  .track-inp-row { display: flex; gap: 10px; align-items: stretch; }
+  .track-inp { flex: 1; background: var(--surface3); border: none; border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 16px; outline: none; }
+  .add-btn {
+    width: 46px; height: 46px; border-radius: 50%; background: var(--orange); border: none;
+    color: #fff; font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.15s, opacity 0.2s; flex-shrink: 0;
+  }
+  .add-btn:hover { opacity: 0.9; }
+  .add-btn:active { transform: scale(0.92); }
+  .txn {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px;
+    animation: slideIn 0.25s ease; border-left: 3px solid var(--orange);
+  }
+  .txn-name { font-weight: 500; font-size: 14px; }
+  .txn-time { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .txn-cal { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); }
+  .txn-del { background: none; border: none; color: var(--faint); cursor: pointer; font-size: 16px; margin-left: 8px; padding: 4px; border-radius: 6px; transition: color 0.2s; }
+  .txn-del:hover { color: var(--red); }
+  .empty-state { text-align: center; padding: 32px; color: var(--faint); font-size: 14px; }
+
+  /* Profile */
+  .profile-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .profile-avatar {
+    width: 58px; height: 58px; border-radius: 50%; background: var(--orange-dim); border: 2px solid var(--orange);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
+    font-weight: 900; font-size: 20px; color: var(--orange); flex-shrink: 0;
+  }
+  .profile-name { font-family: var(--font-display); font-size: 24px; font-weight: 900; }
+  .profile-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .stat-box { background: var(--surface2); border-radius: 12px; padding: 12px 10px; text-align: center; }
+  .stat-box .sv { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
+  .stat-box .sl { color: var(--muted); font-size: 10px; margin-bottom: 3px; letter-spacing: 0.5px; }
+  .stat-box .ss { color: var(--muted); font-size: 10px; margin-top: 2px; }
+
+  .days-card {
+    margin: 0 16px 14px; background: var(--orange-dim); border-radius: 18px;
+    padding: 18px 18px; border: 1px solid var(--orange-mid);
+  }
+  .days-label { color: var(--orange); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .days-num { font-family: var(--font-display); font-size: 52px; font-weight: 900; line-height: 1; }
+  .days-unit { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--muted); margin-left: 6px; }
+  .days-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .days-details { margin-top: 14px; border-top: 1px solid var(--orange-mid); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+  .days-row { display: flex; justify-content: space-between; font-size: 12px; }
+  .days-row .dk { color: var(--muted); }
+  .days-row .dv { font-weight: 600; }
+
+  /* Calendar */
+  .cal-grid { display: flex; gap: 5px; flex-wrap: wrap; }
+  .cal-day {
+    width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; border: 1px solid transparent; transition: all 0.2s;
+  }
+  .cal-day.empty { background: var(--surface2); color: var(--faint); }
+  .cal-day.good { background: rgba(61,186,110,0.15); border-color: var(--green); color: var(--green); }
+  .cal-day.bad { background: rgba(232,64,64,0.15); border-color: var(--red); color: var(--red); }
+  .cal-legend { display: flex; gap: 16px; margin-top: 10px; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px; background: var(--surface); border-top: 1px solid var(--border);
+    display: flex; padding: 8px 12px 24px; gap: 6px; z-index: 100;
+  }
+  .nav-btn {
+    flex: 1; background: transparent; border: none; border-radius: 12px; padding: 10px 0 8px;
+    cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    transition: background 0.2s;
+  }
+  .nav-btn.active { background: var(--surface3); }
+  .nav-icon { font-size: 18px; line-height: 1; }
+  .nav-label { font-size: 10px; color: var(--muted); font-family: var(--font-body); font-weight: 500; }
+  .nav-btn.active .nav-label { color: var(--orange); }
+
+  .quick-add-btn {
+    display: block; width: calc(100% - 32px); margin: 0 16px 0; background: var(--orange); color: #fff;
+    border: none; border-radius: 14px; padding: 14px; font-family: var(--font-display);
+    font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .quick-add-btn:hover { opacity: 0.9; }
+
+  .reset-btn {
+    width: calc(100% - 32px); margin: 0 16px; background: transparent; color: var(--faint);
+    border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body);
+    font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s;
+  }
+  .reset-btn:hover { color: var(--red); border-color: var(--red); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+
+  /* Radio pill group */
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill-radio { display: none; }
+  .pill-label {
+    display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer;
+    transition: all 0.2s; user-select: none;
+  }
+  .pill-radio:checked + .pill-label { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ONBOARDING[cite: 2] -->
+  <div id="onboarding">
+    <div class="ob-logo">CALCOUNT.</div>
+    <div class="ob-progress">
+      <div class="ob-bar active" id="bar0"></div>
+      <div class="ob-bar" id="bar1"></div>
+      <div class="ob-bar" id="bar2"></div>
+    </div>
+
+    <!-- Step 0[cite: 2] -->
+    <div id="step0" class="ob-step">
+      <div class="ob-title">WELCOME.</div>
+      <div class="ob-sub">Let's build your calorie profile</div>
+      <div class="field">
+        <label class="field-label">YOUR NAME</label>
+        <input class="inp" id="inp-name" type="text" placeholder="e.g. Alex" autocomplete="given-name">
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label class="field-label">AGE</label>
+          <input class="inp" id="inp-age" type="number" placeholder="25" min="10" max="100">
+        </div>
+        <div class="field">
+          <label class="field-label">GENDER</label>
+          <select class="inp" id="inp-gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1[cite: 2] -->
+    <div id="step1" class="ob-step" style="display:none">
+      <div class="ob-title">BODY METRICS.</div>
+      <div class="ob-sub">We'll calculate your BMI & calorie needs</div>
+      <div class="grid2">
+        <div class="field">
+          <label class="field-label">WEIGHT (kg)</label>
+          <input class="inp" id="inp-weight" type="number" placeholder="70" min="30" max="300">
+        </div>
+        <div class="field">
+          <label class="field-label">HEIGHT (cm)</label>
+          <input class="inp" id="inp-height" type="number" placeholder="175" min="100" max="250">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">TARGET WEIGHT (kg)</label>
+        <input class="inp" id="inp-target" type="number" placeholder="65" min="30" max="300">
+      </div>
+      <div id="bmi-preview" style="display:none" class="bmi-card">
+        <div class="bmi-label">YOUR BMI</div>
+        <div class="bmi-val" id="bmi-val">—</div>
+        <div class="bmi-cat" id="bmi-cat">—</div>
+      </div>
+    </div>
+
+    <!-- Step 2[cite: 2] -->
+    <div id="step2" class="ob-step" style="display:none">
+      <div class="ob-title">YOUR GOALS.</div>
+      <div class="ob-sub">Fine-tune your daily calorie budget</div>
+      <div class="field">
+        <label class="field-label">ACTIVITY LEVEL</label>
+        <select class="inp" id="inp-activity">
+          <option value="1.2">Sedentary — desk job, no exercise</option>
+          <option value="1.375">Light — 1–3 days/week</option>
+          <option value="1.55" selected>Moderate — 3–5 days/week</option>
+          <option value="1.725">Active — 6–7 days/week</option>
+          <option value="1.9">Very Active — athlete / physical job</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">DEFICIT INTENSITY</label>
+        <div class="pill-group">
+          <input type="radio" name="deficit" class="pill-radio" id="def-mild" value="300">
+          <label class="pill-label" for="def-mild">Mild −300</label>
+          <input type="radio" name="deficit" class="pill-radio" id="def-mod" value="500" checked>
+          <label class="pill-label" for="def-mod">Moderate −500</label>
+          <input type="radio" name="deficit" class="pill-radio" id="def-agg" value="750">
+          <label class="pill-label" for="def-agg">Aggressive −750</label>
+        </div>
+      </div>
+      <div id="goal-preview" class="preview-box">
+        <div class="preview-grid">
+          <div class="preview-item">
+            <div class="plabel">DAILY BUDGET</div>
+            <div class="pval" id="prev-budget" style="color:var(--orange)">—</div>
+            <div class="psub">calories/day</div>
+          </div>
+          <div class="preview-item">
+            <div class="plabel">DAYS TO GOAL</div>
+            <div class="pval" id="prev-days" style="color:var(--green)">—</div>
+            <div class="psub">estimated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="ob-next">CONTINUE →</button>
+  </div>
+
+  <!-- MAIN APP[cite: 2] -->
+  <div id="main">
+    <div class="topbar">
+      <div class="logo">CALCOUNT.</div>
+      <div class="avatar" id="top-avatar">??</div>
+    </div>
+
+    <!-- Dashboard Tab[cite: 2] -->
+    <div id="tab-dashboard" class="tab-content active">
+      <!-- Daily budget bar -->
+      <div class="card">
+        <div class="card-row">
+          <div class="card-label">CALORIES LEFT TODAY</div>
+          <div class="cal-left" id="daily-left">—</div>
+        </div>
+        <div class="pbar-track">
+          <div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div>
+        </div>
+        <div class="cal-meta">
+          <span id="daily-spent">0 spent</span>
+          <span id="daily-budget-label">0 budget</span>
+        </div>
+      </div>
+
+      <!-- Streak[cite: 2] -->
+      <div class="card">
+        <div class="card-label">STREAK</div>
+        <div class="streak-center" id="streak-display">
+          <div class="streak-num">🔥 <span id="streak-num">0</span></div>
+          <div id="streak-label" class="streak-empty">Stay within budget to build your streak!</div>
+        </div>
+      </div>
+
+      <!-- Weekly budget[cite: 2] -->
+      <div class="card">
+        <div class="card-row">
+          <div class="card-label">WEEKLY BUDGET LEFT</div>
+          <div id="weekly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div>
+        </div>
+        <div class="pbar-track">
+          <div class="pbar-fill" id="weekly-bar" style="width:0%;background:var(--green)"></div>
+        </div>
+        <div class="week-dots" id="week-dots"></div>
+      </div>
+
+      <!-- Monthly budget[cite: 2] -->
+      <div class="card">
+        <div class="card-row">
+          <div class="card-label">MONTHLY BUDGET LEFT</div>
+          <div id="monthly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div>
+        </div>
+        <div class="pbar-track">
+          <div class="pbar-fill" id="monthly-bar" style="width:0%;background:var(--green)"></div>
+        </div>
+        <div class="cal-meta">
+          <span id="monthly-spent-label">0 spent</span>
+          <span id="monthly-budget-label">0 budget</span>
+        </div>
+      </div>
+
+      <!-- Total Deficit Progress[cite: 2] -->
+      <div class="card" style="border-color:var(--orange-mid);background:linear-gradient(135deg,var(--surface) 0%,#1f1510 100%)">
+        <div class="card-row">
+          <div class="card-label" style="color:var(--orange)">TOTAL DEFICIT PROGRESS</div>
+          <div id="deficit-pct-label" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--orange)">0%</div>
+        </div>
+        <div class="pbar-track" style="height:14px;margin-bottom:8px">
+          <div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div>
+        </div>
+        <div class="cal-meta">
+          <span id="deficit-achieved-label" style="color:var(--orange)">0 cal deficit achieved</span>
+          <span id="deficit-goal-label">0 cal goal</span>
+        </div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;justify-content:space-between">
+          <span>Remaining: <span id="deficit-remaining-label" style="color:var(--text);font-weight:600">—</span></span>
+          <span>Est. <span id="deficit-days-label" style="color:var(--orange);font-weight:600">—</span> days left</span>
+        </div>
+      </div>
+
+      <button class="quick-add-btn" onclick="showTab('tracker')">+ LOG CALORIES</button>
+    </div>
+
+    <!-- Tracker Tab[cite: 2] -->
+    <div id="tab-tracker" class="tab-content">
+      <div class="card">
+        <div class="card-row">
+          <div class="card-label">CALORIES LEFT TODAY</div>
+          <div class="cal-left" id="tracker-daily-left">—</div>
+        </div>
+        <div class="pbar-track">
+          <div class="pbar-fill" id="tracker-daily-bar" style="width:0%;background:var(--orange)"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">TRACK CALORIES</div>
+        <div class="field" style="margin-bottom:10px">
+          <label class="field-label">LABEL (optional)</label>
+          <input class="inp" id="txn-label" type="text" placeholder="e.g. Lunch, Snack, Dinner...">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label class="field-label">CALORIES SPENT</label>
+          <div class="track-inp-row">
+            <input class="track-inp" id="txn-cal" type="number" placeholder="500" min="1">
+            <button class="add-btn" id="add-txn-btn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="txn-list" style="margin:0 16px;"></div>
+      <div id="txn-empty" class="empty-state" style="display:none">No entries yet today — start logging!</div>
+    </div>
+
+    <!-- Social Tab [NEW] -->
+    <div id="tab-social" class="tab-content">
+      <div class="card">
+        <div class="card-label" style="color:var(--orange)">GLOBAL LEADERBOARD (TOP STREAKS)</div>
+        <div id="leaderboard-list" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="text-align: center; color: var(--muted); padding: 20px;">Loading top users...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Tab[cite: 2] -->
+    <div id="tab-profile" class="tab-content">
+      <div class="card">
+        <div class="profile-hero">
+          <div class="profile-avatar" id="profile-avatar">??</div>
+          <div>
+            <div class="profile-name" id="profile-name">—</div>
+            <div class="profile-sub" id="profile-sub">—</div>
+          </div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="sl">BMI</div>
+            <div class="sv" id="stat-bmi">—</div>
+            <div class="ss" id="stat-bmi-cat">—</div>
+          </div>
+          <div class="stat-box">
+            <div class="sl">WEIGHT</div>
+            <div class="sv" id="stat-weight">—</div>
+            <div class="ss" id="stat-target">—</div>
+          </div>
+          <div class="stat-box">
+            <div class="sl">HEIGHT</div>
+            <div class="sv" id="stat-height">—</div>
+            <div class="ss">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Days to goal[cite: 2] -->
+      <div class="days-card" id="days-card">
+        <div class="days-label">DAYS TO GOAL</div>
+        <div>
+          <span class="days-num" id="days-num">—</span>
+          <span class="days-unit">days</span>
+        </div>
+        <div class="days-sub" id="days-sub">—</div>
+        <div class="days-details">
+          <div class="days-row"><span class="dk">Daily budget</span><span class="dv" id="di-budget">—</span></div>
+          <div class="days-row"><span class="dk">Maintenance (TDEE)</span><span class="dv" id="di-tdee">—</span></div>
+          <div class="days-row"><span class="dk">Daily deficit</span><span class="dv" id="di-deficit" style="color:var(--green)">—</span></div>
+        </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--orange-mid)">
+          <div style="font-size:10px;letter-spacing:1.5px;color:var(--orange);font-weight:600;margin-bottom:8px">TOTAL DEFICIT JOURNEY</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+            <span style="font-family:var(--font-display);font-size:22px;font-weight:900" id="profile-deficit-pct">0%</span>
+            <span style="font-size:11px;color:var(--muted)" id="profile-deficit-detail">0 / 0 cal</span>
+          </div>
+          <div class="pbar-track" style="height:12px">
+            <div class="pbar-fill" id="profile-deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 30-day calendar[cite: 2] -->
+      <div class="card">
+        <div class="card-label" style="margin-bottom:12px">LAST 30 DAYS</div>
+        <div class="cal-grid" id="profile-calendar"></div>
+        <div class="cal-legend">
+          <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>In budget</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Over budget</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--surface2)"></div>No data</div>
+        </div>
+      </div>
+
+      <button class="reset-btn" id="reset-btn">Reset & start over</button>
+    </div>
+
+    <!-- Bottom Nav[cite: 2] -->
+    <div class="bottom-nav">
+      <button class="nav-btn active" data-tab="dashboard" onclick="showTab('dashboard')">
+        <div class="nav-icon">⊞</div>
+        <div class="nav-label">HOME</div>
+      </button>
+      <button class="nav-btn" data-tab="tracker" onclick="showTab('tracker')" id="nav-tracker">
+        <div class="nav-icon" id="nav-streak-icon">🔥 0</div>
+        <div class="nav-label">TRACK</div>
+      </button>
+      <!-- New Social Button [NEW] -->
+      <button class="nav-btn" data-tab="social" onclick="showTab('social')">
+        <div class="nav-icon">🏆</div>
+        <div class="nav-label">SOCIAL</div>
+      </button>
+      <button class="nav-btn" data-tab="profile" onclick="showTab('profile')">
+        <div class="nav-icon">◎</div>
+        <div class="nav-label">PROFILE</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ——— FIREBASE SETUP (REALTIME DATABASE) [NEW] ———
+const firebaseConfig = {
+  // Even if you don't use all of these in test mode, the basic initialization requires the URL.
+  databaseURL: "https://cal-count-bc597-default-rtdb.firebaseio.com/"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// ——— STATE[cite: 2] ———
+const STORAGE_KEY = 'calcount_v4';
+let state = {
+  onboarded: false,
+  profile: null,
+  dailyLog: {},
+  userId: null // NEW: Added userId tracking to state
+};
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) state = JSON.parse(raw);
+  } catch(e) {}
+}
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  syncSocialScore(); // NEW: Sync to RTDB on every save
+}
+
+// ——— LEADERBOARD LOGIC (REALTIME DATABASE) [NEW] ———
+function getUserId() {
+  if (!state.userId) {
+    state.userId = 'user_' + Math.random().toString(36).substr(2, 9);
+    save();
+  }
+  return state.userId;
+}
+
+async function syncSocialScore() {
+  if (!state.profile) return;
+  const currentStreak = calcStreak();
+  try {
+    await database.ref('leaderboard/' + getUserId()).set({
+      name: state.profile.name,
+      streak: currentStreak,
+      lastUpdated: new Date().toISOString()
+    });
+  } catch (e) {
+    console.error("Error syncing to leaderboard: ", e);
+  }
+}
+
+async function renderSocial() {
+  const listEl = document.getElementById('leaderboard-list');
+  listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">Fetching global stats...</div>';
+  
+  try {
+    // RTDB orderByChild sorts ascending. limitToLast(10) gets the highest 10 values.
+    const snapshot = await database.ref('leaderboard')
+      .orderByChild('streak')
+      .limitToLast(10)
+      .once('value');
+      
+    listEl.innerHTML = '';
+    const users = [];
+    
+    snapshot.forEach((childSnapshot) => {
+      users.push({ id: childSnapshot.key, ...childSnapshot.val() });
+    });
+    
+    // Reverse it so the highest streak is #1
+    users.reverse();
+    
+    let rank = 1;
+    users.forEach((data) => {
+      const isMe = data.id === getUserId();
+      const div = document.createElement('div');
+      div.style.cssText = `display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: ${isMe ? 'var(--orange-dim)' : 'var(--surface2)'}; border-radius: 12px; border: 1px solid ${isMe ? 'var(--orange-mid)' : 'transparent'};`;
+      
+      div.innerHTML = `
+        <div style="display:flex; align-items:center; gap: 12px;">
+          <div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: var(--muted); width: 20px;">#${rank}</div>
+          <div style="font-weight: 600; font-size: 15px;">${data.name} ${isMe ? '(You)' : ''}</div>
+        </div>
+        <div style="font-family:var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange);">🔥 ${data.streak}</div>
+      `;
+      listEl.appendChild(div);
+      rank++;
+    });
+    
+    if (users.length === 0) {
+      listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">No users found yet. Start your streak!</div>';
+    }
+  } catch (e) {
+    listEl.innerHTML = '<div style="text-align: center; color: var(--red); padding: 20px;">Failed to load leaderboard. Note: Ensure your Realtime Database rules allow public read/write in Test Mode.</div>';
+    console.error(e);
+  }
+}
+
+// ——— UTILS[cite: 2] ———
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function getWeekStart() {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const m = new Date(d); m.setDate(diff);
+  return m.toISOString().split('T')[0];
+}
+
+function getWeekDays() {
+  const days = [];
+  const start = new Date(getWeekStart());
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+  return days;
+}
+
+function getMonthDays() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const todayDate = now.getDate();
+  const days = [];
+  for (let i = 1; i <= todayDate; i++) {
+    const d = new Date(year, month, i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+  return days;
+}
+
+function getDaysInMonth() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+}
+
+function calcTotalDeficit() {
+  if (!state.profile) return { achieved: 0, goal: 0, remaining: 0, pct: 0 };
+  const p = state.profile;
+  const kgToLose = p.currentWeight - p.targetWeight;
+  const goal = kgToLose > 0 ? kgToLose * 7000 : 0;
+
+  let achieved = 0;
+  Object.entries(state.dailyLog).forEach(([, d]) => {
+    const spent = (d.transactions || []).reduce((s, t) => s + t.amount, 0);
+    if (spent > 0) {
+      achieved += p.tdee - spent;
+    }
+  });
+
+  const remaining = Math.max(0, goal - achieved);
+  const pct = goal > 0 ? Math.min(100, Math.max(0, (achieved / goal) * 100)) : 0;
+  return { achieved, goal, remaining, pct };
+}
+
+function daySpent(dateKey) {
+  return ((state.dailyLog[dateKey] || {}).transactions || []).reduce((s, t) => s + t.amount, 0);
+}
+
+function calcBMR(w, h, age, gender) {
+  return gender === 'male'
+    ? 10 * w + 6.25 * h - 5 * age + 5
+    : 10 * w + 6.25 * h - 5 * age - 161;
+}
+
+function bmiCategory(bmi) {
+  if (bmi < 18.5) return 'Underweight';
+  if (bmi < 25) return 'Normal weight';
+  if (bmi < 30) return 'Overweight';
+  return 'Obese';
+}
+
+function calcStreak() {
+  if (!state.profile) return 0;
+  let streak = 0;
+  const d = new Date();
+  while (true) {
+    const key = d.toISOString().split('T')[0];
+    const spent = daySpent(key);
+    if (spent > 0 && spent <= state.profile.dailyBudget) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else break;
+  }
+  return streak;
+}
+
+function calcDaysLeft() {
+  if (!state.profile) return null;
+  const kgToLose = state.profile.currentWeight - state.profile.targetWeight;
+  if (kgToLose <= 0) return 0;
+  const needed = kgToLose * 7000;
+  const dailyDeficit = state.profile.tdee - state.profile.dailyBudget;
+  if (dailyDeficit <= 0) return null;
+
+  let actualDeficit = 0;
+  Object.entries(state.dailyLog).forEach(([, d]) => {
+    const spent = (d.transactions || []).reduce((s, t) => s + t.amount, 0);
+    if (spent > 0) actualDeficit += state.profile.tdee - spent;
+  });
+
+  const remaining = needed - actualDeficit;
+  if (remaining <= 0) return 0;
+  return Math.ceil(remaining / dailyDeficit);
+}
+
+function fmt(n) { return Math.round(n).toLocaleString(); }
+
+function timeNow() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+// ——— ONBOARDING[cite: 2] ———
+let obStep = 0;
+
+function updateObProgress() {
+  [0,1,2].forEach(i => {
+    document.getElementById('bar' + i).classList.toggle('active', i <= obStep);
+  });
+}
+
+function updateBMIPreview() {
+  const w = parseFloat(document.getElementById('inp-weight').value);
+  const h = parseFloat(document.getElementById('inp-height').value);
+  if (w > 0 && h > 0) {
+    const bmi = w / ((h / 100) ** 2);
+    document.getElementById('bmi-val').textContent = bmi.toFixed(1);
+    document.getElementById('bmi-cat').textContent = bmiCategory(bmi);
+    document.getElementById('bmi-preview').style.display = 'block';
+  } else {
+    document.getElementById('bmi-preview').style.display = 'none';
+  }
+}
+
+function updateGoalPreview() {
+  const w = parseFloat(document.getElementById('inp-weight').value);
+  const h = parseFloat(document.getElementById('inp-height').value);
+  const age = parseFloat(document.getElementById('inp-age').value);
+  const gender = document.getElementById('inp-gender').value;
+  const target = parseFloat(document.getElementById('inp-target').value);
+  const activity = parseFloat(document.getElementById('inp-activity').value);
+  const deficitEl = document.querySelector('input[name="deficit"]:checked');
+  const deficit = deficitEl ? parseFloat(deficitEl.value) : 500;
+
+  if (w && h && age) {
+    const bmr = calcBMR(w, h, age, gender);
+    const tdee = bmr * activity;
+    const budget = Math.round(tdee - deficit);
+    document.getElementById('prev-budget').textContent = fmt(budget);
+    if (target && w > target) {
+      const days = Math.ceil(((w - target) * 7000) / deficit);
+      document.getElementById('prev-days').textContent = days;
+    } else {
+      document.getElementById('prev-days').textContent = '—';
+    }
+  }
+}
+
+document.getElementById('inp-weight').addEventListener('input', updateBMIPreview);
+document.getElementById('inp-height').addEventListener('input', updateBMIPreview);
+document.getElementById('inp-activity').addEventListener('change', updateGoalPreview);
+document.querySelectorAll('input[name="deficit"]').forEach(r => r.addEventListener('change', updateGoalPreview));
+
+document.getElementById('ob-next').addEventListener('click', () => {
+  if (obStep === 0) {
+    const name = document.getElementById('inp-name').value.trim();
+    const age = document.getElementById('inp-age').value;
+    if (!name || !age) return alert('Please fill in your name and age.');
+    document.getElementById('step0').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+    obStep = 1;
+    updateObProgress();
+    updateGoalPreview();
+  } else if (obStep === 1) {
+    const w = document.getElementById('inp-weight').value;
+    const h = document.getElementById('inp-height').value;
+    const t = document.getElementById('inp-target').value;
+    if (!w || !h || !t) return alert('Please fill in all fields.');
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+    obStep = 2;
+    updateObProgress();
+    document.getElementById('ob-next').textContent = 'START TRACKING →';
+    updateGoalPreview();
+  } else {
+    const name = document.getElementById('inp-name').value.trim();
+    const age = parseInt(document.getElementById('inp-age').value);
+    const gender = document.getElementById('inp-gender').value;
+    const w = parseFloat(document.getElementById('inp-weight').value);
+    const h = parseFloat(document.getElementById('inp-height').value);
+    const target = parseFloat(document.getElementById('inp-target').value);
+    const activity = parseFloat(document.getElementById('inp-activity').value);
+    const deficitEl = document.querySelector('input[name="deficit"]:checked');
+    const deficit = deficitEl ? parseFloat(deficitEl.value) : 500;
+
+    const bmr = calcBMR(w, h, age, gender);
+    const tdee = bmr * activity;
+    const dailyBudget = Math.round(tdee - deficit);
+    const bmi = w / ((h / 100) ** 2);
+
+    state.profile = {
+      name, age, gender,
+      currentWeight: w, height: h, targetWeight: target,
+      bmi: parseFloat(bmi.toFixed(1)),
+      bmr: Math.round(bmr),
+      tdee: Math.round(tdee),
+      dailyBudget,
+      weeklyBudget: dailyBudget * 7,
+      deficit,
+      createdAt: new Date().toISOString()
+    };
+    state.onboarded = true;
+    save(); // Syncs initial RTDB state
+    bootApp();
+  }
+});
+
+// ——— APP LOGIC[cite: 2] ———
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  document.querySelector(`.nav-btn[data-tab="${tabId}"]`).classList.add('active');
+  if (tabId === 'dashboard') renderDashboard();
+  if (tabId === 'tracker') renderTracker();
+  if (tabId === 'profile') renderProfile();
+  if (tabId === 'social') renderSocial(); // NEW: Hooked in social render
+}
+
+function renderDashboard() {
+  const p = state.profile;
+  const t = today();
+  const spent = daySpent(t);
+  const left = p.dailyBudget - spent;
+  const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+
+  const el = document.getElementById('daily-left');
+  el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left));
+  el.className = 'cal-left' + (left < 0 ? ' over' : '');
+  document.getElementById('daily-bar').style.width = pct + '%';
+  document.getElementById('daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
+  document.getElementById('daily-spent').textContent = fmt(spent) + ' spent';
+  document.getElementById('daily-budget-label').textContent = fmt(p.dailyBudget) + ' budget';
+
+  const streak = calcStreak();
+  document.getElementById('streak-num').textContent = streak;
+  document.getElementById('nav-streak-icon').textContent = '🔥 ' + streak;
+  const sl = document.getElementById('streak-label');
+  if (streak > 0) {
+    sl.className = 'streak-label';
+    sl.textContent = 'CONGRATULATIONS!';
+  } else {
+    sl.className = 'streak-empty';
+    sl.textContent = 'Stay within budget to build your streak!';
+  }
+
+  // Weekly
+  const weekDays = getWeekDays();
+  const weekSpent = weekDays.reduce((s, d) => s + daySpent(d), 0);
+  const weekLeft = p.weeklyBudget - weekSpent;
+  const weekPct = Math.min(100, (weekSpent / p.weeklyBudget) * 100);
+  const wl = document.getElementById('weekly-left');
+  wl.textContent = (weekLeft < 0 ? '-' : '') + fmt(Math.abs(weekLeft));
+  wl.style.color = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('weekly-bar').style.width = weekPct + '%';
+  document.getElementById('weekly-bar').style.background = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
+
+  const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  const dotsEl = document.getElementById('week-dots');
+  dotsEl.innerHTML = '';
+  weekDays.forEach((d, i) => {
+    const s = daySpent(d);
+    const isPast = d <= t;
+    const inBudget = s > 0 && s <= p.dailyBudget;
+    const isToday = d === t;
+    let bg = '#2e2e2e';
+    let color = '#444';
+    if (isPast && s > 0) { bg = inBudget ? 'rgba(61,186,110,0.2)' : 'rgba(232,64,64,0.2)'; color = inBudget ? 'var(--green)' : 'var(--red)'; }
+    else if (isToday && s === 0) { bg = '#2e2e2e'; }
+    const wrap = document.createElement('div'); wrap.className = 'dot-wrap';
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (isToday ? ' today' : '');
+    dot.style.cssText = `background:${bg};color:${color};border:1px solid ${isPast && s > 0 ? (inBudget ? 'var(--green)' : 'var(--red)') : '#333'}`;
+    const dayLabelEl = document.createElement('div'); dayLabelEl.className = 'dot-day'; dayLabelEl.textContent = dayLabels[i];
+    wrap.appendChild(dot); wrap.appendChild(dayLabelEl);
+    dotsEl.appendChild(wrap);
+  });
+
+  // Monthly
+  const monthDays = getMonthDays();
+  const daysInMonth = getDaysInMonth();
+  const monthlyBudget = p.dailyBudget * daysInMonth;
+  const monthSpent = monthDays.reduce((s, d) => s + daySpent(d), 0);
+  const monthLeft = monthlyBudget - monthSpent;
+  const monthPct = Math.min(100, (monthSpent / monthlyBudget) * 100);
+  const ml = document.getElementById('monthly-left');
+  ml.textContent = (monthLeft < 0 ? '-' : '') + fmt(Math.abs(monthLeft));
+  ml.style.color = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('monthly-bar').style.width = monthPct + '%';
+  document.getElementById('monthly-bar').style.background = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('monthly-spent-label').textContent = fmt(monthSpent) + ' spent';
+  document.getElementById('monthly-budget-label').textContent = fmt(monthlyBudget) + ' budget';
+
+  // Total Deficit Progress
+  const def = calcTotalDeficit();
+  document.getElementById('deficit-bar').style.width = def.pct + '%';
+  document.getElementById('deficit-pct-label').textContent = def.pct.toFixed(1) + '%';
+  document.getElementById('deficit-achieved-label').textContent = (def.achieved < 0 ? '-' : '') + fmt(Math.abs(def.achieved)) + ' cal deficit achieved';
+  document.getElementById('deficit-achieved-label').style.color = def.achieved < 0 ? 'var(--red)' : 'var(--orange)';
+  document.getElementById('deficit-goal-label').textContent = fmt(def.goal) + ' cal goal';
+  document.getElementById('deficit-remaining-label').textContent = fmt(def.remaining) + ' cal';
+  // Days left estimate
+  const dailyDeficit = p.tdee - p.dailyBudget;
+  const daysLeftEst = dailyDeficit > 0 && def.remaining > 0 ? Math.ceil(def.remaining / dailyDeficit) : (def.remaining <= 0 ? '🎉 Done' : '—');
+  document.getElementById('deficit-days-label').textContent = daysLeftEst;
+}
+
+function renderTracker() {
+  const p = state.profile;
+  const t = today();
+  const spent = daySpent(t);
+  const left = p.dailyBudget - spent;
+  const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+
+  const el = document.getElementById('tracker-daily-left');
+  el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left));
+  el.className = 'cal-left' + (left < 0 ? ' over' : '');
+  document.getElementById('tracker-daily-bar').style.width = pct + '%';
+  document.getElementById('tracker-daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
+
+  const txns = (state.dailyLog[t] || {}).transactions || [];
+  const listEl = document.getElementById('txn-list');
+  const emptyEl = document.getElementById('txn-empty');
+  listEl.innerHTML = '';
+  if (txns.length === 0) {
+    emptyEl.style.display = 'block';
+  } else {
+    emptyEl.style.display = 'none';
+    [...txns].reverse().forEach((tx, ri) => {
+      const realIdx = txns.length - 1 - ri;
+      const div = document.createElement('div'); div.className = 'txn';
+      div.innerHTML = `
+        <div>
+          <div class="txn-name">${tx.label}</div>
+          <div class="txn-time">${tx.time}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0">
+          <div class="txn-cal">${fmt(tx.amount)} cal</div>
+          <button class="txn-del" data-idx="${realIdx}" title="Remove">✕</button>
+        </div>`;
+      listEl.appendChild(div);
+    });
+    listEl.querySelectorAll('.txn-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        state.dailyLog[t].transactions.splice(idx, 1);
+        save(); renderTracker(); renderDashboard();
+      });
+    });
+  }
+}
+
+document.getElementById('add-txn-btn').addEventListener('click', addTransaction);
+document.getElementById('txn-cal').addEventListener('keydown', e => { if (e.key === 'Enter') addTransaction(); });
+
+function addTransaction() {
+  const cal = parseInt(document.getElementById('txn-cal').value);
+  if (!cal || cal <= 0) return;
+  const label = document.getElementById('txn-label').value.trim() || 'Meal';
+  const t = today();
+  if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [] };
+  state.dailyLog[t].transactions.push({ amount: cal, label, time: timeNow() });
+  save();
+  document.getElementById('txn-cal').value = '';
+  document.getElementById('txn-label').value = '';
+  renderTracker();
+  renderDashboard();
+}
+
+function renderProfile() {
+  const p = state.profile;
+  const initials = p.name.slice(0, 2).toUpperCase();
+  document.getElementById('top-avatar').textContent = initials;
+  document.getElementById('profile-avatar').textContent = initials;
+  document.getElementById('profile-name').textContent = p.name;
+  document.getElementById('profile-sub').textContent = `Age ${p.age} · ${p.gender === 'male' ? 'Male' : 'Female'}`;
+  document.getElementById('stat-bmi').textContent = p.bmi;
+  document.getElementById('stat-bmi-cat').textContent = bmiCategory(p.bmi);
+  document.getElementById('stat-weight').textContent = p.currentWeight + 'kg';
+  document.getElementById('stat-target').textContent = '→ ' + p.targetWeight + 'kg';
+  document.getElementById('stat-height').textContent = p.height + 'cm';
+
+  const daysLeft = calcDaysLeft();
+  document.getElementById('days-num').textContent = daysLeft === null ? '—' : daysLeft === 0 ? '🎉 0' : daysLeft;
+  const kgToLose = p.currentWeight - p.targetWeight;
+  document.getElementById('days-sub').textContent = kgToLose > 0
+    ? `${kgToLose.toFixed(1)} kg to lose · ~7,000 cal per kg`
+    : 'Goal reached!';
+  document.getElementById('di-budget').textContent = fmt(p.dailyBudget) + ' cal/day';
+  document.getElementById('di-tdee').textContent = fmt(p.tdee) + ' cal/day';
+  document.getElementById('di-deficit').textContent = '−' + fmt(p.tdee - p.dailyBudget) + ' cal/day';
+
+  // Total deficit journey (profile tab)
+  const def = calcTotalDeficit();
+  document.getElementById('profile-deficit-pct').textContent = def.pct.toFixed(1) + '%';
+  document.getElementById('profile-deficit-detail').textContent =
+    (def.achieved < 0 ? '-' : '') + fmt(Math.abs(def.achieved)) + ' / ' + fmt(def.goal) + ' cal';
+  document.getElementById('profile-deficit-bar').style.width = def.pct + '%';
+
+  // 30-day calendar
+  const calEl = document.getElementById('profile-calendar');
+  calEl.innerHTML = '';
+  const now = new Date();
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(now); d.setDate(now.getDate() - i);
+    const key = d.toISOString().split('T')[0];
+    const spent = daySpent(key);
+    const hasData = spent > 0;
+    const inBudget = hasData && spent <= p.dailyBudget;
+    const div = document.createElement('div');
+    div.className = 'cal-day ' + (!hasData ? 'empty' : inBudget ? 'good' : 'bad');
+    div.textContent = d.getDate();
+    div.title = key + ': ' + (hasData ? fmt(spent) + ' cal' : 'no data');
+    calEl.appendChild(div);
+  }
+}
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (confirm('Reset all your data and start over?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+});
+
+// ——— BOOT[cite: 2] ———
+function bootApp() {
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('main').style.display = 'flex';
+  document.getElementById('main').style.flexDirection = 'column';
+  document.getElementById('top-avatar').textContent = state.profile.name.slice(0, 2).toUpperCase();
+  syncSocialScore(); // Ensure first boot syncs the user score up to RTDB
+  renderDashboard();
+}
+
+load();
+if (state.onboarded && state.profile) {
+  bootApp();
+}
+</script>
+</body>
+</html>
