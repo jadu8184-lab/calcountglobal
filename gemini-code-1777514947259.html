@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Firebase Realtime Database SDKs[cite: 2] -->
+<!-- Firebase Realtime Database SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
 
@@ -30,29 +30,46 @@
     --font-display: 'Barlow Condensed', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    min-height: 100vh;
-    overscroll-behavior: none;
+  
+  /* Football & Richmond Themes */
+  body.theme-madrid {
+    --orange: #b39b58; --orange-mid: #b39b5866; --orange-dim: #b39b5822;
+    --bg: #0a0e17; --surface: #121a2f; --surface2: #1e293b; --surface3: #334155;
+    --border: #1e293b; --text: #f8fafc; --green: #38bdf8; --red: #ef4444;
   }
-  #app {
-    max-width: 430px;
-    margin: 0 auto;
-    min-height: 100vh;
-    position: relative;
-    background: var(--bg);
+  body.theme-barcelona {
+    --orange: #a50044; --orange-mid: #a5004466; --orange-dim: #a5004422;
+    --bg: #05142b; --surface: #0a2147; --surface2: #133268; --surface3: #1d468a;
+    --border: #133268; --text: #f8fafc; --green: #edbc00; --red: #e11d48;
+  }
+  body.theme-bayern {
+    --orange: #dc052d; --orange-mid: #dc052d66; --orange-dim: #dc052d22;
+    --bg: #111111; --surface: #1f1f1f; --surface2: #2e2e2e; --surface3: #404040;
+    --border: #2e2e2e; --text: #f5f5f5; --green: #0066b2; --red: #ff3333;
+  }
+  body.theme-richmond {
+    --orange: #fbc531; --orange-mid: #fbc53166; --orange-dim: #fbc53122;
+    --bg: #192a56; --surface: #273c75; --surface2: #354a8a; --surface3: #435b9e;
+    --border: #435b9e; --text: #f5f6fa; --green: #4cd137; --red: #e84118;
+  }
+  body.theme-psg {
+    --orange: #da291c; --orange-mid: #da291c66; --orange-dim: #da291c22;
+    --bg: #001530; --surface: #00224d; --surface2: #003370; --surface3: #004599;
+    --border: #003370; --text: #f5f6fa; --green: #ceab5d; --red: #e11d48;
   }
 
-  /* ——— ONBOARDING ——— */
-  #onboarding {
-    min-height: 100vh;
-    padding: 40px 24px 40px;
-    display: flex;
-    flex-direction: column;
+  html, body {
+    background: var(--bg); color: var(--text); font-family: var(--font-body);
+    min-height: 100vh; overscroll-behavior: none; transition: background 0.4s, color 0.4s;
   }
-  .ob-logo { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--orange); letter-spacing: 3px; margin-bottom: 36px; }
+  #app {
+    max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative;
+    background: var(--bg); transition: background 0.4s; overflow-x: hidden;
+  }
+
+  /* ——— ONBOARDING & INPUTS ——— */
+  #onboarding { min-height: 100vh; padding: 40px 24px 40px; display: flex; flex-direction: column; }
+  .ob-logo { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--orange); letter-spacing: 3px; margin-bottom: 36px; transition: color 0.4s; }
   .ob-progress { display: flex; gap: 6px; margin-bottom: 32px; }
   .ob-bar { height: 3px; flex: 1; border-radius: 2px; background: var(--surface3); transition: background 0.4s; }
   .ob-bar.active { background: var(--orange); }
@@ -60,62 +77,41 @@
   .ob-sub { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
   .field-label { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; display: block; margin-bottom: 6px; }
   .field { margin-bottom: 18px; }
-  .inp {
-    width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none;
-    transition: border-color 0.2s;
-  }
+  .inp { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s, background 0.4s; }
   .inp:focus { border-color: var(--orange-mid); }
   .inp::placeholder { color: var(--faint); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .bmi-card {
-    background: var(--surface); border-radius: 14px; border: 1px solid var(--border);
-    padding: 16px; margin-top: 4px; margin-bottom: 18px; animation: fadeIn 0.3s ease;
-  }
+  
+  .bmi-card { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 16px; margin-top: 4px; margin-bottom: 18px; transition: background 0.4s; }
   .bmi-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
-  .bmi-val { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--orange); }
+  .bmi-val { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--orange); transition: color 0.4s; }
   .bmi-cat { color: var(--muted); font-size: 12px; margin-top: 2px; }
-  .preview-box {
-    background: var(--surface); border-radius: 14px; border: 1px solid var(--border);
-    padding: 16px; margin-bottom: 18px; animation: fadeIn 0.3s ease;
-  }
+  
+  .preview-box { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 16px; margin-bottom: 18px; transition: background 0.4s; }
   .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .preview-item .pval { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
   .preview-item .psub { color: var(--muted); font-size: 11px; margin-top: 2px; }
   .preview-item .plabel { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 2px; }
+  
   select.inp { appearance: none; cursor: pointer; }
-  .btn-primary {
-    width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 14px;
-    padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700;
-    letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: opacity 0.2s, transform 0.1s;
-  }
+  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 14px; padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: background 0.4s, opacity 0.2s, transform 0.1s; }
   .btn-primary:hover { opacity: 0.9; }
   .btn-primary:active { transform: scale(0.98); }
   .btn-primary:disabled { background: var(--surface3); color: var(--faint); cursor: not-allowed; }
 
   /* ——— MAIN APP ——— */
   #main { display: none; flex-direction: column; min-height: 100vh; }
-  .topbar {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 18px 20px 10px;
-  }
-  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; }
-  .avatar {
-    width: 38px; height: 38px; border-radius: 50%; background: var(--orange-dim); border: 2px solid var(--orange-mid);
-    display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
-    font-weight: 900; font-size: 14px; color: var(--orange); letter-spacing: 1px;
-  }
+  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; }
+  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; transition: color 0.4s; }
+  
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange-mid); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 14px; color: var(--orange); letter-spacing: 1px; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; }
 
   /* Tabs */
   .tab-content { display: none; padding-bottom: 90px; }
   .tab-content.active { display: block; }
 
   /* Cards */
-  .card {
-    margin: 0 16px 14px; background: var(--surface); border-radius: 18px;
-    padding: 16px 18px; border: 1px solid var(--border);
-  }
+  .card { margin: 0 16px 14px; background: var(--surface); border-radius: 18px; padding: 16px 18px; border: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; }
   .card-label { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 8px; }
   .card-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
   .cal-left { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
@@ -123,85 +119,60 @@
   .cal-meta { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; margin-top: 7px; }
 
   /* Progress bar */
-  .pbar-track { height: 10px; background: var(--surface3); border-radius: 8px; overflow: hidden; }
-  .pbar-fill {
-    height: 100%; border-radius: 8px;
-    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-  }
+  .pbar-track { height: 10px; background: var(--surface3); border-radius: 8px; overflow: hidden; transition: background 0.4s; }
+  .pbar-fill { height: 100%; border-radius: 8px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.4s; }
 
   /* Streak */
   .streak-center { text-align: center; padding: 14px 0 10px; }
   .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; }
-  .streak-label { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); letter-spacing: 2px; margin-top: 4px; }
+  .streak-label { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); letter-spacing: 2px; margin-top: 4px; transition: color 0.4s;}
   .streak-empty { color: var(--muted); font-size: 13px; margin-top: 6px; }
 
   /* Week dots */
   .week-dots { display: flex; justify-content: space-between; margin-top: 12px; }
   .dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-  .dot {
-    width: 30px; height: 30px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 600; transition: all 0.3s;
-  }
+  .dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; transition: all 0.3s; }
   .dot.today { box-shadow: 0 0 0 2px var(--orange); }
   .dot-day { color: var(--faint); font-size: 9px; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.5px; }
 
   /* Tracker */
   .track-inp-row { display: flex; gap: 10px; align-items: stretch; }
-  .track-inp { flex: 1; background: var(--surface3); border: none; border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 16px; outline: none; }
-  .add-btn {
-    width: 46px; height: 46px; border-radius: 50%; background: var(--orange); border: none;
-    color: #fff; font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: transform 0.15s, opacity 0.2s; flex-shrink: 0;
-  }
+  .track-inp { flex: 1; background: var(--surface3); border: none; border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 16px; outline: none; transition: background 0.4s; }
+  .add-btn { width: 46px; height: 46px; border-radius: 50%; background: var(--orange); border: none; color: #fff; font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.2s, background 0.4s; flex-shrink: 0; }
   .add-btn:hover { opacity: 0.9; }
   .add-btn:active { transform: scale(0.92); }
-  .txn {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px;
-    animation: slideIn 0.25s ease; border-left: 3px solid var(--orange);
-  }
+  .txn { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px; animation: slideIn 0.25s ease; border-left: 3px solid var(--orange); transition: background 0.4s, border-color 0.4s; }
   .txn-name { font-weight: 500; font-size: 14px; }
   .txn-time { color: var(--muted); font-size: 11px; margin-top: 2px; }
-  .txn-cal { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); }
+  .txn-cal { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); transition: color 0.4s; }
   .txn-del { background: none; border: none; color: var(--faint); cursor: pointer; font-size: 16px; margin-left: 8px; padding: 4px; border-radius: 6px; transition: color 0.2s; }
   .txn-del:hover { color: var(--red); }
   .empty-state { text-align: center; padding: 32px; color: var(--faint); font-size: 14px; }
 
   /* Profile */
   .profile-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-  .profile-avatar {
-    width: 58px; height: 58px; border-radius: 50%; background: var(--orange-dim); border: 2px solid var(--orange);
-    display: flex; align-items: center; justify-content: center; font-family: var(--font-display);
-    font-weight: 900; font-size: 20px; color: var(--orange); flex-shrink: 0;
-  }
+  .profile-avatar { width: 58px; height: 58px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--orange); flex-shrink: 0; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; }
   .profile-name { font-family: var(--font-display); font-size: 24px; font-weight: 900; }
   .profile-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .stat-box { background: var(--surface2); border-radius: 12px; padding: 12px 10px; text-align: center; }
+  .stat-box { background: var(--surface2); border-radius: 12px; padding: 12px 10px; text-align: center; transition: background 0.4s; }
   .stat-box .sv { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
   .stat-box .sl { color: var(--muted); font-size: 10px; margin-bottom: 3px; letter-spacing: 0.5px; }
   .stat-box .ss { color: var(--muted); font-size: 10px; margin-top: 2px; }
 
-  .days-card {
-    margin: 0 16px 14px; background: var(--orange-dim); border-radius: 18px;
-    padding: 18px 18px; border: 1px solid var(--orange-mid);
-  }
-  .days-label { color: var(--orange); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .days-card { margin: 0 16px 14px; background: var(--orange-dim); border-radius: 18px; padding: 18px 18px; border: 1px solid var(--orange-mid); transition: all 0.4s; }
+  .days-label { color: var(--orange); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 6px; transition: color 0.4s; }
   .days-num { font-family: var(--font-display); font-size: 52px; font-weight: 900; line-height: 1; }
   .days-unit { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--muted); margin-left: 6px; }
   .days-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
-  .days-details { margin-top: 14px; border-top: 1px solid var(--orange-mid); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+  .days-details { margin-top: 14px; border-top: 1px solid var(--orange-mid); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; transition: border-color 0.4s;}
   .days-row { display: flex; justify-content: space-between; font-size: 12px; }
   .days-row .dk { color: var(--muted); }
   .days-row .dv { font-weight: 600; }
 
   /* Calendar */
   .cal-grid { display: flex; gap: 5px; flex-wrap: wrap; }
-  .cal-day {
-    width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600; border: 1px solid transparent; transition: all 0.2s;
-  }
+  .cal-day { width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid transparent; transition: all 0.2s; }
   .cal-day.empty { background: var(--surface2); color: var(--faint); }
   .cal-day.good { background: rgba(61,186,110,0.15); border-color: var(--green); color: var(--green); }
   .cal-day.bad { background: rgba(232,64,64,0.15); border-color: var(--red); color: var(--red); }
@@ -210,54 +181,41 @@
   .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
 
   /* Bottom nav */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 430px; background: var(--surface); border-top: 1px solid var(--border);
-    display: flex; padding: 8px 12px 24px; gap: 6px; z-index: 100;
-  }
-  .nav-btn {
-    flex: 1; background: transparent; border: none; border-radius: 12px; padding: 10px 0 8px;
-    cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    transition: background 0.2s;
-  }
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding: 8px 12px 24px; gap: 6px; z-index: 100; transition: background 0.4s, border-color 0.4s; }
+  .nav-btn { flex: 1; background: transparent; border: none; border-radius: 12px; padding: 10px 0 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: background 0.2s; }
   .nav-btn.active { background: var(--surface3); }
-  .nav-icon { font-size: 18px; line-height: 1; }
+  .nav-icon { font-size: 18px; line-height: 1; transition: color 0.4s;}
   .nav-label { font-size: 10px; color: var(--muted); font-family: var(--font-body); font-weight: 500; }
-  .nav-btn.active .nav-label { color: var(--orange); }
+  .nav-btn.active .nav-label { color: var(--orange); transition: color 0.4s;}
 
-  .quick-add-btn {
-    display: block; width: calc(100% - 32px); margin: 0 16px 0; background: var(--orange); color: #fff;
-    border: none; border-radius: 14px; padding: 14px; font-family: var(--font-display);
-    font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
-    transition: opacity 0.2s;
-  }
+  .quick-add-btn { display: block; width: calc(100% - 32px); margin: 0 16px 0; background: var(--orange); color: #fff; border: none; border-radius: 14px; padding: 14px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: background 0.4s, opacity 0.2s; }
   .quick-add-btn:hover { opacity: 0.9; }
 
-  .reset-btn {
-    width: calc(100% - 32px); margin: 0 16px; background: transparent; color: var(--faint);
-    border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body);
-    font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s;
-  }
+  .reset-btn { width: calc(100% - 32px); margin: 0 16px; background: transparent; color: var(--faint); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body); font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
   .reset-btn:hover { color: var(--red); border-color: var(--red); }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
-
-  /* Radio pill group */
   .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .pill-radio { display: none; }
-  .pill-label {
-    display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border);
-    background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer;
-    transition: all 0.2s; user-select: none;
-  }
+  .pill-label { display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; user-select: none; }
   .pill-radio:checked + .pill-label { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; }
+
+  /* [NEW] Celebration Animations */
+  @keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .celebrate-box { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+  }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ONBOARDING[cite: 2] -->
+  <!-- ONBOARDING -->
   <div id="onboarding">
     <div class="ob-logo">CALCOUNT.</div>
     <div class="ob-progress">
@@ -266,55 +224,29 @@
       <div class="ob-bar" id="bar2"></div>
     </div>
 
-    <!-- Step 0[cite: 2] -->
     <div id="step0" class="ob-step">
       <div class="ob-title">WELCOME.</div>
       <div class="ob-sub">Let's build your calorie profile</div>
-      <div class="field">
-        <label class="field-label">YOUR NAME</label>
-        <input class="inp" id="inp-name" type="text" placeholder="e.g. Alex" autocomplete="given-name">
-      </div>
+      <div class="field"><label class="field-label">YOUR NAME</label><input class="inp" id="inp-name" type="text" placeholder="e.g. Alex" autocomplete="given-name"></div>
       <div class="grid2">
-        <div class="field">
-          <label class="field-label">AGE</label>
-          <input class="inp" id="inp-age" type="number" placeholder="25" min="10" max="100">
-        </div>
-        <div class="field">
-          <label class="field-label">GENDER</label>
-          <select class="inp" id="inp-gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+        <div class="field"><label class="field-label">AGE</label><input class="inp" id="inp-age" type="number" placeholder="25" min="10" max="100"></div>
+        <div class="field"><label class="field-label">GENDER</label>
+          <select class="inp" id="inp-gender"><option value="male">Male</option><option value="female">Female</option></select>
         </div>
       </div>
     </div>
 
-    <!-- Step 1[cite: 2] -->
     <div id="step1" class="ob-step" style="display:none">
       <div class="ob-title">BODY METRICS.</div>
       <div class="ob-sub">We'll calculate your BMI & calorie needs</div>
       <div class="grid2">
-        <div class="field">
-          <label class="field-label">WEIGHT (kg)</label>
-          <input class="inp" id="inp-weight" type="number" placeholder="70" min="30" max="300">
-        </div>
-        <div class="field">
-          <label class="field-label">HEIGHT (cm)</label>
-          <input class="inp" id="inp-height" type="number" placeholder="175" min="100" max="250">
-        </div>
+        <div class="field"><label class="field-label">WEIGHT (kg)</label><input class="inp" id="inp-weight" type="number" placeholder="70" min="30" max="300"></div>
+        <div class="field"><label class="field-label">HEIGHT (cm)</label><input class="inp" id="inp-height" type="number" placeholder="175" min="100" max="250"></div>
       </div>
-      <div class="field">
-        <label class="field-label">TARGET WEIGHT (kg)</label>
-        <input class="inp" id="inp-target" type="number" placeholder="65" min="30" max="300">
-      </div>
-      <div id="bmi-preview" style="display:none" class="bmi-card">
-        <div class="bmi-label">YOUR BMI</div>
-        <div class="bmi-val" id="bmi-val">—</div>
-        <div class="bmi-cat" id="bmi-cat">—</div>
-      </div>
+      <div class="field"><label class="field-label">TARGET WEIGHT (kg)</label><input class="inp" id="inp-target" type="number" placeholder="65" min="30" max="300"></div>
+      <div id="bmi-preview" style="display:none" class="bmi-card"><div class="bmi-label">YOUR BMI</div><div class="bmi-val" id="bmi-val">—</div><div class="bmi-cat" id="bmi-cat">—</div></div>
     </div>
 
-    <!-- Step 2[cite: 2] -->
     <div id="step2" class="ob-step" style="display:none">
       <div class="ob-title">YOUR GOALS.</div>
       <div class="ob-sub">Fine-tune your daily calorie budget</div>
@@ -331,58 +263,36 @@
       <div class="field">
         <label class="field-label">DEFICIT INTENSITY</label>
         <div class="pill-group">
-          <input type="radio" name="deficit" class="pill-radio" id="def-mild" value="300">
-          <label class="pill-label" for="def-mild">Mild −300</label>
-          <input type="radio" name="deficit" class="pill-radio" id="def-mod" value="500" checked>
-          <label class="pill-label" for="def-mod">Moderate −500</label>
-          <input type="radio" name="deficit" class="pill-radio" id="def-agg" value="750">
-          <label class="pill-label" for="def-agg">Aggressive −750</label>
+          <input type="radio" name="deficit" class="pill-radio" id="def-mild" value="300"><label class="pill-label" for="def-mild">Mild −300</label>
+          <input type="radio" name="deficit" class="pill-radio" id="def-mod" value="500" checked><label class="pill-label" for="def-mod">Moderate −500</label>
+          <input type="radio" name="deficit" class="pill-radio" id="def-agg" value="750"><label class="pill-label" for="def-agg">Aggressive −750</label>
         </div>
       </div>
       <div id="goal-preview" class="preview-box">
         <div class="preview-grid">
-          <div class="preview-item">
-            <div class="plabel">DAILY BUDGET</div>
-            <div class="pval" id="prev-budget" style="color:var(--orange)">—</div>
-            <div class="psub">calories/day</div>
-          </div>
-          <div class="preview-item">
-            <div class="plabel">DAYS TO GOAL</div>
-            <div class="pval" id="prev-days" style="color:var(--green)">—</div>
-            <div class="psub">estimated</div>
-          </div>
+          <div class="preview-item"><div class="plabel">DAILY BUDGET</div><div class="pval" id="prev-budget" style="color:var(--orange)">—</div><div class="psub">calories/day</div></div>
+          <div class="preview-item"><div class="plabel">DAYS TO GOAL</div><div class="pval" id="prev-days" style="color:var(--green)">—</div><div class="psub">estimated</div></div>
         </div>
       </div>
     </div>
-
     <button class="btn-primary" id="ob-next">CONTINUE →</button>
   </div>
 
-  <!-- MAIN APP[cite: 2] -->
+  <!-- MAIN APP -->
   <div id="main">
     <div class="topbar">
       <div class="logo">CALCOUNT.</div>
       <div class="avatar" id="top-avatar">??</div>
     </div>
 
-    <!-- Dashboard Tab[cite: 2] -->
+    <!-- Dashboard Tab -->
     <div id="tab-dashboard" class="tab-content active">
-      <!-- Daily budget bar -->
       <div class="card">
-        <div class="card-row">
-          <div class="card-label">CALORIES LEFT TODAY</div>
-          <div class="cal-left" id="daily-left">—</div>
-        </div>
-        <div class="pbar-track">
-          <div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div>
-        </div>
-        <div class="cal-meta">
-          <span id="daily-spent">0 spent</span>
-          <span id="daily-budget-label">0 budget</span>
-        </div>
+        <div class="card-row"><div class="card-label">CALORIES LEFT TODAY</div><div class="cal-left" id="daily-left">—</div></div>
+        <div class="pbar-track"><div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div></div>
+        <div class="cal-meta"><span id="daily-spent">0 spent</span><span id="daily-budget-label">0 budget</span></div>
       </div>
 
-      <!-- Streak[cite: 2] -->
       <div class="card">
         <div class="card-label">STREAK</div>
         <div class="streak-center" id="streak-display">
@@ -391,88 +301,57 @@
         </div>
       </div>
 
-      <!-- Weekly budget[cite: 2] -->
       <div class="card">
-        <div class="card-row">
-          <div class="card-label">WEEKLY BUDGET LEFT</div>
-          <div id="weekly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div>
-        </div>
-        <div class="pbar-track">
-          <div class="pbar-fill" id="weekly-bar" style="width:0%;background:var(--green)"></div>
-        </div>
+        <div class="card-row"><div class="card-label">WEEKLY BUDGET LEFT</div><div id="weekly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div></div>
+        <div class="pbar-track"><div class="pbar-fill" id="weekly-bar" style="width:0%;background:var(--green)"></div></div>
         <div class="week-dots" id="week-dots"></div>
       </div>
 
-      <!-- Monthly budget[cite: 2] -->
       <div class="card">
-        <div class="card-row">
-          <div class="card-label">MONTHLY BUDGET LEFT</div>
-          <div id="monthly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div>
-        </div>
-        <div class="pbar-track">
-          <div class="pbar-fill" id="monthly-bar" style="width:0%;background:var(--green)"></div>
-        </div>
-        <div class="cal-meta">
-          <span id="monthly-spent-label">0 spent</span>
-          <span id="monthly-budget-label">0 budget</span>
-        </div>
+        <div class="card-row"><div class="card-label">MONTHLY BUDGET LEFT</div><div id="monthly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div></div>
+        <div class="pbar-track"><div class="pbar-fill" id="monthly-bar" style="width:0%;background:var(--green)"></div></div>
+        <div class="cal-meta"><span id="monthly-spent-label">0 spent</span><span id="monthly-budget-label">0 budget</span></div>
       </div>
 
-      <!-- Total Deficit Progress[cite: 2] -->
-      <div class="card" style="border-color:var(--orange-mid);background:linear-gradient(135deg,var(--surface) 0%,#1f1510 100%)">
-        <div class="card-row">
-          <div class="card-label" style="color:var(--orange)">TOTAL DEFICIT PROGRESS</div>
-          <div id="deficit-pct-label" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--orange)">0%</div>
-        </div>
-        <div class="pbar-track" style="height:14px;margin-bottom:8px">
-          <div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div>
-        </div>
-        <div class="cal-meta">
-          <span id="deficit-achieved-label" style="color:var(--orange)">0 cal deficit achieved</span>
-          <span id="deficit-goal-label">0 cal goal</span>
-        </div>
+      <div class="card" style="border-color:var(--orange-mid);background:linear-gradient(135deg,var(--surface) 0%,var(--orange-dim) 100%)">
+        <div class="card-row"><div class="card-label" style="color:var(--orange)">TOTAL DEFICIT PROGRESS</div><div id="deficit-pct-label" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--orange)">0%</div></div>
+        <div class="pbar-track" style="height:14px;margin-bottom:8px"><div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div></div>
+        <div class="cal-meta"><span id="deficit-achieved-label" style="color:var(--orange)">0 cal deficit achieved</span><span id="deficit-goal-label">0 cal goal</span></div>
         <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;justify-content:space-between">
-          <span>Remaining: <span id="deficit-remaining-label" style="color:var(--text);font-weight:600">—</span></span>
-          <span>Est. <span id="deficit-days-label" style="color:var(--orange);font-weight:600">—</span> days left</span>
+          <span>Remaining: <span id="deficit-remaining-label" style="color:var(--text);font-weight:600">—</span></span><span>Est. <span id="deficit-days-label" style="color:var(--orange);font-weight:600">—</span> days left</span>
         </div>
       </div>
 
       <button class="quick-add-btn" onclick="showTab('tracker')">+ LOG CALORIES</button>
     </div>
 
-    <!-- Tracker Tab[cite: 2] -->
+    <!-- Tracker Tab -->
     <div id="tab-tracker" class="tab-content">
       <div class="card">
-        <div class="card-row">
-          <div class="card-label">CALORIES LEFT TODAY</div>
-          <div class="cal-left" id="tracker-daily-left">—</div>
-        </div>
-        <div class="pbar-track">
-          <div class="pbar-fill" id="tracker-daily-bar" style="width:0%;background:var(--orange)"></div>
-        </div>
+        <div class="card-row"><div class="card-label">CALORIES LEFT TODAY</div><div class="cal-left" id="tracker-daily-left">—</div></div>
+        <div class="pbar-track"><div class="pbar-fill" id="tracker-daily-bar" style="width:0%;background:var(--orange)"></div></div>
       </div>
 
       <div class="card">
         <div class="card-label">TRACK CALORIES</div>
-        <div class="field" style="margin-bottom:10px">
-          <label class="field-label">LABEL (optional)</label>
-          <input class="inp" id="txn-label" type="text" placeholder="e.g. Lunch, Snack, Dinner...">
-        </div>
+        <div class="field" style="margin-bottom:10px"><label class="field-label">LABEL (optional)</label><input class="inp" id="txn-label" type="text" placeholder="e.g. Lunch, Snack, Dinner..."></div>
         <div class="field" style="margin-bottom:0">
           <label class="field-label">CALORIES SPENT</label>
-          <div class="track-inp-row">
-            <input class="track-inp" id="txn-cal" type="number" placeholder="500" min="1">
-            <button class="add-btn" id="add-txn-btn">+</button>
-          </div>
+          <div class="track-inp-row"><input class="track-inp" id="txn-cal" type="number" placeholder="500" min="1"><button class="add-btn" id="add-txn-btn">+</button></div>
         </div>
       </div>
-
       <div id="txn-list" style="margin:0 16px;"></div>
       <div id="txn-empty" class="empty-state" style="display:none">No entries yet today — start logging!</div>
     </div>
 
-    <!-- Social Tab [NEW] -->
+    <!-- Social Tab -->
     <div id="tab-social" class="tab-content">
+      <div class="card" style="border-color:var(--orange-mid);">
+        <div class="card-label" style="color:var(--orange)">7-DAY CONSISTENCY BATTLES</div>
+        <button class="btn-primary" style="margin-top:10px; font-size:14px; padding:12px;" onclick="createChallenge()">+ INVITE A FRIEND</button>
+        <div id="active-challenges-list" style="margin-top:14px; display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
       <div class="card">
         <div class="card-label" style="color:var(--orange)">GLOBAL LEADERBOARD (TOP STREAKS)</div>
         <div id="leaderboard-list" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
@@ -481,7 +360,7 @@
       </div>
     </div>
 
-    <!-- Profile Tab[cite: 2] -->
+    <!-- Profile Tab -->
     <div id="tab-profile" class="tab-content">
       <div class="card">
         <div class="profile-hero">
@@ -492,50 +371,27 @@
           </div>
         </div>
         <div class="stat-grid">
-          <div class="stat-box">
-            <div class="sl">BMI</div>
-            <div class="sv" id="stat-bmi">—</div>
-            <div class="ss" id="stat-bmi-cat">—</div>
-          </div>
-          <div class="stat-box">
-            <div class="sl">WEIGHT</div>
-            <div class="sv" id="stat-weight">—</div>
-            <div class="ss" id="stat-target">—</div>
-          </div>
-          <div class="stat-box">
-            <div class="sl">HEIGHT</div>
-            <div class="sv" id="stat-height">—</div>
-            <div class="ss">&nbsp;</div>
-          </div>
+          <div class="stat-box"><div class="sl">BMI</div><div class="sv" id="stat-bmi">—</div><div class="ss" id="stat-bmi-cat">—</div></div>
+          <div class="stat-box"><div class="sl">WEIGHT</div><div class="sv" id="stat-weight">—</div><div class="ss" id="stat-target">—</div></div>
+          <div class="stat-box"><div class="sl">HEIGHT</div><div class="sv" id="stat-height">—</div><div class="ss">&nbsp;</div></div>
         </div>
       </div>
 
-      <!-- Days to goal[cite: 2] -->
       <div class="days-card" id="days-card">
         <div class="days-label">DAYS TO GOAL</div>
-        <div>
-          <span class="days-num" id="days-num">—</span>
-          <span class="days-unit">days</span>
-        </div>
+        <div><span class="days-num" id="days-num">—</span><span class="days-unit">days</span></div>
         <div class="days-sub" id="days-sub">—</div>
         <div class="days-details">
           <div class="days-row"><span class="dk">Daily budget</span><span class="dv" id="di-budget">—</span></div>
           <div class="days-row"><span class="dk">Maintenance (TDEE)</span><span class="dv" id="di-tdee">—</span></div>
           <div class="days-row"><span class="dk">Daily deficit</span><span class="dv" id="di-deficit" style="color:var(--green)">—</span></div>
         </div>
-        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--orange-mid)">
-          <div style="font-size:10px;letter-spacing:1.5px;color:var(--orange);font-weight:600;margin-bottom:8px">TOTAL DEFICIT JOURNEY</div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
-            <span style="font-family:var(--font-display);font-size:22px;font-weight:900" id="profile-deficit-pct">0%</span>
-            <span style="font-size:11px;color:var(--muted)" id="profile-deficit-detail">0 / 0 cal</span>
-          </div>
-          <div class="pbar-track" style="height:12px">
-            <div class="pbar-fill" id="profile-deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div>
-          </div>
-        </div>
       </div>
 
-      <!-- 30-day calendar[cite: 2] -->
+      <!-- [NEW] Settings Buttons mapped to Store -->
+      <button class="reset-btn" style="margin-bottom:12px;color:var(--orange);border-color:var(--orange-mid);font-weight:600;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
+      <button class="reset-btn" style="margin-bottom:12px;color:var(--text);border-color:var(--border);" onclick="openEditModal()">⚖️ Edit Profile Metrics</button>
+
       <div class="card">
         <div class="card-label" style="margin-bottom:12px">LAST 30 DAYS</div>
         <div class="cal-grid" id="profile-calendar"></div>
@@ -545,356 +401,489 @@
           <div class="leg-item"><div class="leg-dot" style="background:var(--surface2)"></div>No data</div>
         </div>
       </div>
-
       <button class="reset-btn" id="reset-btn">Reset & start over</button>
     </div>
 
-    <!-- Bottom Nav[cite: 2] -->
+    <!-- Bottom Nav -->
     <div class="bottom-nav">
-      <button class="nav-btn active" data-tab="dashboard" onclick="showTab('dashboard')">
-        <div class="nav-icon">⊞</div>
-        <div class="nav-label">HOME</div>
-      </button>
-      <button class="nav-btn" data-tab="tracker" onclick="showTab('tracker')" id="nav-tracker">
-        <div class="nav-icon" id="nav-streak-icon">🔥 0</div>
-        <div class="nav-label">TRACK</div>
-      </button>
-      <!-- New Social Button [NEW] -->
-      <button class="nav-btn" data-tab="social" onclick="showTab('social')">
-        <div class="nav-icon">🏆</div>
-        <div class="nav-label">SOCIAL</div>
-      </button>
-      <button class="nav-btn" data-tab="profile" onclick="showTab('profile')">
-        <div class="nav-icon">◎</div>
-        <div class="nav-label">PROFILE</div>
-      </button>
+      <button class="nav-btn active" data-tab="dashboard" onclick="showTab('dashboard')"><div class="nav-icon">⊞</div><div class="nav-label">HOME</div></button>
+      <button class="nav-btn" data-tab="tracker" onclick="showTab('tracker')" id="nav-tracker"><div class="nav-icon" id="nav-streak-icon">🔥 0</div><div class="nav-label">TRACK</div></button>
+      <button class="nav-btn" data-tab="social" onclick="showTab('social')"><div class="nav-icon">🏆</div><div class="nav-label">SOCIAL</div></button>
+      <button class="nav-btn" data-tab="profile" onclick="showTab('profile')"><div class="nav-icon">◎</div><div class="nav-label">PROFILE</div></button>
     </div>
   </div>
+
+  <!-- [NEW] CELEBRATION MODAL -->
+  <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+    <div id="particles-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;"></div>
+    <div class="celebrate-box" style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:32px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 40px rgba(232,82,26,0.3);z-index:2;">
+      <div style="font-size:60px;margin-bottom:10px;line-height:1;">🏆</div>
+      <div class="ob-title" style="font-size:28px;margin-bottom:8px;color:var(--orange);">MILESTONE REACHED!</div>
+      <div class="ob-sub" style="margin-bottom:24px;font-size:15px;">You hit a <span id="celeb-streak-text" style="font-weight:bold;color:var(--text);"></span> day streak. You earned 1 Unlock Token!</div>
+      <button class="btn-primary" style="margin-bottom:12px;" onclick="claimReward()">CHOOSE REWARD</button>
+      <button class="reset-btn" style="margin:0;border:none;" onclick="closeCelebration()">Save Token For Later</button>
+    </div>
+  </div>
+
+  <!-- [NEW] REWARDS STORE MODAL -->
+  <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);width:100%;max-width:400px;border-radius:18px;padding:24px;border:1px solid var(--border);max-height:85vh;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
+        <div>
+          <div class="ob-title" style="font-size:24px;margin-bottom:4px;">REWARDS STORE.</div>
+          <div class="ob-sub" style="margin:0;">Tokens available: <span id="reward-tokens-display" style="color:var(--orange);font-weight:bold;font-size:16px;">0</span></div>
+        </div>
+      </div>
+      <div id="rewards-list" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;padding-bottom:10px;flex:1;">
+        <!-- Filled by JS -->
+      </div>
+      <button class="btn-primary" style="margin-top:16px;background:var(--surface3);color:var(--text);flex-shrink:0;" onclick="closeRewardsModal()">CLOSE</button>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE MODAL (METRICS ONLY) -->
+  <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
+      <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">EDIT METRICS.</div>
+      <div class="field"><label class="field-label">NAME</label><input class="inp" id="em-name" type="text"></div>
+      <div class="grid2">
+        <div class="field"><label class="field-label">WEIGHT (kg)</label><input class="inp" id="em-weight" type="number"></div>
+        <div class="field"><label class="field-label">HEIGHT (cm)</label><input class="inp" id="em-height" type="number"></div>
+      </div>
+      <div class="field"><label class="field-label">TARGET WEIGHT (kg)</label><input class="inp" id="em-target" type="number"></div>
+      <div class="grid2" style="margin-top:24px;">
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="closeEditModal()">CANCEL</button>
+        <button class="btn-primary" onclick="saveEditModal()">SAVE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TDEE NUDGE MODAL -->
+  <div id="tdee-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);text-align:center;">
+      <div style="font-size:40px;margin-bottom:10px;">⚖️</div>
+      <div class="ob-title" style="font-size:24px;margin-bottom:10px;">14-DAY CHECK IN</div>
+      <div class="ob-sub" style="margin-bottom:20px;">As you lose weight, your metabolism drops. Enter your current weight to recalculate your TDEE and keep your calorie budget deadly accurate.</div>
+      <div class="field" style="text-align:left;"><label class="field-label">CURRENT WEIGHT (kg)</label><input class="inp" id="tm-weight" type="number"></div>
+      <div class="grid2" style="margin-top:24px;">
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="snoozeTDEENudge()">LATER</button>
+        <button class="btn-primary" onclick="saveTDEENudge()">UPDATE BUDGET</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// ——— FIREBASE SETUP (REALTIME DATABASE) [NEW] ———
-const firebaseConfig = {
-  // Even if you don't use all of these in test mode, the basic initialization requires the URL.
-  databaseURL: "https://cal-count-bc597-default-rtdb.firebaseio.com/"
-};
+// ——— FIREBASE SETUP ———
+const firebaseConfig = { databaseURL: "https://cal-count-bc597-default-rtdb.firebaseio.com/" };
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// ——— STATE[cite: 2] ———
+// ——— STATE ———
 const STORAGE_KEY = 'calcount_v4';
-let state = {
-  onboarded: false,
-  profile: null,
-  dailyLog: {},
-  userId: null // NEW: Added userId tracking to state
-};
+let state = { onboarded: false, profile: null, dailyLog: {}, userId: null, activeChallenges: [], theme: 'default' };
+
+// [NEW] Master Bundles Array
+const BUNDLES = [
+  { id: 'default', name: 'Default Dark', theme: 'default', avatar: null, title: 'Standard Initials' },
+  { id: 'madrid', name: 'Real Madrid Pack', theme: 'madrid', avatar: 'RM.png', title: 'K. Mbappe Avatar' },
+  { id: 'barcelona', name: 'Barcelona Pack', theme: 'barcelona', avatar: 'FCB.png', title: 'Lewandowski Avatar' },
+  { id: 'bayern', name: 'Bayern Pack', theme: 'bayern', avatar: 'BM.png', title: 'Harry Kane Avatar' },
+  { id: 'psg', name: 'PSG Pack', theme: 'psg', avatar: 'PSG.png', title: 'Dembelle Avatar' },
+  { id: 'richmond', name: 'Richmond Pack', theme: 'richmond', avatar: 'RFC.png', title: 'Ted Lasso Avatar' }
+];
 
 function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) state = JSON.parse(raw);
-  } catch(e) {}
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) state = { ...state, ...JSON.parse(raw) }; } catch(e) {}
 }
 
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  syncSocialScore(); // NEW: Sync to RTDB on every save
+  syncSocialScore();
 }
 
-// ——— LEADERBOARD LOGIC (REALTIME DATABASE) [NEW] ———
-function getUserId() {
-  if (!state.userId) {
-    state.userId = 'user_' + Math.random().toString(36).substr(2, 9);
-    save();
+// ——— DATE UTILS ———
+function toLocalDateStr(d) {
+  const year = d.getFullYear(); const month = String(d.getMonth() + 1).padStart(2, '0'); const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+function today() { return toLocalDateStr(new Date()); }
+function getWeekStart() { const d = new Date(); const day = d.getDay(); const diff = d.getDate() - day + (day === 0 ? -6 : 1); return toLocalDateStr(new Date(d.getFullYear(), d.getMonth(), diff)); }
+function getWeekDays() { const days = []; const startSplit = getWeekStart().split('-'); const start = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]); for (let i = 0; i < 7; i++) { const d = new Date(start); d.setDate(start.getDate() + i); days.push(toLocalDateStr(d)); } return days; }
+function getMonthDays() { const now = new Date(); const year = now.getFullYear(); const month = now.getMonth(); const todayDate = now.getDate(); const days = []; for (let i = 1; i <= todayDate; i++) days.push(toLocalDateStr(new Date(year, month, i))); return days; }
+function getDaysInMonth() { const now = new Date(); return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); }
+
+
+// ——— UI UTILS ———
+function setAvatarElement(elId, profileObj) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (profileObj.avatar) {
+    el.textContent = '';
+    el.style.backgroundImage = `url('${profileObj.avatar}')`;
+  } else {
+    el.style.backgroundImage = 'none';
+    el.textContent = profileObj.name ? profileObj.name.slice(0, 2).toUpperCase() : '??';
   }
+}
+
+// ——— [NEW] REWARDS & TOKENS SYSTEM ———
+function checkMilestones() {
+  if (!state.profile) return;
+  const ms = state.profile.maxStreak || 0;
+  
+  if (!state.profile.claimedMilestones) state.profile.claimedMilestones = [];
+  if (typeof state.profile.tokens === 'undefined') state.profile.tokens = 0;
+  if (!state.profile.unlockedBundles) state.profile.unlockedBundles = ['default'];
+
+  // Endless unlock loop
+  const milestones = [1, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 100];
+  let triggered = false;
+  let highest = 0;
+
+  milestones.forEach(m => {
+    if (ms >= m && !state.profile.claimedMilestones.includes(m)) {
+      state.profile.claimedMilestones.push(m);
+      state.profile.tokens++;
+      triggered = true;
+      highest = m;
+    }
+  });
+
+  if (triggered) {
+    save();
+    triggerCelebration(highest);
+  }
+  
+  // Refresh profile token button display silently
+  document.getElementById('profile-token-count').textContent = state.profile.tokens;
+}
+
+function triggerCelebration(milestone) {
+  document.getElementById('celeb-streak-text').textContent = milestone;
+  document.getElementById('celebration-modal').style.display = 'flex';
+  
+  // Spawn particles
+  const container = document.getElementById('particles-container');
+  container.innerHTML = '';
+  const emojis = ['🔥', '🎉', '🏆', '⭐', '🔥'];
+  for(let i=0; i<40; i++) {
+    const p = document.createElement('div');
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.position = 'absolute';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = '110%';
+    p.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    p.style.animation = `floatUp ${Math.random() * 1.5 + 1.2}s ease-out forwards`;
+    p.style.animationDelay = (Math.random() * 0.4) + 's';
+    container.appendChild(p);
+  }
+}
+
+function closeCelebration() {
+  document.getElementById('celebration-modal').style.display = 'none';
+  document.getElementById('particles-container').innerHTML = '';
+}
+
+function claimReward() {
+  closeCelebration();
+  openRewardsModal();
+}
+
+function openRewardsModal() {
+  renderRewards();
+  document.getElementById('rewards-modal').style.display = 'flex';
+}
+
+function closeRewardsModal() {
+  document.getElementById('rewards-modal').style.display = 'none';
+  // Also refresh profile view to catch token count updates
+  document.getElementById('profile-token-count').textContent = state.profile.tokens;
+}
+
+function renderRewards() {
+  const list = document.getElementById('rewards-list');
+  list.innerHTML = '';
+  document.getElementById('reward-tokens-display').textContent = state.profile.tokens;
+
+  BUNDLES.forEach(b => {
+    const isUnlocked = state.profile.unlockedBundles.includes(b.id);
+    const canUnlock = state.profile.tokens > 0 && !isUnlocked;
+    const isEquipped = state.theme === b.theme;
+    
+    const div = document.createElement('div');
+    div.style.cssText = `background:var(--surface2); border-radius:14px; padding:12px 14px; border:1px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'}; display:flex; justify-content:space-between; align-items:center; transition:border-color 0.2s;`;
+    
+    const avatarHtml = b.avatar 
+        ? `<div style="width:40px;height:40px;border-radius:50%;background-image:url('${b.avatar}');background-size:cover;border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};flex-shrink:0;"></div>`
+        : `<div style="width:40px;height:40px;border-radius:50%;background-color:var(--surface3);border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:900;color:var(--text);flex-shrink:0;">${state.profile.name.slice(0,2).toUpperCase()}</div>`;
+
+    div.innerHTML = `
+      <div style="display:flex; align-items:center; gap:12px;">
+        ${avatarHtml}
+        <div>
+          <div style="font-weight:700;font-size:14px;color:${isEquipped ? 'var(--orange)' : 'var(--text)'};">${b.name}</div>
+          <div style="font-size:11px;color:var(--muted)">Includes Theme + ${b.title}</div>
+        </div>
+      </div>
+      <div>
+        ${isUnlocked 
+          ? `<button class="reset-btn" style="margin:0;padding:8px 14px;font-size:12px;${isEquipped ? 'opacity:0.4;cursor:default;' : 'color:var(--orange);border-color:var(--orange-mid);'}" ${isEquipped ? 'disabled' : `onclick="equipBundle('${b.id}')"`}>${isEquipped ? 'Equipped' : 'Equip'}</button>`
+          : `<button class="btn-primary" style="margin:0;padding:8px 14px;font-size:12px;width:auto;" ${canUnlock ? `onclick="unlockBundle('${b.id}')"` : 'disabled'}>🔒 Unlock (1)</button>`
+        }
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function unlockBundle(id) {
+  if (state.profile.tokens <= 0) return;
+  state.profile.tokens--;
+  state.profile.unlockedBundles.push(id);
+  save();
+  equipBundle(id); // Auto equip on purchase
+}
+
+function equipBundle(id) {
+  const b = BUNDLES.find(x => x.id === id);
+  if (!b) return;
+  
+  state.theme = b.theme;
+  state.profile.avatar = b.avatar;
+  save();
+  
+  applyThemeUI();
+  setAvatarElement('top-avatar', state.profile);
+  setAvatarElement('profile-avatar', state.profile);
+  renderRewards(); // Refresh buttons
+}
+
+function applyThemeUI() {
+  document.body.className = state.theme === 'default' ? '' : 'theme-' + state.theme;
+}
+
+
+// ——— DYNAMIC TDEE NUDGE ———
+function checkTDEENudge() {
+  if (!state.profile || !state.profile.lastWeightUpdate) return;
+  const lastUpdate = new Date(state.profile.lastWeightUpdate);
+  const now = new Date();
+  const diffDays = Math.floor((now - lastUpdate) / (1000 * 60 * 60 * 24));
+  
+  if (diffDays >= 14) {
+    document.getElementById('tm-weight').value = state.profile.currentWeight;
+    document.getElementById('tdee-modal').style.display = 'flex';
+  }
+}
+
+function snoozeTDEENudge() {
+  const d = new Date(); d.setDate(d.getDate() - 13);
+  state.profile.lastWeightUpdate = toLocalDateStr(d);
+  save(); document.getElementById('tdee-modal').style.display = 'none';
+}
+
+function saveTDEENudge() {
+  const newW = parseFloat(document.getElementById('tm-weight').value);
+  if (!newW || newW <= 0) return;
+  
+  const p = state.profile; p.currentWeight = newW;
+  p.bmi = parseFloat((p.currentWeight / ((p.height / 100) ** 2)).toFixed(1));
+  const newBmr = calcBMR(p.currentWeight, p.height, p.age, p.gender);
+  const activityMultiplier = p.tdee / p.bmr;
+  p.bmr = Math.round(newBmr); p.tdee = Math.round(p.bmr * activityMultiplier);
+  p.dailyBudget = Math.round(p.tdee - p.deficit); p.weeklyBudget = p.dailyBudget * 7;
+  p.lastWeightUpdate = today(); 
+
+  save(); document.getElementById('tdee-modal').style.display = 'none';
+  renderProfile(); renderDashboard();
+}
+
+// ——— HEAD-TO-HEAD CHALLENGES ———
+function getUserId() {
+  if (!state.userId) { state.userId = 'user_' + Math.random().toString(36).substr(2, 9); save(); }
   return state.userId;
 }
 
+async function handleChallengeDeepLink() {
+  const params = new URLSearchParams(window.location.search);
+  const challengeId = params.get('challenge');
+  if (challengeId && state.onboarded) {
+    if (!state.activeChallenges.includes(challengeId)) {
+      try {
+        const snap = await database.ref('challenges/' + challengeId).once('value');
+        const cData = snap.val();
+        if (cData && cData.creatorId !== getUserId() && !cData.opponentId) {
+          if (confirm(`Join 7-Day Consistency Battle against ${cData.creatorName}?`)) {
+            await database.ref('challenges/' + challengeId).update({ opponentId: getUserId(), opponentName: state.profile.name });
+            state.activeChallenges.push(challengeId);
+            save(); window.history.replaceState({}, document.title, window.location.pathname); 
+            showTab('social');
+          }
+        }
+      } catch (e) { console.error(e); }
+    }
+  }
+}
+
+async function createChallenge() {
+  const cId = 'chal_' + Math.random().toString(36).substr(2, 9);
+  const cData = { creatorId: getUserId(), creatorName: state.profile.name, startDate: today() };
+  await database.ref('challenges/' + cId).set(cData);
+  state.activeChallenges.push(cId);
+  save();
+  const link = window.location.origin + window.location.pathname + '?challenge=' + cId;
+  prompt("Challenge created! Copy and send this link to a friend to start the 7-day battle:", link);
+  renderSocial();
+}
+
+// ——— SOCIAL & LEADERBOARD ———
 async function syncSocialScore() {
   if (!state.profile) return;
   const currentStreak = calcStreak();
+  const publicHistory = {};
+  for(let i=0; i<7; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = toLocalDateStr(d);
+    const spent = daySpent(key);
+    if(spent > 0) publicHistory[key] = spent <= state.profile.dailyBudget; 
+  }
   try {
     await database.ref('leaderboard/' + getUserId()).set({
-      name: state.profile.name,
-      streak: currentStreak,
-      lastUpdated: new Date().toISOString()
+      name: state.profile.name, streak: currentStreak, history: publicHistory, avatar: state.profile.avatar || null, lastUpdated: new Date().toISOString()
     });
-  } catch (e) {
-    console.error("Error syncing to leaderboard: ", e);
-  }
+  } catch (e) { console.error(e); }
 }
 
 async function renderSocial() {
-  const listEl = document.getElementById('leaderboard-list');
-  listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">Fetching global stats...</div>';
-  
-  try {
-    // RTDB orderByChild sorts ascending. limitToLast(10) gets the highest 10 values.
-    const snapshot = await database.ref('leaderboard')
-      .orderByChild('streak')
-      .limitToLast(10)
-      .once('value');
-      
-    listEl.innerHTML = '';
-    const users = [];
-    
-    snapshot.forEach((childSnapshot) => {
-      users.push({ id: childSnapshot.key, ...childSnapshot.val() });
-    });
-    
-    // Reverse it so the highest streak is #1
-    users.reverse();
-    
-    let rank = 1;
-    users.forEach((data) => {
-      const isMe = data.id === getUserId();
+  const chalList = document.getElementById('active-challenges-list'); chalList.innerHTML = '';
+  if (state.activeChallenges.length > 0) {
+    state.activeChallenges.forEach(async (cId) => {
+      const snap = await database.ref('challenges/' + cId).once('value'); const cData = snap.val(); if (!cData) return;
       const div = document.createElement('div');
+      div.style.cssText = `background:var(--surface2); border-radius:12px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center;`;
+      if (!cData.opponentId) {
+        div.innerHTML = `<div style="font-size:13px; color:var(--muted);">Waiting for opponent...</div>
+                         <button class="btn-primary" style="padding:6px 12px; font-size:11px; width:auto; border-radius:8px;" onclick="prompt('Send this link:', '${window.location.origin + window.location.pathname}?challenge=${cId}')">Copy Link</button>`;
+      } else {
+        const mySnap = await database.ref('leaderboard/' + getUserId()).once('value');
+        const oppId = cData.creatorId === getUserId() ? cData.opponentId : cData.creatorId;
+        const oppName = cData.creatorId === getUserId() ? cData.opponentName : cData.creatorName;
+        const oppSnap = await database.ref('leaderboard/' + oppId).once('value');
+        let myScore = 0; let oppScore = 0;
+        for(let i=0; i<7; i++) {
+          const d = new Date(cData.startDate); d.setDate(d.getDate() + i);
+          const key = toLocalDateStr(d); if (key > today()) break;
+          if (mySnap.val()?.history?.[key]) myScore++;
+          if (oppSnap.val()?.history?.[key]) oppScore++;
+        }
+        const isOver = Math.floor((new Date() - new Date(cData.startDate)) / 86400000) >= 7;
+        div.innerHTML = `
+          <div><div style="font-size:10px; color:var(--muted); margin-bottom:4px; letter-spacing:1px;">${isOver ? 'FINISHED' : 'ACTIVE BATTLE'}</div><div style="font-weight:600; font-size:14px;">vs. ${oppName}</div></div>
+          <div style="text-align:right;"><div style="font-family:var(--font-display); font-size:24px; font-weight:900; color:var(--orange);"><span style="${myScore >= oppScore ? 'color:var(--green)' : ''}">${myScore}</span> <span style="font-size:16px;color:var(--muted)">-</span> <span style="${oppScore >= myScore ? 'color:var(--red)' : ''}">${oppScore}</span></div></div>
+        `;
+      }
+      chalList.appendChild(div);
+    });
+  }
+
+  const listEl = document.getElementById('leaderboard-list'); listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">Fetching global stats...</div>';
+  try {
+    const snapshot = await database.ref('leaderboard').orderByChild('streak').limitToLast(10).once('value');
+    listEl.innerHTML = ''; const users = [];
+    snapshot.forEach((child) => { users.push({ id: child.key, ...child.val() }); }); users.reverse(); let rank = 1;
+    users.forEach((data) => {
+      const isMe = data.id === getUserId(); const div = document.createElement('div');
       div.style.cssText = `display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: ${isMe ? 'var(--orange-dim)' : 'var(--surface2)'}; border-radius: 12px; border: 1px solid ${isMe ? 'var(--orange-mid)' : 'transparent'};`;
-      
+      const avatarHtml = data.avatar 
+        ? `<div style="width:30px; height:30px; border-radius:50%; background-image:url('${data.avatar}'); background-size:cover; background-position:center; border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; flex-shrink:0;"></div>`
+        : `<div style="width:30px; height:30px; border-radius:50%; background-color:var(--surface3); border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:12px; font-weight:900; color:var(--text); flex-shrink:0;">${data.name.slice(0,2).toUpperCase()}</div>`;
       div.innerHTML = `
-        <div style="display:flex; align-items:center; gap: 12px;">
-          <div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: var(--muted); width: 20px;">#${rank}</div>
-          <div style="font-weight: 600; font-size: 15px;">${data.name} ${isMe ? '(You)' : ''}</div>
-        </div>
+        <div style="display:flex; align-items:center; gap: 12px;"><div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: var(--muted); width: 20px;">#${rank}</div>${avatarHtml}<div style="font-weight: 600; font-size: 15px;">${data.name} ${isMe ? '(You)' : ''}</div></div>
         <div style="font-family:var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange);">🔥 ${data.streak}</div>
       `;
-      listEl.appendChild(div);
-      rank++;
+      listEl.appendChild(div); rank++;
     });
-    
-    if (users.length === 0) {
-      listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">No users found yet. Start your streak!</div>';
-    }
-  } catch (e) {
-    listEl.innerHTML = '<div style="text-align: center; color: var(--red); padding: 20px;">Failed to load leaderboard. Note: Ensure your Realtime Database rules allow public read/write in Test Mode.</div>';
-    console.error(e);
-  }
-}
-
-// ——— UTILS[cite: 2] ———
-function today() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function getWeekStart() {
-  const d = new Date();
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  const m = new Date(d); m.setDate(diff);
-  return m.toISOString().split('T')[0];
-}
-
-function getWeekDays() {
-  const days = [];
-  const start = new Date(getWeekStart());
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(start); d.setDate(start.getDate() + i);
-    days.push(d.toISOString().split('T')[0]);
-  }
-  return days;
-}
-
-function getMonthDays() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const todayDate = now.getDate();
-  const days = [];
-  for (let i = 1; i <= todayDate; i++) {
-    const d = new Date(year, month, i);
-    days.push(d.toISOString().split('T')[0]);
-  }
-  return days;
-}
-
-function getDaysInMonth() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    if (users.length === 0) listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">No users found yet. Start your streak!</div>';
+  } catch (e) { listEl.innerHTML = '<div style="text-align: center; color: var(--red); padding: 20px;">Failed to load leaderboard.</div>'; }
 }
 
 function calcTotalDeficit() {
   if (!state.profile) return { achieved: 0, goal: 0, remaining: 0, pct: 0 };
-  const p = state.profile;
-  const kgToLose = p.currentWeight - p.targetWeight;
-  const goal = kgToLose > 0 ? kgToLose * 7000 : 0;
-
-  let achieved = 0;
-  Object.entries(state.dailyLog).forEach(([, d]) => {
-    const spent = (d.transactions || []).reduce((s, t) => s + t.amount, 0);
-    if (spent > 0) {
-      achieved += p.tdee - spent;
-    }
+  const p = state.profile; if (!p.journeyStartDate) p.journeyStartDate = p.createdAt ? p.createdAt.split('T')[0] : '2000-01-01';
+  const kgToLose = p.currentWeight - p.targetWeight; const goal = kgToLose > 0 ? kgToLose * 7000 : 0; let achieved = 0;
+  Object.entries(state.dailyLog).forEach(([dateKey, d]) => {
+    if (dateKey >= p.journeyStartDate) { const spent = (d.transactions || []).reduce((s, t) => s + t.amount, 0); if (spent > 0) achieved += (p.tdee - spent); }
   });
-
-  const remaining = Math.max(0, goal - achieved);
-  const pct = goal > 0 ? Math.min(100, Math.max(0, (achieved / goal) * 100)) : 0;
+  if (goal > 0 && achieved >= goal) { p.currentWeight = p.targetWeight; p.journeyStartDate = today(); save(); return { achieved: 0, goal: 0, remaining: 0, pct: 0 }; }
+  const remaining = Math.max(0, goal - achieved); const pct = goal > 0 ? Math.min(100, Math.max(0, (achieved / goal) * 100)) : 0;
   return { achieved, goal, remaining, pct };
 }
 
-function daySpent(dateKey) {
-  return ((state.dailyLog[dateKey] || {}).transactions || []).reduce((s, t) => s + t.amount, 0);
-}
-
-function calcBMR(w, h, age, gender) {
-  return gender === 'male'
-    ? 10 * w + 6.25 * h - 5 * age + 5
-    : 10 * w + 6.25 * h - 5 * age - 161;
-}
-
-function bmiCategory(bmi) {
-  if (bmi < 18.5) return 'Underweight';
-  if (bmi < 25) return 'Normal weight';
-  if (bmi < 30) return 'Overweight';
-  return 'Obese';
-}
+function daySpent(dateKey) { return ((state.dailyLog[dateKey] || {}).transactions || []).reduce((s, t) => s + t.amount, 0); }
+function calcBMR(w, h, age, gender) { return gender === 'male' ? 10 * w + 6.25 * h - 5 * age + 5 : 10 * w + 6.25 * h - 5 * age - 161; }
+function bmiCategory(bmi) { if (bmi < 18.5) return 'Underweight'; if (bmi < 25) return 'Normal weight'; if (bmi < 30) return 'Overweight'; return 'Obese'; }
 
 function calcStreak() {
   if (!state.profile) return 0;
-  let streak = 0;
-  const d = new Date();
+  let streak = 0; const d = new Date();
   while (true) {
-    const key = d.toISOString().split('T')[0];
-    const spent = daySpent(key);
-    if (spent > 0 && spent <= state.profile.dailyBudget) {
-      streak++;
-      d.setDate(d.getDate() - 1);
-    } else break;
+    const key = toLocalDateStr(d); const spent = daySpent(key);
+    if (spent > 0 && spent <= state.profile.dailyBudget) { streak++; d.setDate(d.getDate() - 1); } else break;
   }
+  if (streak > (state.profile.maxStreak || 0)) { state.profile.maxStreak = streak; save(); }
   return streak;
 }
 
 function calcDaysLeft() {
   if (!state.profile) return null;
-  const kgToLose = state.profile.currentWeight - state.profile.targetWeight;
-  if (kgToLose <= 0) return 0;
-  const needed = kgToLose * 7000;
+  const defData = calcTotalDeficit(); if (defData.goal <= 0) return 0;
   const dailyDeficit = state.profile.tdee - state.profile.dailyBudget;
-  if (dailyDeficit <= 0) return null;
-
-  let actualDeficit = 0;
-  Object.entries(state.dailyLog).forEach(([, d]) => {
-    const spent = (d.transactions || []).reduce((s, t) => s + t.amount, 0);
-    if (spent > 0) actualDeficit += state.profile.tdee - spent;
-  });
-
-  const remaining = needed - actualDeficit;
-  if (remaining <= 0) return 0;
-  return Math.ceil(remaining / dailyDeficit);
+  if (dailyDeficit <= 0) return null; if (defData.remaining <= 0) return 0; return Math.ceil(defData.remaining / dailyDeficit);
 }
 
 function fmt(n) { return Math.round(n).toLocaleString(); }
+function timeNow() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
 
-function timeNow() {
-  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-
-// ——— ONBOARDING[cite: 2] ———
+// ——— ONBOARDING ———
 let obStep = 0;
-
-function updateObProgress() {
-  [0,1,2].forEach(i => {
-    document.getElementById('bar' + i).classList.toggle('active', i <= obStep);
-  });
-}
-
+function updateObProgress() { [0,1,2].forEach(i => { document.getElementById('bar' + i).classList.toggle('active', i <= obStep); }); }
 function updateBMIPreview() {
-  const w = parseFloat(document.getElementById('inp-weight').value);
-  const h = parseFloat(document.getElementById('inp-height').value);
-  if (w > 0 && h > 0) {
-    const bmi = w / ((h / 100) ** 2);
-    document.getElementById('bmi-val').textContent = bmi.toFixed(1);
-    document.getElementById('bmi-cat').textContent = bmiCategory(bmi);
-    document.getElementById('bmi-preview').style.display = 'block';
-  } else {
-    document.getElementById('bmi-preview').style.display = 'none';
-  }
+  const w = parseFloat(document.getElementById('inp-weight').value); const h = parseFloat(document.getElementById('inp-height').value);
+  if (w > 0 && h > 0) { const bmi = w / ((h / 100) ** 2); document.getElementById('bmi-val').textContent = bmi.toFixed(1); document.getElementById('bmi-cat').textContent = bmiCategory(bmi); document.getElementById('bmi-preview').style.display = 'block'; } else { document.getElementById('bmi-preview').style.display = 'none'; }
 }
-
 function updateGoalPreview() {
-  const w = parseFloat(document.getElementById('inp-weight').value);
-  const h = parseFloat(document.getElementById('inp-height').value);
-  const age = parseFloat(document.getElementById('inp-age').value);
-  const gender = document.getElementById('inp-gender').value;
-  const target = parseFloat(document.getElementById('inp-target').value);
-  const activity = parseFloat(document.getElementById('inp-activity').value);
-  const deficitEl = document.querySelector('input[name="deficit"]:checked');
-  const deficit = deficitEl ? parseFloat(deficitEl.value) : 500;
-
+  const w = parseFloat(document.getElementById('inp-weight').value); const h = parseFloat(document.getElementById('inp-height').value); const age = parseFloat(document.getElementById('inp-age').value); const gender = document.getElementById('inp-gender').value; const target = parseFloat(document.getElementById('inp-target').value); const activity = parseFloat(document.getElementById('inp-activity').value);
+  const deficitEl = document.querySelector('input[name="deficit"]:checked'); const deficit = deficitEl ? parseFloat(deficitEl.value) : 500;
   if (w && h && age) {
-    const bmr = calcBMR(w, h, age, gender);
-    const tdee = bmr * activity;
-    const budget = Math.round(tdee - deficit);
+    const bmr = calcBMR(w, h, age, gender); const tdee = bmr * activity; const budget = Math.round(tdee - deficit);
     document.getElementById('prev-budget').textContent = fmt(budget);
-    if (target && w > target) {
-      const days = Math.ceil(((w - target) * 7000) / deficit);
-      document.getElementById('prev-days').textContent = days;
-    } else {
-      document.getElementById('prev-days').textContent = '—';
-    }
+    if (target && w > target) { const days = Math.ceil(((w - target) * 7000) / deficit); document.getElementById('prev-days').textContent = days; } else { document.getElementById('prev-days').textContent = '—'; }
   }
 }
-
-document.getElementById('inp-weight').addEventListener('input', updateBMIPreview);
-document.getElementById('inp-height').addEventListener('input', updateBMIPreview);
-document.getElementById('inp-activity').addEventListener('change', updateGoalPreview);
-document.querySelectorAll('input[name="deficit"]').forEach(r => r.addEventListener('change', updateGoalPreview));
+document.getElementById('inp-weight').addEventListener('input', updateBMIPreview); document.getElementById('inp-height').addEventListener('input', updateBMIPreview); document.getElementById('inp-activity').addEventListener('change', updateGoalPreview); document.querySelectorAll('input[name="deficit"]').forEach(r => r.addEventListener('change', updateGoalPreview));
 
 document.getElementById('ob-next').addEventListener('click', () => {
   if (obStep === 0) {
-    const name = document.getElementById('inp-name').value.trim();
-    const age = document.getElementById('inp-age').value;
+    const name = document.getElementById('inp-name').value.trim(); const age = document.getElementById('inp-age').value;
     if (!name || !age) return alert('Please fill in your name and age.');
-    document.getElementById('step0').style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-    obStep = 1;
-    updateObProgress();
-    updateGoalPreview();
+    document.getElementById('step0').style.display = 'none'; document.getElementById('step1').style.display = 'block'; obStep = 1; updateObProgress(); updateGoalPreview();
   } else if (obStep === 1) {
-    const w = document.getElementById('inp-weight').value;
-    const h = document.getElementById('inp-height').value;
-    const t = document.getElementById('inp-target').value;
+    const w = document.getElementById('inp-weight').value; const h = document.getElementById('inp-height').value; const t = document.getElementById('inp-target').value;
     if (!w || !h || !t) return alert('Please fill in all fields.');
-    document.getElementById('step1').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-    obStep = 2;
-    updateObProgress();
-    document.getElementById('ob-next').textContent = 'START TRACKING →';
-    updateGoalPreview();
+    document.getElementById('step1').style.display = 'none'; document.getElementById('step2').style.display = 'block'; obStep = 2; updateObProgress(); document.getElementById('ob-next').textContent = 'START TRACKING →'; updateGoalPreview();
   } else {
-    const name = document.getElementById('inp-name').value.trim();
-    const age = parseInt(document.getElementById('inp-age').value);
-    const gender = document.getElementById('inp-gender').value;
-    const w = parseFloat(document.getElementById('inp-weight').value);
-    const h = parseFloat(document.getElementById('inp-height').value);
-    const target = parseFloat(document.getElementById('inp-target').value);
-    const activity = parseFloat(document.getElementById('inp-activity').value);
-    const deficitEl = document.querySelector('input[name="deficit"]:checked');
-    const deficit = deficitEl ? parseFloat(deficitEl.value) : 500;
-
-    const bmr = calcBMR(w, h, age, gender);
-    const tdee = bmr * activity;
-    const dailyBudget = Math.round(tdee - deficit);
-    const bmi = w / ((h / 100) ** 2);
-
-    state.profile = {
-      name, age, gender,
-      currentWeight: w, height: h, targetWeight: target,
-      bmi: parseFloat(bmi.toFixed(1)),
-      bmr: Math.round(bmr),
-      tdee: Math.round(tdee),
-      dailyBudget,
-      weeklyBudget: dailyBudget * 7,
-      deficit,
-      createdAt: new Date().toISOString()
-    };
-    state.onboarded = true;
-    save(); // Syncs initial RTDB state
-    bootApp();
+    const name = document.getElementById('inp-name').value.trim(); const age = parseInt(document.getElementById('inp-age').value); const gender = document.getElementById('inp-gender').value;
+    const w = parseFloat(document.getElementById('inp-weight').value); const h = parseFloat(document.getElementById('inp-height').value); const target = parseFloat(document.getElementById('inp-target').value);
+    const activity = parseFloat(document.getElementById('inp-activity').value); const deficitEl = document.querySelector('input[name="deficit"]:checked'); const deficit = deficitEl ? parseFloat(deficitEl.value) : 500;
+    const bmr = calcBMR(w, h, age, gender); const tdee = bmr * activity; const dailyBudget = Math.round(tdee - deficit); const bmi = w / ((h / 100) ** 2);
+    state.profile = { name, age, gender, currentWeight: w, height: h, targetWeight: target, bmi: parseFloat(bmi.toFixed(1)), bmr: Math.round(bmr), tdee: Math.round(tdee), dailyBudget, weeklyBudget: dailyBudget * 7, deficit, createdAt: new Date().toISOString(), journeyStartDate: today(), maxStreak: 0, lastWeightUpdate: today(), avatar: null, tokens: 0, claimedMilestones: [], unlockedBundles: ['default'] };
+    state.onboarded = true; save(); bootApp();
   }
 });
 
-// ——— APP LOGIC[cite: 2] ———
+// ——— APP LOGIC ———
 function showTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -903,222 +892,157 @@ function showTab(tabId) {
   if (tabId === 'dashboard') renderDashboard();
   if (tabId === 'tracker') renderTracker();
   if (tabId === 'profile') renderProfile();
-  if (tabId === 'social') renderSocial(); // NEW: Hooked in social render
+  if (tabId === 'social') renderSocial();
 }
 
 function renderDashboard() {
-  const p = state.profile;
-  const t = today();
-  const spent = daySpent(t);
-  const left = p.dailyBudget - spent;
-  const pct = Math.min(100, (spent / p.dailyBudget) * 100);
-
-  const el = document.getElementById('daily-left');
-  el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left));
-  el.className = 'cal-left' + (left < 0 ? ' over' : '');
-  document.getElementById('daily-bar').style.width = pct + '%';
-  document.getElementById('daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
-  document.getElementById('daily-spent').textContent = fmt(spent) + ' spent';
-  document.getElementById('daily-budget-label').textContent = fmt(p.dailyBudget) + ' budget';
+  const p = state.profile; const t = today(); const spent = daySpent(t); const left = p.dailyBudget - spent; const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+  const el = document.getElementById('daily-left'); el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left)); el.className = 'cal-left' + (left < 0 ? ' over' : '');
+  document.getElementById('daily-bar').style.width = pct + '%'; document.getElementById('daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
+  document.getElementById('daily-spent').textContent = fmt(spent) + ' spent'; document.getElementById('daily-budget-label').textContent = fmt(p.dailyBudget) + ' budget';
 
   const streak = calcStreak();
-  document.getElementById('streak-num').textContent = streak;
-  document.getElementById('nav-streak-icon').textContent = '🔥 ' + streak;
+  document.getElementById('streak-num').textContent = streak; document.getElementById('nav-streak-icon').textContent = '🔥 ' + streak;
   const sl = document.getElementById('streak-label');
-  if (streak > 0) {
-    sl.className = 'streak-label';
-    sl.textContent = 'CONGRATULATIONS!';
-  } else {
-    sl.className = 'streak-empty';
-    sl.textContent = 'Stay within budget to build your streak!';
-  }
+  if (streak > 0) { sl.className = 'streak-label'; sl.textContent = 'CONGRATULATIONS!'; } else { sl.className = 'streak-empty'; sl.textContent = 'Stay within budget to build your streak!'; }
 
-  // Weekly
-  const weekDays = getWeekDays();
-  const weekSpent = weekDays.reduce((s, d) => s + daySpent(d), 0);
-  const weekLeft = p.weeklyBudget - weekSpent;
-  const weekPct = Math.min(100, (weekSpent / p.weeklyBudget) * 100);
-  const wl = document.getElementById('weekly-left');
-  wl.textContent = (weekLeft < 0 ? '-' : '') + fmt(Math.abs(weekLeft));
-  wl.style.color = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
-  document.getElementById('weekly-bar').style.width = weekPct + '%';
-  document.getElementById('weekly-bar').style.background = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
+  const weekDays = getWeekDays(); const weekSpent = weekDays.reduce((s, d) => s + daySpent(d), 0); const weekLeft = p.weeklyBudget - weekSpent; const weekPct = Math.min(100, (weekSpent / p.weeklyBudget) * 100);
+  const wl = document.getElementById('weekly-left'); wl.textContent = (weekLeft < 0 ? '-' : '') + fmt(Math.abs(weekLeft)); wl.style.color = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('weekly-bar').style.width = weekPct + '%'; document.getElementById('weekly-bar').style.background = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
 
-  const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  const dotsEl = document.getElementById('week-dots');
-  dotsEl.innerHTML = '';
+  const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S']; const dotsEl = document.getElementById('week-dots'); dotsEl.innerHTML = '';
   weekDays.forEach((d, i) => {
-    const s = daySpent(d);
-    const isPast = d <= t;
-    const inBudget = s > 0 && s <= p.dailyBudget;
-    const isToday = d === t;
-    let bg = '#2e2e2e';
-    let color = '#444';
-    if (isPast && s > 0) { bg = inBudget ? 'rgba(61,186,110,0.2)' : 'rgba(232,64,64,0.2)'; color = inBudget ? 'var(--green)' : 'var(--red)'; }
-    else if (isToday && s === 0) { bg = '#2e2e2e'; }
+    const s = daySpent(d); const isPast = d <= t; const inBudget = s > 0 && s <= p.dailyBudget; const isToday = d === t;
+    let bg = 'var(--surface2)'; let color = 'var(--faint)';
+    if (isPast && s > 0) { bg = inBudget ? 'rgba(61,186,110,0.2)' : 'rgba(232,64,64,0.2)'; color = inBudget ? 'var(--green)' : 'var(--red)'; } else if (isToday && s === 0) { bg = 'var(--surface2)'; }
     const wrap = document.createElement('div'); wrap.className = 'dot-wrap';
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (isToday ? ' today' : '');
-    dot.style.cssText = `background:${bg};color:${color};border:1px solid ${isPast && s > 0 ? (inBudget ? 'var(--green)' : 'var(--red)') : '#333'}`;
+    const dot = document.createElement('div'); dot.className = 'dot' + (isToday ? ' today' : ''); dot.style.cssText = `background:${bg};color:${color};border:1px solid ${isPast && s > 0 ? (inBudget ? 'var(--green)' : 'var(--red)') : 'transparent'}`;
     const dayLabelEl = document.createElement('div'); dayLabelEl.className = 'dot-day'; dayLabelEl.textContent = dayLabels[i];
-    wrap.appendChild(dot); wrap.appendChild(dayLabelEl);
-    dotsEl.appendChild(wrap);
+    wrap.appendChild(dot); wrap.appendChild(dayLabelEl); dotsEl.appendChild(wrap);
   });
 
-  // Monthly
-  const monthDays = getMonthDays();
-  const daysInMonth = getDaysInMonth();
-  const monthlyBudget = p.dailyBudget * daysInMonth;
-  const monthSpent = monthDays.reduce((s, d) => s + daySpent(d), 0);
-  const monthLeft = monthlyBudget - monthSpent;
-  const monthPct = Math.min(100, (monthSpent / monthlyBudget) * 100);
-  const ml = document.getElementById('monthly-left');
-  ml.textContent = (monthLeft < 0 ? '-' : '') + fmt(Math.abs(monthLeft));
-  ml.style.color = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
-  document.getElementById('monthly-bar').style.width = monthPct + '%';
-  document.getElementById('monthly-bar').style.background = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
-  document.getElementById('monthly-spent-label').textContent = fmt(monthSpent) + ' spent';
-  document.getElementById('monthly-budget-label').textContent = fmt(monthlyBudget) + ' budget';
+  const monthDays = getMonthDays(); const daysInMonth = getDaysInMonth(); const monthlyBudget = p.dailyBudget * daysInMonth; const monthSpent = monthDays.reduce((s, d) => s + daySpent(d), 0);
+  const monthLeft = monthlyBudget - monthSpent; const monthPct = Math.min(100, (monthSpent / monthlyBudget) * 100);
+  const ml = document.getElementById('monthly-left'); ml.textContent = (monthLeft < 0 ? '-' : '') + fmt(Math.abs(monthLeft)); ml.style.color = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('monthly-bar').style.width = monthPct + '%'; document.getElementById('monthly-bar').style.background = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('monthly-spent-label').textContent = fmt(monthSpent) + ' spent'; document.getElementById('monthly-budget-label').textContent = fmt(monthlyBudget) + ' budget';
 
-  // Total Deficit Progress
   const def = calcTotalDeficit();
-  document.getElementById('deficit-bar').style.width = def.pct + '%';
-  document.getElementById('deficit-pct-label').textContent = def.pct.toFixed(1) + '%';
-  document.getElementById('deficit-achieved-label').textContent = (def.achieved < 0 ? '-' : '') + fmt(Math.abs(def.achieved)) + ' cal deficit achieved';
-  document.getElementById('deficit-achieved-label').style.color = def.achieved < 0 ? 'var(--red)' : 'var(--orange)';
-  document.getElementById('deficit-goal-label').textContent = fmt(def.goal) + ' cal goal';
-  document.getElementById('deficit-remaining-label').textContent = fmt(def.remaining) + ' cal';
-  // Days left estimate
-  const dailyDeficit = p.tdee - p.dailyBudget;
-  const daysLeftEst = dailyDeficit > 0 && def.remaining > 0 ? Math.ceil(def.remaining / dailyDeficit) : (def.remaining <= 0 ? '🎉 Done' : '—');
+  document.getElementById('deficit-bar').style.width = def.pct + '%'; document.getElementById('deficit-pct-label').textContent = def.pct.toFixed(1) + '%';
+  document.getElementById('deficit-achieved-label').textContent = (def.achieved < 0 ? '-' : '') + fmt(Math.abs(def.achieved)) + ' cal deficit achieved'; document.getElementById('deficit-achieved-label').style.color = def.achieved < 0 ? 'var(--red)' : 'var(--orange)';
+  document.getElementById('deficit-goal-label').textContent = fmt(def.goal) + ' cal goal'; document.getElementById('deficit-remaining-label').textContent = fmt(def.remaining) + ' cal';
+  
+  const dailyDeficit = p.tdee - p.dailyBudget; const daysLeftEst = dailyDeficit > 0 && def.remaining > 0 ? Math.ceil(def.remaining / dailyDeficit) : (def.remaining <= 0 ? '🎉 Done' : '—');
   document.getElementById('deficit-days-label').textContent = daysLeftEst;
 }
 
 function renderTracker() {
-  const p = state.profile;
-  const t = today();
-  const spent = daySpent(t);
-  const left = p.dailyBudget - spent;
-  const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+  const p = state.profile; const t = today(); const spent = daySpent(t); const left = p.dailyBudget - spent; const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+  const el = document.getElementById('tracker-daily-left'); el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left)); el.className = 'cal-left' + (left < 0 ? ' over' : '');
+  document.getElementById('tracker-daily-bar').style.width = pct + '%'; document.getElementById('tracker-daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
 
-  const el = document.getElementById('tracker-daily-left');
-  el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left));
-  el.className = 'cal-left' + (left < 0 ? ' over' : '');
-  document.getElementById('tracker-daily-bar').style.width = pct + '%';
-  document.getElementById('tracker-daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
-
-  const txns = (state.dailyLog[t] || {}).transactions || [];
-  const listEl = document.getElementById('txn-list');
-  const emptyEl = document.getElementById('txn-empty');
+  const txns = (state.dailyLog[t] || {}).transactions || []; const listEl = document.getElementById('txn-list'); const emptyEl = document.getElementById('txn-empty');
   listEl.innerHTML = '';
-  if (txns.length === 0) {
-    emptyEl.style.display = 'block';
-  } else {
+  if (txns.length === 0) { emptyEl.style.display = 'block'; } else {
     emptyEl.style.display = 'none';
     [...txns].reverse().forEach((tx, ri) => {
-      const realIdx = txns.length - 1 - ri;
-      const div = document.createElement('div'); div.className = 'txn';
-      div.innerHTML = `
-        <div>
-          <div class="txn-name">${tx.label}</div>
-          <div class="txn-time">${tx.time}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:0">
-          <div class="txn-cal">${fmt(tx.amount)} cal</div>
-          <button class="txn-del" data-idx="${realIdx}" title="Remove">✕</button>
-        </div>`;
+      const realIdx = txns.length - 1 - ri; const div = document.createElement('div'); div.className = 'txn';
+      div.innerHTML = `<div><div class="txn-name">${tx.label}</div><div class="txn-time">${tx.time}</div></div><div style="display:flex;align-items:center;gap:0"><div class="txn-cal">${fmt(tx.amount)} cal</div><button class="txn-del" data-idx="${realIdx}" title="Remove">✕</button></div>`;
       listEl.appendChild(div);
     });
-    listEl.querySelectorAll('.txn-del').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.idx);
-        state.dailyLog[t].transactions.splice(idx, 1);
-        save(); renderTracker(); renderDashboard();
-      });
-    });
+    listEl.querySelectorAll('.txn-del').forEach(btn => { btn.addEventListener('click', () => { const idx = parseInt(btn.dataset.idx); state.dailyLog[t].transactions.splice(idx, 1); save(); renderTracker(); renderDashboard(); }); });
   }
 }
 
-document.getElementById('add-txn-btn').addEventListener('click', addTransaction);
-document.getElementById('txn-cal').addEventListener('keydown', e => { if (e.key === 'Enter') addTransaction(); });
-
+document.getElementById('add-txn-btn').addEventListener('click', addTransaction); document.getElementById('txn-cal').addEventListener('keydown', e => { if (e.key === 'Enter') addTransaction(); });
 function addTransaction() {
-  const cal = parseInt(document.getElementById('txn-cal').value);
-  if (!cal || cal <= 0) return;
-  const label = document.getElementById('txn-label').value.trim() || 'Meal';
-  const t = today();
+  const cal = parseInt(document.getElementById('txn-cal').value); if (!cal || cal <= 0) return;
+  const label = document.getElementById('txn-label').value.trim() || 'Meal'; const t = today();
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [] };
-  state.dailyLog[t].transactions.push({ amount: cal, label, time: timeNow() });
-  save();
-  document.getElementById('txn-cal').value = '';
-  document.getElementById('txn-label').value = '';
-  renderTracker();
-  renderDashboard();
+  state.dailyLog[t].transactions.push({ amount: cal, label, time: timeNow() }); save();
+  document.getElementById('txn-cal').value = ''; document.getElementById('txn-label').value = ''; renderTracker(); renderDashboard();
+  
+  checkMilestones(); // Check unlocks right after logging
 }
 
 function renderProfile() {
   const p = state.profile;
-  const initials = p.name.slice(0, 2).toUpperCase();
-  document.getElementById('top-avatar').textContent = initials;
-  document.getElementById('profile-avatar').textContent = initials;
-  document.getElementById('profile-name').textContent = p.name;
+  document.getElementById('profile-name').textContent = p.name; 
   document.getElementById('profile-sub').textContent = `Age ${p.age} · ${p.gender === 'male' ? 'Male' : 'Female'}`;
-  document.getElementById('stat-bmi').textContent = p.bmi;
-  document.getElementById('stat-bmi-cat').textContent = bmiCategory(p.bmi);
-  document.getElementById('stat-weight').textContent = p.currentWeight + 'kg';
-  document.getElementById('stat-target').textContent = '→ ' + p.targetWeight + 'kg';
-  document.getElementById('stat-height').textContent = p.height + 'cm';
+  document.getElementById('stat-bmi').textContent = p.bmi; document.getElementById('stat-bmi-cat').textContent = bmiCategory(p.bmi);
+  document.getElementById('stat-weight').textContent = p.currentWeight + 'kg'; document.getElementById('stat-target').textContent = '→ ' + p.targetWeight + 'kg'; document.getElementById('stat-height').textContent = p.height + 'cm';
+  document.getElementById('profile-token-count').textContent = p.tokens || 0; // Sync token count display
 
-  const daysLeft = calcDaysLeft();
-  document.getElementById('days-num').textContent = daysLeft === null ? '—' : daysLeft === 0 ? '🎉 0' : daysLeft;
-  const kgToLose = p.currentWeight - p.targetWeight;
-  document.getElementById('days-sub').textContent = kgToLose > 0
-    ? `${kgToLose.toFixed(1)} kg to lose · ~7,000 cal per kg`
-    : 'Goal reached!';
-  document.getElementById('di-budget').textContent = fmt(p.dailyBudget) + ' cal/day';
-  document.getElementById('di-tdee').textContent = fmt(p.tdee) + ' cal/day';
-  document.getElementById('di-deficit').textContent = '−' + fmt(p.tdee - p.dailyBudget) + ' cal/day';
+  const daysLeft = calcDaysLeft(); document.getElementById('days-num').textContent = daysLeft === null ? '—' : daysLeft === 0 ? '🎉 0' : daysLeft;
+  const kgToLose = p.currentWeight - p.targetWeight; document.getElementById('days-sub').textContent = kgToLose > 0 ? `${kgToLose.toFixed(1)} kg to lose · ~7,000 cal per kg` : 'Goal reached!';
+  document.getElementById('di-budget').textContent = fmt(p.dailyBudget) + ' cal/day'; document.getElementById('di-tdee').textContent = fmt(p.tdee) + ' cal/day'; document.getElementById('di-deficit').textContent = '−' + fmt(p.tdee - p.dailyBudget) + ' cal/day';
 
-  // Total deficit journey (profile tab)
-  const def = calcTotalDeficit();
-  document.getElementById('profile-deficit-pct').textContent = def.pct.toFixed(1) + '%';
-  document.getElementById('profile-deficit-detail').textContent =
-    (def.achieved < 0 ? '-' : '') + fmt(Math.abs(def.achieved)) + ' / ' + fmt(def.goal) + ' cal';
-  document.getElementById('profile-deficit-bar').style.width = def.pct + '%';
+  applyThemeUI(); 
 
-  // 30-day calendar
-  const calEl = document.getElementById('profile-calendar');
-  calEl.innerHTML = '';
-  const now = new Date();
+  const calEl = document.getElementById('profile-calendar'); calEl.innerHTML = ''; const now = new Date();
   for (let i = 29; i >= 0; i--) {
-    const d = new Date(now); d.setDate(now.getDate() - i);
-    const key = d.toISOString().split('T')[0];
-    const spent = daySpent(key);
-    const hasData = spent > 0;
-    const inBudget = hasData && spent <= p.dailyBudget;
-    const div = document.createElement('div');
-    div.className = 'cal-day ' + (!hasData ? 'empty' : inBudget ? 'good' : 'bad');
-    div.textContent = d.getDate();
-    div.title = key + ': ' + (hasData ? fmt(spent) + ' cal' : 'no data');
-    calEl.appendChild(div);
+    const d = new Date(now); d.setDate(now.getDate() - i); const key = toLocalDateStr(d); const spent = daySpent(key); const hasData = spent > 0; const inBudget = hasData && spent <= p.dailyBudget;
+    const div = document.createElement('div'); div.className = 'cal-day ' + (!hasData ? 'empty' : inBudget ? 'good' : 'bad'); div.textContent = d.getDate(); div.title = key + ': ' + (hasData ? fmt(spent) + ' cal' : 'no data'); calEl.appendChild(div);
   }
 }
 
-document.getElementById('reset-btn').addEventListener('click', () => {
-  if (confirm('Reset all your data and start over?')) {
-    localStorage.removeItem(STORAGE_KEY);
-    location.reload();
-  }
-});
+// ——— EDIT METRICS LOGIC ———
+function openEditModal() { 
+  const p = state.profile; 
+  document.getElementById('em-name').value = p.name; 
+  document.getElementById('em-weight').value = p.currentWeight; 
+  document.getElementById('em-height').value = p.height; 
+  document.getElementById('em-target').value = p.targetWeight; 
+  document.getElementById('edit-modal').style.display = 'flex'; 
+}
 
-// ——— BOOT[cite: 2] ———
-function bootApp() {
+function closeEditModal() { document.getElementById('edit-modal').style.display = 'none'; }
+
+function saveEditModal() {
+  const p = state.profile; 
+  p.name = document.getElementById('em-name').value.trim() || p.name; 
+
+  const newW = parseFloat(document.getElementById('em-weight').value) || p.currentWeight; 
+  p.height = parseFloat(document.getElementById('em-height').value) || p.height; 
+  const newT = parseFloat(document.getElementById('em-target').value) || p.targetWeight;
+  p.currentWeight = newW; p.targetWeight = newT; 
+  p.bmi = parseFloat((p.currentWeight / ((p.height / 100) ** 2)).toFixed(1)); 
+  
+  const newBmr = calcBMR(p.currentWeight, p.height, p.age, p.gender);
+  const activityMultiplier = p.tdee / p.bmr; 
+  p.bmr = Math.round(newBmr); 
+  p.tdee = Math.round(p.bmr * activityMultiplier); 
+  p.dailyBudget = Math.round(p.tdee - p.deficit); 
+  p.weeklyBudget = p.dailyBudget * 7;
+  
+  save(); 
+  closeEditModal(); 
+  setAvatarElement('top-avatar', p);
+  setAvatarElement('profile-avatar', p);
+  renderProfile(); 
+  renderDashboard();
+}
+
+document.getElementById('reset-btn').addEventListener('click', () => { if (confirm('Reset all your data and start over?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); } });
+
+// ——— BOOT ———
+async function bootApp() {
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('main').style.display = 'flex';
   document.getElementById('main').style.flexDirection = 'column';
-  document.getElementById('top-avatar').textContent = state.profile.name.slice(0, 2).toUpperCase();
-  syncSocialScore(); // Ensure first boot syncs the user score up to RTDB
+  
+  setAvatarElement('top-avatar', state.profile);
+  setAvatarElement('profile-avatar', state.profile);
+
+  if (!state.profile.lastWeightUpdate) state.profile.lastWeightUpdate = today();
+  if (!state.activeChallenges) state.activeChallenges = [];
+  
+  applyThemeUI();
+  await handleChallengeDeepLink();
+  syncSocialScore();
   renderDashboard();
+  checkTDEENudge();
+  checkMilestones(); // Check if any milestones were crossed during boot
 }
 
 load();
