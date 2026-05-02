@@ -73,7 +73,6 @@
     -webkit-user-select: none; user-select: none;
   }
   
-  /* Ambient Orbs for Glass Effect */
   #app {
     max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative;
     background: var(--bg); transition: background 0.4s; overflow-x: hidden;
@@ -98,14 +97,12 @@
   .field-label { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; display: block; margin-bottom: 6px; }
   .field { margin-bottom: 18px; }
   
-  /* Glass Inputs */
   .inp { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s, background 0.4s; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); -webkit-user-select: text; user-select: text; }
   .inp:focus { border-color: var(--orange-mid); background: var(--surface3); }
   .inp::placeholder { color: var(--faint); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   
-  /* Glass Cards */
   .bmi-card, .preview-box, .card, .days-card { 
     background: var(--surface); border-radius: 18px; border: 1px solid var(--border); 
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
@@ -691,60 +688,6 @@ function setAvatarElement(elId, profileObj) {
   }
 }
 
-// ——— LOCAL NOTIFICATIONS & REMINDERS ———
-let reminderIntervals = [];
-
-function enableNotifications() {
-  if (!("Notification" in window)) {
-    alert("This browser does not support notifications.");
-    return;
-  }
-
-  Notification.requestPermission().then((permission) => {
-    if (permission === "granted") {
-      document.getElementById('notif-btn').textContent = "🔔 Reminders Active";
-      document.getElementById('notif-btn').style.color = "var(--green)";
-      
-      sendLocalNotification("Reminders Enabled!", "We'll keep you on track with water and food logs.");
-      startReminders();
-    } else {
-      alert("Permission denied. You can change this in your phone's settings.");
-    }
-  });
-}
-
-function sendLocalNotification(title, body) {
-  if (Notification.permission === 'granted' && navigator.serviceWorker) {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification(title, {
-        body: body,
-        icon: "icon-192.png",
-        badge: "icon-192.png",
-        vibrate: [200, 100, 200]
-      });
-    });
-  }
-}
-
-function startReminders() {
-  reminderIntervals.forEach(clearInterval);
-  reminderIntervals = [];
-
-  if (Notification.permission !== 'granted') return;
-
-  // Water Reminder: Every 2 hours (7,200,000 milliseconds)
-  const waterTimer = setInterval(() => {
-    sendLocalNotification("💧 Time to Hydrate", "Grab a glass of water and log it to keep your streak alive!");
-  }, 7200000);
-  
-  // Calorie Log Reminder: Every 4 hours (14,400,000 milliseconds)
-  const foodTimer = setInterval(() => {
-    sendLocalNotification("🍽️ Update Your Log", "Eaten recently? Don't forget to track your calories to stay within budget.");
-  }, 14400000);
-
-  reminderIntervals.push(waterTimer, foodTimer);
-}
-
 // ——— CHEAT DAY FEATURE ———
 function useCheatDay() {
   const weekStart = getWeekStart();
@@ -762,7 +705,6 @@ function useCheatDay() {
     renderTracker();
     
     const btn = document.getElementById('cheat-day-btn');
-    const originalText = btn.textContent;
     btn.textContent = "🎉 +350 CALORIES ADDED!";
     setTimeout(() => renderDashboard(), 2000); 
   }
@@ -999,8 +941,10 @@ function triggerCelebration(milestone) {
   document.getElementById('celeb-streak-text').textContent = milestone;
   document.getElementById('celebration-modal').style.display = 'flex';
   
-  // Fire Local Notification
-  sendLocalNotification("🏆 Milestone Unlocked!", `You hit a ${milestone}-day streak! You have a new token available in the Rewards Store.`);
+  sendLocalNotification(
+    "🏆 Milestone Unlocked!", 
+    `You hit a ${milestone}-day streak! You have a new token available in the Rewards Store.`
+  );
   
   const container = document.getElementById('particles-container');
   container.innerHTML = ''; const emojis = ['🔥', '🎉', '🏆', '⭐', '🔥'];
@@ -1120,21 +1064,58 @@ async function createChallenge() {
   renderSocial();
 }
 
-// ——— SOCIAL & LEADERBOARD ———
+// ——— INDEXED DB HELPER FOR OFFLINE SYNC ———
+function queueForBackgroundSync(userId, payload) {
+  const request = indexedDB.open('CalCountDB', 1);
+  
+  request.onupgradeneeded = e => {
+    const db = e.target.result;
+    if (!db.objectStoreNames.contains('sync-queue')) {
+      db.createObjectStore('sync-queue', { keyPath: 'id' });
+    }
+  };
+  
+  request.onsuccess = e => {
+    const db = e.target.result;
+    const tx = db.transaction('sync-queue', 'readwrite');
+    tx.objectStore('sync-queue').put({ id: userId, data: payload });
+  };
+}
+
+// ——— UPDATED SYNC FUNCTION (BACKGROUND SYNC READY) ———
 async function syncSocialScore() {
   if (!state.profile) return;
-  const currentStreak = calcStreak(); const publicHistory = {};
+  const currentStreak = calcStreak(); 
+  const publicHistory = {};
+  
   for(let i=0; i<7; i++) {
     const d = new Date(); d.setDate(d.getDate() - i); const key = toLocalDateStr(d);
     const spent = daySpent(key);
     const cheat = (state.dailyLog[key] || {}).cheatCalories || 0;
     if(spent > 0) publicHistory[key] = spent <= (state.profile.dailyBudget + cheat); 
   }
-  try {
-    await database.ref('leaderboard/' + getUserId()).set({
-      name: state.profile.name, streak: currentStreak, history: publicHistory, avatar: state.profile.avatar || null, lastUpdated: new Date().toISOString()
-    });
-  } catch (e) { console.error(e); }
+  
+  const payload = {
+    name: state.profile.name, 
+    streak: currentStreak, 
+    history: publicHistory, 
+    avatar: state.profile.avatar || null, 
+    lastUpdated: new Date().toISOString()
+  };
+
+  if (navigator.onLine) {
+    try {
+      await database.ref('leaderboard/' + getUserId()).set(payload);
+    } catch (e) { console.error(e); }
+  } else {
+    console.log("Offline mode: Queuing leaderboard update for background sync.");
+    queueForBackgroundSync(getUserId(), payload);
+    
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+      const swRegistration = await navigator.serviceWorker.ready;
+      swRegistration.sync.register('sync-leaderboard').catch(err => console.log('Sync registration failed:', err));
+    }
+  }
 }
 
 async function renderSocial() {
@@ -1281,7 +1262,6 @@ function showTab(tabId) {
 function renderDashboard() {
   const p = state.profile; const t = today(); 
   
-  // Daily logic factoring cheat calories
   const dailyCheat = (state.dailyLog[t] || {}).cheatCalories || 0;
   const currentDailyBudget = p.dailyBudget + dailyCheat;
   const spent = daySpent(t); 
@@ -1293,7 +1273,6 @@ function renderDashboard() {
   document.getElementById('daily-spent').textContent = fmt(spent) + ' spent'; 
   document.getElementById('daily-budget-label').textContent = fmt(currentDailyBudget) + ' budget' + (dailyCheat ? ' 🍕' : '');
 
-  // Cheat Day Button UI
   const weekStart = getWeekStart();
   const cheatBtn = document.getElementById('cheat-day-btn');
   if (state.profile.lastCheatWeek === weekStart) {
@@ -1312,7 +1291,6 @@ function renderDashboard() {
     cheatBtn.style.color = "var(--orange)";
   }
 
-  // Daily Macro Summary
   let totalP = 0, totalC = 0, totalF = 0;
   const currentLogs = state.dailyLog[t]?.transactions || [];
   currentLogs.forEach(tx => { totalP += (tx.p || 0); totalC += (tx.c || 0); totalF += (tx.f || 0); });
@@ -1332,7 +1310,6 @@ function renderDashboard() {
   const sl = document.getElementById('streak-label');
   if (streak > 0) { sl.className = 'streak-label'; sl.textContent = 'CONGRATULATIONS!'; } else { sl.className = 'streak-empty'; sl.textContent = 'Stay within budget to build your streak!'; }
 
-  // Weekly logic factoring cheat calories
   const weekDays = getWeekDays(); 
   const weekSpent = weekDays.reduce((s, d) => s + daySpent(d), 0); 
   const weeklyCheatSum = weekDays.reduce((s, d) => s + ((state.dailyLog[d] || {}).cheatCalories || 0), 0);
@@ -1357,7 +1334,6 @@ function renderDashboard() {
     wrap.appendChild(dot); wrap.appendChild(dayLabelEl); dotsEl.appendChild(wrap);
   });
 
-  // Monthly logic factoring cheat calories
   const monthDays = getMonthDays(); const daysInMonth = getDaysInMonth(); 
   const monthlyCheatSum = monthDays.reduce((s, d) => s + ((state.dailyLog[d] || {}).cheatCalories || 0), 0);
   const monthlyBudget = (p.dailyBudget * daysInMonth) + monthlyCheatSum; 
@@ -1391,9 +1367,7 @@ function renderTracker() {
     emptyEl.style.display = 'none';
     [...txns].reverse().forEach((tx, ri) => {
       const realIdx = txns.length - 1 - ri; const div = document.createElement('div'); div.className = 'txn';
-      
       const mText = (tx.p || tx.c || tx.f) ? `${tx.p||0}P | ${tx.c||0}C | ${tx.f||0}F` : `Macros not logged`;
-
       div.innerHTML = `
         <div><div class="txn-name">${tx.label}</div><div class="txn-time">${tx.time}</div></div>
         <div style="display:flex;align-items:center;gap:0">
@@ -1430,14 +1404,8 @@ function renderProfile() {
     
     const div = document.createElement('div'); div.className = 'cal-day ' + (!hasData ? 'empty' : inBudget ? 'good' : 'bad'); div.textContent = d.getDate(); div.title = key + ': ' + (hasData ? fmt(spent) + ' cal' : 'no data'); calEl.appendChild(div);
   }
-  
-  if (Notification.permission === 'granted') {
-    document.getElementById('notif-btn').textContent = "🔔 Reminders Active";
-    document.getElementById('notif-btn').style.color = "var(--green)";
-  }
 }
 
-// ——— EDIT METRICS LOGIC ———
 function openEditModal() { 
   const p = state.profile; 
   document.getElementById('em-name').value = p.name; 
@@ -1452,7 +1420,6 @@ function closeEditModal() { document.getElementById('edit-modal').style.display 
 function saveEditModal() {
   const p = state.profile; 
   p.name = document.getElementById('em-name').value.trim() || p.name; 
-
   const newW = parseFloat(document.getElementById('em-weight').value) || p.currentWeight; 
   p.height = parseFloat(document.getElementById('em-height').value) || p.height; 
   const newT = parseFloat(document.getElementById('em-target').value) || p.targetWeight;
@@ -1470,6 +1437,58 @@ function saveEditModal() {
 }
 
 document.getElementById('reset-btn').addEventListener('click', () => { if (confirm('Reset all your data and start over?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); } });
+
+// ——— LOCAL NOTIFICATIONS & REMINDERS ———
+let reminderIntervals = [];
+
+function enableNotifications() {
+  if (!("Notification" in window)) {
+    alert("This browser does not support notifications.");
+    return;
+  }
+
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      document.getElementById('notif-btn').textContent = "🔔 Reminders Active";
+      document.getElementById('notif-btn').style.color = "var(--green)";
+      
+      sendLocalNotification("Reminders Enabled!", "We'll keep you on track with water and food logs.");
+      startReminders();
+    } else {
+      alert("Permission denied. You can change this in your phone's settings.");
+    }
+  });
+}
+
+function sendLocalNotification(title, body) {
+  if (Notification.permission === 'granted' && navigator.serviceWorker) {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.showNotification(title, {
+        body: body,
+        icon: "icon-192.png",
+        badge: "icon-192.png",
+        vibrate: [200, 100, 200]
+      });
+    });
+  }
+}
+
+function startReminders() {
+  reminderIntervals.forEach(clearInterval);
+  reminderIntervals = [];
+
+  if (Notification.permission !== 'granted') return;
+
+  const waterTimer = setInterval(() => {
+    sendLocalNotification("💧 Time to Hydrate", "Grab a glass of water and log it to keep your streak alive!");
+  }, 7200000);
+  
+  const foodTimer = setInterval(() => {
+    sendLocalNotification("🍽️ Update Your Log", "Eaten recently? Don't forget to track your calories to stay within budget.");
+  }, 14400000);
+
+  reminderIntervals.push(waterTimer, foodTimer);
+}
 
 // ——— BOOT ———
 async function bootApp() {
@@ -1490,8 +1509,6 @@ async function bootApp() {
   renderDashboard();
   checkTDEENudge();
   checkMilestones(); 
-  
-  // Start the background timers if permission was already granted
   startReminders();
 }
 
