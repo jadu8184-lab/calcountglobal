@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- Added user-scalable=no to prevent accidental zooming, making it feel more like a native app -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CALCOUNT.</title>
 
@@ -71,7 +70,6 @@
   html, body {
     background: var(--bg); color: var(--text); font-family: var(--font-body);
     min-height: 100vh; overscroll-behavior: none; transition: background 0.4s, color 0.4s;
-    /* Prevent text selection on mobile for app feel */
     -webkit-user-select: none; user-select: none;
   }
   
@@ -451,6 +449,7 @@
         </div>
       </div>
 
+      <button class="reset-btn" id="notif-btn" style="margin-bottom:12px;color:var(--water);border-color:var(--border);" onclick="enableNotifications()">🔔 Enable Smart Reminders</button>
       <button class="reset-btn" style="margin-bottom:12px;color:var(--orange);border-color:var(--orange-mid);font-weight:600;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
       <button class="reset-btn" style="margin-bottom:12px;color:var(--text);border-color:var(--border);" onclick="openEditModal()">⚖️ Edit Profile Metrics</button>
 
@@ -690,6 +689,60 @@ function setAvatarElement(elId, profileObj) {
     el.style.backgroundImage = 'none';
     el.textContent = profileObj.name ? profileObj.name.slice(0, 2).toUpperCase() : '??';
   }
+}
+
+// ——— LOCAL NOTIFICATIONS & REMINDERS ———
+let reminderIntervals = [];
+
+function enableNotifications() {
+  if (!("Notification" in window)) {
+    alert("This browser does not support notifications.");
+    return;
+  }
+
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      document.getElementById('notif-btn').textContent = "🔔 Reminders Active";
+      document.getElementById('notif-btn').style.color = "var(--green)";
+      
+      sendLocalNotification("Reminders Enabled!", "We'll keep you on track with water and food logs.");
+      startReminders();
+    } else {
+      alert("Permission denied. You can change this in your phone's settings.");
+    }
+  });
+}
+
+function sendLocalNotification(title, body) {
+  if (Notification.permission === 'granted' && navigator.serviceWorker) {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.showNotification(title, {
+        body: body,
+        icon: "icon-192.png",
+        badge: "icon-192.png",
+        vibrate: [200, 100, 200]
+      });
+    });
+  }
+}
+
+function startReminders() {
+  reminderIntervals.forEach(clearInterval);
+  reminderIntervals = [];
+
+  if (Notification.permission !== 'granted') return;
+
+  // Water Reminder: Every 2 hours (7,200,000 milliseconds)
+  const waterTimer = setInterval(() => {
+    sendLocalNotification("💧 Time to Hydrate", "Grab a glass of water and log it to keep your streak alive!");
+  }, 7200000);
+  
+  // Calorie Log Reminder: Every 4 hours (14,400,000 milliseconds)
+  const foodTimer = setInterval(() => {
+    sendLocalNotification("🍽️ Update Your Log", "Eaten recently? Don't forget to track your calories to stay within budget.");
+  }, 14400000);
+
+  reminderIntervals.push(waterTimer, foodTimer);
 }
 
 // ——— CHEAT DAY FEATURE ———
@@ -945,6 +998,9 @@ function checkMilestones() {
 function triggerCelebration(milestone) {
   document.getElementById('celeb-streak-text').textContent = milestone;
   document.getElementById('celebration-modal').style.display = 'flex';
+  
+  // Fire Local Notification
+  sendLocalNotification("🏆 Milestone Unlocked!", `You hit a ${milestone}-day streak! You have a new token available in the Rewards Store.`);
   
   const container = document.getElementById('particles-container');
   container.innerHTML = ''; const emojis = ['🔥', '🎉', '🏆', '⭐', '🔥'];
@@ -1374,6 +1430,11 @@ function renderProfile() {
     
     const div = document.createElement('div'); div.className = 'cal-day ' + (!hasData ? 'empty' : inBudget ? 'good' : 'bad'); div.textContent = d.getDate(); div.title = key + ': ' + (hasData ? fmt(spent) + ' cal' : 'no data'); calEl.appendChild(div);
   }
+  
+  if (Notification.permission === 'granted') {
+    document.getElementById('notif-btn').textContent = "🔔 Reminders Active";
+    document.getElementById('notif-btn').style.color = "var(--green)";
+  }
 }
 
 // ——— EDIT METRICS LOGIC ———
@@ -1429,6 +1490,9 @@ async function bootApp() {
   renderDashboard();
   checkTDEENudge();
   checkMilestones(); 
+  
+  // Start the background timers if permission was already granted
+  startReminders();
 }
 
 load();
