@@ -423,10 +423,11 @@
       <div class="card">
         <div class="profile-hero">
           <div class="profile-avatar" id="profile-avatar">??</div>
-          <div>
+          <div style="flex: 1;">
             <div class="profile-name" id="profile-name">—</div>
             <div class="profile-sub" id="profile-sub">—</div>
           </div>
+          <button style="background:var(--surface2); border:1px solid var(--border); border-radius:10px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; transition:all 0.2s;" onclick="openEditModal()" title="Edit Profile">✏️</button>
         </div>
         <div class="stat-grid">
           <div class="stat-box"><div class="sl">BMI</div><div class="sv" id="stat-bmi">—</div><div class="ss" id="stat-bmi-cat">—</div></div>
@@ -448,7 +449,6 @@
 
       <button class="reset-btn" id="notif-btn" style="margin-bottom:12px;color:var(--water);border-color:var(--border);" onclick="enableNotifications()">🔔 Enable Smart Reminders</button>
       <button class="reset-btn" style="margin-bottom:12px;color:var(--orange);border-color:var(--orange-mid);font-weight:600;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
-      <button class="reset-btn" style="margin-bottom:12px;color:var(--text);border-color:var(--border);" onclick="openEditModal()">⚖️ Edit Profile Metrics</button>
 
       <div class="card">
         <div class="card-label" style="margin-bottom:12px">LAST 30 DAYS</div>
