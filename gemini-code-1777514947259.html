@@ -21,55 +21,66 @@
     --red: #E84040;
     --water: #38bdf8;
     --bg: #0f0f0f;
-    --surface: #1a1a1a;
-    --surface2: #242424;
-    --surface3: #2e2e2e;
-    --border: #2e2e2e;
+    /* Glassmorphism: Added alpha channels (a6 = ~65% opacity) and refined borders */
+    --surface: #1a1a1aa6;
+    --surface2: #242424a6;
+    --surface3: #2e2e2ea6;
+    --border: rgba(255, 255, 255, 0.08);
     --text: #f0f0f0;
     --muted: #888;
-    --faint: #444;
+    --faint: #555;
     --font-display: 'Barlow Condensed', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }
   
-  /* Football & Richmond Themes */
+  /* Football & Richmond Themes with Glass Opacity */
   body.theme-madrid {
     --orange: #b39b58; --orange-mid: #b39b5866; --orange-dim: #b39b5822;
-    --bg: #0a0e17; --surface: #121a2f; --surface2: #1e293b; --surface3: #334155;
-    --border: #1e293b; --text: #f8fafc; --green: #38bdf8; --red: #ef4444;
+    --bg: #0a0e17; --surface: #121a2fa6; --surface2: #1e293ba6; --surface3: #334155a6;
+    --border: rgba(255, 255, 255, 0.08); --text: #f8fafc; --green: #38bdf8; --red: #ef4444;
   }
   body.theme-barcelona {
     --orange: #a50044; --orange-mid: #a5004466; --orange-dim: #a5004422;
-    --bg: #05142b; --surface: #0a2147; --surface2: #133268; --surface3: #1d468a;
-    --border: #133268; --text: #f8fafc; --green: #edbc00; --red: #e11d48;
+    --bg: #05142b; --surface: #0a2147a6; --surface2: #133268a6; --surface3: #1d468aa6;
+    --border: rgba(255, 255, 255, 0.08); --text: #f8fafc; --green: #edbc00; --red: #e11d48;
   }
   body.theme-bayern {
     --orange: #dc052d; --orange-mid: #dc052d66; --orange-dim: #dc052d22;
-    --bg: #111111; --surface: #1f1f1f; --surface2: #2e2e2e; --surface3: #404040;
-    --border: #2e2e2e; --text: #f5f5f5; --green: #0066b2; --red: #ff3333;
+    --bg: #111111; --surface: #1f1f1fa6; --surface2: #2e2e2ea6; --surface3: #404040a6;
+    --border: rgba(255, 255, 255, 0.08); --text: #f5f5f5; --green: #0066b2; --red: #ff3333;
   }
   body.theme-richmond {
     --orange: #fbc531; --orange-mid: #fbc53166; --orange-dim: #fbc53122;
-    --bg: #192a56; --surface: #273c75; --surface2: #354a8a; --surface3: #435b9e;
-    --border: #435b9e; --text: #f5f6fa; --green: #4cd137; --red: #e84118;
+    --bg: #192a56; --surface: #273c75a6; --surface2: #354a8aa6; --surface3: #435b9ea6;
+    --border: rgba(255, 255, 255, 0.08); --text: #f5f6fa; --green: #4cd137; --red: #e84118;
   }
   body.theme-psg {
     --orange: #da291c; --orange-mid: #da291c66; --orange-dim: #da291c22;
-    --bg: #001530; --surface: #00224d; --surface2: #003370; --surface3: #004599;
-    --border: #003370; --text: #f5f6fa; --green: #ceab5d; --red: #e11d48;
+    --bg: #001530; --surface: #00224da6; --surface2: #003370a6; --surface3: #004599a6;
+    --border: rgba(255, 255, 255, 0.08); --text: #f5f6fa; --green: #ceab5d; --red: #e11d48;
   }
 
   html, body {
     background: var(--bg); color: var(--text); font-family: var(--font-body);
     min-height: 100vh; overscroll-behavior: none; transition: background 0.4s, color 0.4s;
   }
+  
+  /* Ambient Orbs for Glass Effect */
   #app {
     max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative;
     background: var(--bg); transition: background 0.4s; overflow-x: hidden;
   }
+  #app::before {
+    content: ""; position: fixed; top: -5%; left: -20%; width: 350px; height: 350px;
+    background: var(--orange); filter: blur(120px); opacity: 0.12; z-index: 0; pointer-events: none; transition: background 0.4s;
+  }
+  #app::after {
+    content: ""; position: fixed; bottom: 5%; right: -20%; width: 300px; height: 300px;
+    background: var(--water); filter: blur(100px); opacity: 0.08; z-index: 0; pointer-events: none;
+  }
 
   /* ——— ONBOARDING & INPUTS ——— */
-  #onboarding { min-height: 100vh; padding: 40px 24px 40px; display: flex; flex-direction: column; }
+  #onboarding { position: relative; z-index: 1; min-height: 100vh; padding: 40px 24px 40px; display: flex; flex-direction: column; }
   .ob-logo { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--orange); letter-spacing: 3px; margin-bottom: 36px; transition: color 0.4s; }
   .ob-progress { display: flex; gap: 6px; margin-bottom: 32px; }
   .ob-bar { height: 3px; flex: 1; border-radius: 2px; background: var(--surface3); transition: background 0.4s; }
@@ -78,32 +89,41 @@
   .ob-sub { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
   .field-label { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; display: block; margin-bottom: 6px; }
   .field { margin-bottom: 18px; }
-  .inp { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s, background 0.4s; }
-  .inp:focus { border-color: var(--orange-mid); }
+  
+  /* Glass Inputs */
+  .inp { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s, background 0.4s; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .inp:focus { border-color: var(--orange-mid); background: var(--surface3); }
   .inp::placeholder { color: var(--faint); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   
-  .bmi-card { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 16px; margin-top: 4px; margin-bottom: 18px; transition: background 0.4s; }
+  /* Glass Cards */
+  .bmi-card, .preview-box, .card, .days-card { 
+    background: var(--surface); border-radius: 18px; border: 1px solid var(--border); 
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); transition: background 0.4s, border-color 0.4s; 
+  }
+  
+  .bmi-card { padding: 16px; margin-top: 4px; margin-bottom: 18px; }
   .bmi-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
   .bmi-val { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--orange); transition: color 0.4s; }
   .bmi-cat { color: var(--muted); font-size: 12px; margin-top: 2px; }
   
-  .preview-box { background: var(--surface); border-radius: 14px; border: 1px solid var(--border); padding: 16px; margin-bottom: 18px; transition: background 0.4s; }
+  .preview-box { padding: 16px; margin-bottom: 18px; }
   .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .preview-item .pval { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
   .preview-item .psub { color: var(--muted); font-size: 11px; margin-top: 2px; }
   .preview-item .plabel { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 2px; }
   
   select.inp { appearance: none; cursor: pointer; }
-  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 14px; padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: background 0.4s, opacity 0.2s, transform 0.1s; }
+  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 14px; padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: background 0.4s, opacity 0.2s, transform 0.1s; box-shadow: 0 4px 15px var(--orange-mid); }
   .btn-primary:hover { opacity: 0.9; }
   .btn-primary:active { transform: scale(0.98); }
-  .btn-primary:disabled { background: var(--surface3); color: var(--faint); cursor: not-allowed; }
+  .btn-primary:disabled { background: var(--surface3); color: var(--faint); cursor: not-allowed; box-shadow: none; }
 
   /* ——— MAIN APP ——— */
-  #main { display: none; flex-direction: column; min-height: 100vh; }
-  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; }
+  #main { display: none; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%); }
   .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; transition: color 0.4s; }
   
   .avatar { width: 38px; height: 38px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange-mid); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 14px; color: var(--orange); letter-spacing: 1px; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; }
@@ -113,7 +133,7 @@
   .tab-content.active { display: block; }
 
   /* Cards */
-  .card { margin: 0 16px 14px; background: var(--surface); border-radius: 18px; padding: 16px 18px; border: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; }
+  .card { margin: 0 16px 14px; padding: 16px 18px; }
   .card-label { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 8px; }
   .card-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
   .cal-left { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
@@ -121,36 +141,28 @@
   .cal-meta { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; margin-top: 7px; }
 
   /* Progress bar */
-  .pbar-track { height: 10px; background: var(--surface3); border-radius: 8px; overflow: hidden; transition: background 0.4s; }
+  .pbar-track { height: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: background 0.4s; }
   .pbar-fill { height: 100%; border-radius: 8px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.4s; }
 
   /* Water Buttons */
-  .water-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--water); font-size: 24px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.2s; }
+  .water-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--water); font-size: 24px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.2s; backdrop-filter: blur(4px); }
   .water-btn:active { transform: scale(0.92); }
 
   /* Streak */
   .streak-center { text-align: center; padding: 14px 0 10px; }
-  .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; }
+  .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; text-shadow: 0 4px 15px rgba(255,165,0,0.3); }
   .streak-label { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); letter-spacing: 2px; margin-top: 4px; transition: color 0.4s;}
   .streak-empty { color: var(--muted); font-size: 13px; margin-top: 6px; }
 
   /* Week dots */
   .week-dots { display: flex; justify-content: space-between; margin-top: 12px; }
   .dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-  .dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; transition: all 0.3s; }
+  .dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; transition: all 0.3s; backdrop-filter: blur(4px); }
   .dot.today { box-shadow: 0 0 0 2px var(--orange); }
   .dot-day { color: var(--faint); font-size: 9px; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.5px; }
-
-  /* Tracker Inputs */
-  .track-inp-row { display: flex; gap: 8px; align-items: stretch; }
-  .track-inp { flex: 1; background: var(--surface3); border: none; border-radius: 12px; padding: 12px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: background 0.4s; }
-  .track-inp::placeholder { color: var(--faint); font-size: 14px; }
-  .add-btn { width: 46px; height: 46px; border-radius: 50%; background: var(--orange); border: none; color: #fff; font-size: 26px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, opacity 0.2s, background 0.4s; flex-shrink: 0; }
-  .add-btn:hover { opacity: 0.9; }
-  .add-btn:active { transform: scale(0.92); }
   
   /* Tracker List */
-  .txn { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px; animation: slideIn 0.25s ease; border-left: 3px solid var(--orange); transition: background 0.4s, border-color 0.4s; }
+  .txn { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px; animation: slideIn 0.25s ease; border-left: 3px solid var(--orange); transition: background 0.4s, border-color 0.4s; backdrop-filter: blur(8px); }
   .txn-name { font-weight: 500; font-size: 14px; }
   .txn-time { color: var(--muted); font-size: 11px; margin-top: 4px; }
   .txn-cal { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--orange); transition: color 0.4s; text-align: right; }
@@ -165,14 +177,14 @@
   .profile-name { font-family: var(--font-display); font-size: 24px; font-weight: 900; }
   .profile-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .stat-box { background: var(--surface2); border-radius: 12px; padding: 12px 10px; text-align: center; transition: background 0.4s; }
+  .stat-box { background: var(--surface2); border-radius: 12px; padding: 12px 10px; text-align: center; transition: background 0.4s; border: 1px solid var(--border); backdrop-filter: blur(8px); }
   .stat-box .sv { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
   .stat-box .sl { color: var(--muted); font-size: 10px; margin-bottom: 3px; letter-spacing: 0.5px; }
   .stat-box .ss { color: var(--muted); font-size: 10px; margin-top: 2px; }
 
-  .days-card { margin: 0 16px 14px; background: var(--orange-dim); border-radius: 18px; padding: 18px 18px; border: 1px solid var(--orange-mid); transition: all 0.4s; }
+  .days-card { margin: 0 16px 14px; background: rgba(232,82,26,0.1); border-color: var(--orange-mid); padding: 18px 18px; }
   .days-label { color: var(--orange); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 6px; transition: color 0.4s; }
-  .days-num { font-family: var(--font-display); font-size: 52px; font-weight: 900; line-height: 1; }
+  .days-num { font-family: var(--font-display); font-size: 52px; font-weight: 900; line-height: 1; text-shadow: 0 4px 15px rgba(232,82,26,0.2); }
   .days-unit { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--muted); margin-left: 6px; }
   .days-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
   .days-details { margin-top: 14px; border-top: 1px solid var(--orange-mid); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; transition: border-color 0.4s;}
@@ -184,38 +196,42 @@
   .cal-grid { display: flex; gap: 5px; flex-wrap: wrap; }
   .cal-day { width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid transparent; transition: all 0.2s; }
   .cal-day.empty { background: var(--surface2); color: var(--faint); }
-  .cal-day.good { background: rgba(61,186,110,0.15); border-color: var(--green); color: var(--green); }
-  .cal-day.bad { background: rgba(232,64,64,0.15); border-color: var(--red); color: var(--red); }
+  .cal-day.good { background: rgba(61,186,110,0.15); border-color: rgba(61,186,110,0.3); color: var(--green); }
+  .cal-day.bad { background: rgba(232,64,64,0.15); border-color: rgba(232,64,64,0.3); color: var(--red); }
   .cal-legend { display: flex; gap: 16px; margin-top: 10px; }
   .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
   .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
 
   /* Bottom nav */
-  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding: 8px 12px 24px; gap: 6px; z-index: 100; transition: background 0.4s, border-color 0.4s; }
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding: 8px 12px 24px; gap: 6px; z-index: 100; transition: background 0.4s, border-color 0.4s; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 -4px 30px rgba(0,0,0,0.2); }
   .nav-btn { flex: 1; background: transparent; border: none; border-radius: 12px; padding: 10px 0 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: background 0.2s; }
-  .nav-btn.active { background: var(--surface3); }
+  .nav-btn.active { background: rgba(255,255,255,0.05); }
   .nav-icon { font-size: 18px; line-height: 1; transition: color 0.4s;}
   .nav-label { font-size: 10px; color: var(--muted); font-family: var(--font-body); font-weight: 500; }
   .nav-btn.active .nav-label { color: var(--orange); transition: color 0.4s;}
 
-  .reset-btn { width: calc(100% - 32px); margin: 0 16px; background: transparent; color: var(--faint); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body); font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+  .reset-btn { width: calc(100% - 32px); margin: 0 16px; background: var(--surface2); color: var(--faint); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body); font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s, transform 0.1s; backdrop-filter: blur(8px); }
   .reset-btn:hover { color: var(--red); border-color: var(--red); }
+  .reset-btn:active { transform: scale(0.98); }
 
   .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .pill-radio { display: none; }
-  .pill-label { display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; user-select: none; }
-  .pill-radio:checked + .pill-label { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; }
+  .pill-label { display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; user-select: none; backdrop-filter: blur(4px); }
+  .pill-radio:checked + .pill-label { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; box-shadow: 0 4px 10px var(--orange-mid); }
 
   /* Food DB Modal Specific */
   .db-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
   .db-tab { flex: 1; text-align: center; padding: 10px; border-bottom: 2px solid var(--surface3); color: var(--muted); font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s; }
   .db-tab.active { border-color: var(--orange); color: var(--orange); }
-  .db-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--surface3); }
+  .db-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border); }
   .db-item:last-child { border-bottom: none; }
   .db-item-name { font-weight: 500; font-size: 14px; margin-bottom: 4px; color: var(--text); }
   .db-item-meta { font-size: 11px; color: var(--muted); }
-  .db-add-btn { background: var(--surface3); color: var(--orange); border: none; border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .db-add-btn { background: var(--surface3); color: var(--orange); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
   .db-add-btn:hover { background: var(--orange-dim); }
+
+  /* Glassmorphism Modals inner containers */
+  .glass-modal { background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
   /* Animations */
   @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
@@ -311,6 +327,9 @@
           <span>Carbs: <span id="dash-c" style="color:var(--text)">0g</span></span>
           <span>Fats: <span id="dash-f" style="color:var(--text)">0g</span></span>
         </div>
+        
+        <!-- CHEAT DAY BUTTON -->
+        <button id="cheat-day-btn" class="reset-btn" style="width:100%; margin:14px 0 0 0; font-weight:800; border-radius:12px; transition: all 0.3s ease;" onclick="useCheatDay()">🍕 USE CHEAT DAY (+350 cal)</button>
       </div>
 
       <!-- WATER TRACKER -->
@@ -345,7 +364,7 @@
 
       <div class="card" style="border-color:var(--orange-mid);background:linear-gradient(135deg,var(--surface) 0%,var(--orange-dim) 100%)">
         <div class="card-row"><div class="card-label" style="color:var(--orange)">TOTAL DEFICIT PROGRESS</div><div id="deficit-pct-label" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--orange)">0%</div></div>
-        <div class="pbar-track" style="height:14px;margin-bottom:8px"><div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div></div>
+        <div class="pbar-track" style="height:14px;margin-bottom:8px; background:rgba(0,0,0,0.4);"><div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div></div>
         <div class="cal-meta"><span id="deficit-achieved-label" style="color:var(--orange)">0 cal deficit achieved</span><span id="deficit-goal-label">0 cal goal</span></div>
         <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;justify-content:space-between">
           <span>Remaining: <span id="deficit-remaining-label" style="color:var(--text);font-weight:600">—</span></span><span>Est. <span id="deficit-days-label" style="color:var(--orange);font-weight:600">—</span> days left</span>
@@ -429,9 +448,9 @@
         <div class="card-label" style="margin-bottom:12px">LAST 30 DAYS</div>
         <div class="cal-grid" id="profile-calendar"></div>
         <div class="cal-legend">
-          <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>In budget</div>
-          <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Over budget</div>
-          <div class="leg-item"><div class="leg-dot" style="background:var(--surface2)"></div>No data</div>
+          <div class="leg-item"><div class="leg-dot" style="background:rgba(61,186,110,0.3); border:1px solid var(--green);"></div>In budget</div>
+          <div class="leg-item"><div class="leg-dot" style="background:rgba(232,64,64,0.3); border:1px solid var(--red);"></div>Over budget</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--surface2); border:1px solid var(--border);"></div>No data</div>
         </div>
       </div>
       <button class="reset-btn" id="reset-btn">Reset & start over</button>
@@ -447,8 +466,8 @@
   </div>
 
   <!-- HEALTHIFYME-STYLE PORTION ADJUSTER MODAL -->
-  <div id="food-detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1001;align-items:flex-end;justify-content:center;padding:0;">
-    <div style="background:var(--surface);width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:24px 20px 40px;border-top:1px solid var(--border);animation: slideUp 0.3s ease;">
+  <div id="food-detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1001;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:24px 20px 40px;border-top:1px solid var(--border);animation: slideUp 0.3s ease;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
         <div>
           <div id="fd-name" style="font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--orange);line-height:1.1;margin-bottom:4px;">Food Name</div>
@@ -457,7 +476,7 @@
         <button style="background:none;border:none;color:var(--faint);font-size:24px;cursor:pointer;line-height:1;" onclick="closeFoodDetail()">✕</button>
       </div>
 
-      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);padding:16px;border-radius:16px;margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);padding:16px;border-radius:16px;margin-bottom:20px;border:1px solid var(--border);">
         <div style="text-align:center;">
           <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">CALORIES</div>
           <div id="fd-cal-val" style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--text);">0</div>
@@ -479,7 +498,7 @@
 
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
         <div style="font-weight:600;font-size:15px;">Number of Servings</div>
-        <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);padding:6px;border-radius:12px;">
+        <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);padding:6px;border-radius:12px;border:1px solid var(--border);">
           <button style="width:36px;height:36px;border-radius:8px;border:none;background:var(--surface3);color:var(--text);font-size:18px;cursor:pointer;" onclick="adjServing(-0.25)">-</button>
           <input type="number" id="fd-servings" value="1" step="0.25" min="0.25" style="width:50px;background:transparent;border:none;color:var(--text);font-size:18px;font-weight:700;text-align:center;outline:none;" oninput="updateFoodDetail()">
           <button style="width:36px;height:36px;border-radius:8px;border:none;background:var(--surface3);color:var(--text);font-size:18px;cursor:pointer;" onclick="adjServing(0.25)">+</button>
@@ -491,8 +510,8 @@
   </div>
 
   <!-- QUICK ADD MANUAL MODAL -->
-  <div id="quick-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
+  <div id="quick-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;">
       <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">QUICK ADD.</div>
       <div class="field"><label class="field-label">MEAL NAME</label><input class="inp" id="qa-name" type="text" placeholder="e.g. Random Snack"></div>
       <div class="field"><label class="field-label">TOTAL CALORIES</label><input class="inp" id="qa-cal" type="number" placeholder="e.g. 250"></div>
@@ -502,15 +521,15 @@
         <div class="field" style="margin-bottom:0;"><label class="field-label">FAT (g)</label><input class="inp" id="qa-f" type="number" placeholder="0"></div>
       </div>
       <div class="grid2">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="closeQuickAddModal()">CANCEL</button>
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="closeQuickAddModal()">CANCEL</button>
         <button class="btn-primary" onclick="submitQuickAdd()">LOG IT</button>
       </div>
     </div>
   </div>
 
   <!-- CUSTOM MEAL MODAL -->
-  <div id="custom-meal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
+  <div id="custom-meal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;">
       <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">CREATE MEAL.</div>
       <div class="field"><label class="field-label">MEAL NAME</label><input class="inp" id="cm-name" type="text" placeholder="e.g. My Protein Shake"></div>
       <div class="field"><label class="field-label">TOTAL CALORIES</label><input class="inp" id="cm-cal" type="number" placeholder="e.g. 350"></div>
@@ -520,15 +539,15 @@
         <div class="field" style="margin-bottom:0;"><label class="field-label">FAT (g)</label><input class="inp" id="cm-f" type="number"></div>
       </div>
       <div class="grid2">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="closeCustomMealModal()">CANCEL</button>
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="closeCustomMealModal()">CANCEL</button>
         <button class="btn-primary" onclick="saveAndLogCustomMeal()">SAVE & LOG</button>
       </div>
     </div>
   </div>
 
   <!-- FOOD DATABASE MODAL -->
-  <div id="food-db-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);width:100%;max-width:400px;border-radius:18px;padding:24px 16px;border:1px solid var(--border);max-height:85vh;display:flex;flex-direction:column;">
+  <div id="food-db-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:400px;border-radius:18px;padding:24px 16px;max-height:85vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <div class="ob-title" style="font-size:24px;margin:0;">FOOD DATABASE</div>
         <button style="background:none;border:none;color:var(--faint);font-size:20px;cursor:pointer;" onclick="closeFoodDB()">✕</button>
@@ -548,9 +567,9 @@
   </div>
 
   <!-- CELEBRATION MODAL -->
-  <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+  <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
     <div id="particles-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;"></div>
-    <div class="celebrate-box" style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:32px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 40px rgba(232,82,26,0.3);z-index:2;">
+    <div class="celebrate-box" style="background:var(--surface);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);width:100%;max-width:380px;border-radius:18px;padding:32px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 50px rgba(232,82,26,0.4);z-index:2;">
       <div style="font-size:60px;margin-bottom:10px;line-height:1;">🏆</div>
       <div class="ob-title" style="font-size:28px;margin-bottom:8px;color:var(--orange);">MILESTONE REACHED!</div>
       <div class="ob-sub" style="margin-bottom:24px;font-size:15px;">You hit a <span id="celeb-streak-text" style="font-weight:bold;color:var(--text);"></span> day streak. You earned 1 Unlock Token!</div>
@@ -560,8 +579,8 @@
   </div>
 
   <!-- REWARDS STORE MODAL -->
-  <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);width:100%;max-width:400px;border-radius:18px;padding:24px;border:1px solid var(--border);max-height:85vh;display:flex;flex-direction:column;">
+  <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:400px;border-radius:18px;padding:24px;max-height:85vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
         <div>
           <div class="ob-title" style="font-size:24px;margin-bottom:4px;">REWARDS STORE.</div>
@@ -571,13 +590,13 @@
       <div id="rewards-list" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;padding-bottom:10px;flex:1;">
         <!-- Filled by JS -->
       </div>
-      <button class="btn-primary" style="margin-top:16px;background:var(--surface3);color:var(--text);flex-shrink:0;" onclick="closeRewardsModal()">CLOSE</button>
+      <button class="btn-primary" style="margin-top:16px;background:var(--surface3);color:var(--text);border:1px solid var(--border);flex-shrink:0;" onclick="closeRewardsModal()">CLOSE</button>
     </div>
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);">
+  <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;">
       <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">EDIT METRICS.</div>
       <div class="field"><label class="field-label">NAME</label><input class="inp" id="em-name" type="text"></div>
       <div class="grid2">
@@ -586,21 +605,21 @@
       </div>
       <div class="field"><label class="field-label">TARGET WEIGHT (kg)</label><input class="inp" id="em-target" type="number"></div>
       <div class="grid2" style="margin-top:24px;">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="closeEditModal()">CANCEL</button>
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="closeEditModal()">CANCEL</button>
         <button class="btn-primary" onclick="saveEditModal()">SAVE</button>
       </div>
     </div>
   </div>
 
   <!-- TDEE NUDGE MODAL -->
-  <div id="tdee-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;align-items:center;justify-content:center;padding:20px;">
-    <div style="background:var(--surface);width:100%;max-width:380px;border-radius:18px;padding:24px;border:1px solid var(--border);text-align:center;">
+  <div id="tdee-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;text-align:center;">
       <div style="font-size:40px;margin-bottom:10px;">⚖️</div>
       <div class="ob-title" style="font-size:24px;margin-bottom:10px;">14-DAY CHECK IN</div>
       <div class="ob-sub" style="margin-bottom:20px;">As you lose weight, your metabolism drops. Enter your current weight to recalculate your TDEE and keep your calorie budget deadly accurate.</div>
       <div class="field" style="text-align:left;"><label class="field-label">CURRENT WEIGHT (kg)</label><input class="inp" id="tm-weight" type="number"></div>
       <div class="grid2" style="margin-top:24px;">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);" onclick="snoozeTDEENudge()">LATER</button>
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="snoozeTDEENudge()">LATER</button>
         <button class="btn-primary" onclick="saveTDEENudge()">UPDATE BUDGET</button>
       </div>
     </div>
@@ -663,6 +682,30 @@ function setAvatarElement(elId, profileObj) {
   }
 }
 
+// ——— CHEAT DAY FEATURE [NEW] ———
+function useCheatDay() {
+  const weekStart = getWeekStart();
+  if (state.profile.lastCheatWeek === weekStart) return; // Prevent double usage
+  
+  if (confirm("Activate your weekly Cheat Day? This will add an extra 350 calories to your budgets.")) {
+    const t = today();
+    if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+    
+    state.dailyLog[t].cheatCalories = 350;
+    state.profile.lastCheatWeek = weekStart;
+    save();
+    
+    renderDashboard();
+    renderTracker();
+    
+    // Optional celebration flair
+    const btn = document.getElementById('cheat-day-btn');
+    const originalText = btn.textContent;
+    btn.textContent = "🎉 +350 CALORIES ADDED!";
+    setTimeout(() => renderDashboard(), 2000); // refresh layout
+  }
+}
+
 // ——— WATER TRACKER ———
 function addWater(amount) {
   const t = today();
@@ -676,7 +719,7 @@ function addWater(amount) {
   renderDashboard();
 }
 
-// ——— CSV FETCH LOGIC [NEW] ———
+// ——— CSV FETCH LOGIC ———
 async function fetchCSVDatabase() {
   const csvUrl = 'https://raw.githubusercontent.com/jadu8184-lab/calcountglobal/refs/heads/main/Indian_Food_Nutrition_Processed.csv'; 
   
@@ -686,13 +729,11 @@ async function fetchCSVDatabase() {
     const csvText = await response.text();
     
     FOOD_DB = parseCSV(csvText);
-    console.log("Database successfully loaded from GitHub:", FOOD_DB.length, "items.");
   } catch (error) {
     console.error("Failed to fetch CSV, loading fallback database.", error);
     FOOD_DB = [
       { label: "Chicken Biryani (1 portion)", cal: 650, p: 35, c: 70, f: 22 },
-      { label: "Roti / Chapati (1 piece)", cal: 110, p: 3, c: 22, f: 1 },
-      { label: "Failed to connect to database. Please check URL.", cal: 0, p: 0, c: 0, f: 0 }
+      { label: "Roti / Chapati (1 piece)", cal: 110, p: 3, c: 22, f: 1 }
     ];
   }
 }
@@ -701,29 +742,23 @@ function parseCSV(text) {
   const lines = text.split('\n');
   const result = [];
   
-  // Start from line 1 to skip headers.
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
     
-    // Simple split by comma. Note: If your food names contain commas, you will need a more complex RegEx parser here.
     const cols = line.split(',');
     if (cols.length < 5) continue; 
     
     const label = cols[0].replace(/"/g, '').trim();
     const cal = Math.round(parseFloat(cols[1])) || 0;
-    // Assuming Columns: Dish Name(0), Calories(1), Carbs(2), Protein(3), Fats(4)
     const c = Math.round(parseFloat(cols[2])) || 0;
     const p = Math.round(parseFloat(cols[3])) || 0;
     const f = Math.round(parseFloat(cols[4])) || 0;
     
-    if (cal > 0) {
-      result.push({ label, cal, p, c, f });
-    }
+    if (cal > 0) result.push({ label, cal, p, c, f });
   }
   return result;
 }
-
 
 // ——— QUICK ADD (MANUAL LOG) ———
 function openQuickAddModal() {
@@ -735,9 +770,7 @@ function openQuickAddModal() {
   document.getElementById('quick-add-modal').style.display = 'flex';
 }
 
-function closeQuickAddModal() {
-  document.getElementById('quick-add-modal').style.display = 'none';
-}
+function closeQuickAddModal() { document.getElementById('quick-add-modal').style.display = 'none'; }
 
 function submitQuickAdd() {
   const label = document.getElementById('qa-name').value.trim() || 'Manual Entry';
@@ -746,20 +779,13 @@ function submitQuickAdd() {
   const c = parseInt(document.getElementById('qa-c').value) || 0;
   const f = parseInt(document.getElementById('qa-f').value) || 0;
 
-  if (!cal || cal <= 0) {
-    alert("Please enter valid calories.");
-    return;
-  }
+  if (!cal || cal <= 0) return alert("Please enter valid calories.");
 
   const t = today();
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
   state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, time: timeNow() }); 
   
-  save();
-  closeQuickAddModal();
-  renderTracker(); 
-  renderDashboard();
-  checkMilestones();
+  save(); closeQuickAddModal(); renderTracker(); renderDashboard(); checkMilestones();
 }
 
 
@@ -773,9 +799,7 @@ function openCustomMealModal() {
   document.getElementById('custom-meal-modal').style.display = 'flex';
 }
 
-function closeCustomMealModal() {
-  document.getElementById('custom-meal-modal').style.display = 'none';
-}
+function closeCustomMealModal() { document.getElementById('custom-meal-modal').style.display = 'none'; }
 
 function saveAndLogCustomMeal() {
   const label = document.getElementById('cm-name').value.trim();
@@ -784,10 +808,7 @@ function saveAndLogCustomMeal() {
   const c = parseInt(document.getElementById('cm-c').value) || 0;
   const f = parseInt(document.getElementById('cm-f').value) || 0;
 
-  if (!label || !cal) {
-    alert("Please provide a Meal Name and Total Calories.");
-    return;
-  }
+  if (!label || !cal) return alert("Please provide a Meal Name and Total Calories.");
 
   if (!state.profile.customMeals) state.profile.customMeals = [];
   
@@ -802,25 +823,14 @@ function saveAndLogCustomMeal() {
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
   state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, time: timeNow() }); 
   
-  save();
-  closeCustomMealModal();
-  renderTracker(); 
-  renderDashboard();
-  checkMilestones();
+  save(); closeCustomMealModal(); renderTracker(); renderDashboard(); checkMilestones();
 }
 
-// ——— FOOD DATABASE & HEALTHIFYME DETAIL MODAL ———
+// ——— FOOD DATABASE ———
 let currentSelectedFood = null;
 
-function openFoodDB() {
-  document.getElementById('food-search').value = '';
-  document.getElementById('food-db-modal').style.display = 'flex';
-  renderFoodList();
-}
-
-function closeFoodDB() {
-  document.getElementById('food-db-modal').style.display = 'none';
-}
+function openFoodDB() { document.getElementById('food-search').value = ''; document.getElementById('food-db-modal').style.display = 'flex'; renderFoodList(); }
+function closeFoodDB() { document.getElementById('food-db-modal').style.display = 'none'; }
 
 function switchFoodTab(tab) {
   currentFoodTab = tab;
@@ -830,8 +840,7 @@ function switchFoodTab(tab) {
 }
 
 function renderFoodList() {
-  const container = document.getElementById('food-list-container');
-  container.innerHTML = '';
+  const container = document.getElementById('food-list-container'); container.innerHTML = '';
   const query = document.getElementById('food-search').value.toLowerCase();
   
   let source = currentFoodTab === 'all' ? FOOD_DB : (state.profile.customMeals || []);
@@ -842,23 +851,13 @@ function renderFoodList() {
     return;
   }
 
-  // Only show first 50 results to prevent lag
   filtered.slice(0, 50).forEach(f => {
-    const div = document.createElement('div');
-    div.className = 'db-item';
-    
-    let mStr = '';
-    if (f.p || f.c || f.f) {
-      mStr = `${f.p||0}P | ${f.c||0}C | ${f.f||0}F`;
-    }
-    
+    const div = document.createElement('div'); div.className = 'db-item';
+    let mStr = (f.p || f.c || f.f) ? `${f.p||0}P | ${f.c||0}C | ${f.f||0}F` : '';
     const safeLabel = f.label.replace(/'/g, "\\'");
 
     div.innerHTML = `
-      <div>
-        <div class="db-item-name">${f.label}</div>
-        <div class="db-item-meta">${f.cal} cal ${mStr ? ` • ${mStr}` : ''}</div>
-      </div>
+      <div><div class="db-item-name">${f.label}</div><div class="db-item-meta">${f.cal} cal ${mStr ? ` • ${mStr}` : ''}</div></div>
       <button class="db-add-btn" onclick="openFoodDetail('${safeLabel}', ${f.cal}, ${f.p||0}, ${f.c||0}, ${f.f||0})">+</button>
     `;
     container.appendChild(div);
@@ -869,14 +868,10 @@ function openFoodDetail(label, cal, p, c, f) {
   currentSelectedFood = { label, cal, p, c, f };
   document.getElementById('fd-name').textContent = label;
   document.getElementById('fd-servings').value = 1;
-  
-  updateFoodDetail();
-  document.getElementById('food-detail-modal').style.display = 'flex';
+  updateFoodDetail(); document.getElementById('food-detail-modal').style.display = 'flex';
 }
 
-function closeFoodDetail() {
-  document.getElementById('food-detail-modal').style.display = 'none';
-}
+function closeFoodDetail() { document.getElementById('food-detail-modal').style.display = 'none'; }
 
 function adjServing(amt) {
   let el = document.getElementById('fd-servings');
@@ -899,10 +894,8 @@ function updateFoodDetail() {
 
 function addFoodFromDetail() {
   let serv = parseFloat(document.getElementById('fd-servings').value) || 1;
-  let c = Math.round(currentSelectedFood.cal * serv);
-  let p = Math.round(currentSelectedFood.p * serv);
-  let cb = Math.round(currentSelectedFood.c * serv);
-  let f = Math.round(currentSelectedFood.f * serv);
+  let c = Math.round(currentSelectedFood.cal * serv); let p = Math.round(currentSelectedFood.p * serv);
+  let cb = Math.round(currentSelectedFood.c * serv); let f = Math.round(currentSelectedFood.f * serv);
   
   let finalLabel = currentSelectedFood.label;
   if (serv !== 1) finalLabel += ` (${serv})`;
@@ -911,16 +904,11 @@ function addFoodFromDetail() {
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
   state.dailyLog[t].transactions.push({ amount: c, label: finalLabel, p, c: cb, f, time: timeNow() }); 
   
-  save();
-  closeFoodDetail();
-  closeFoodDB();
-  renderTracker(); 
-  renderDashboard();
-  checkMilestones();
+  save(); closeFoodDetail(); closeFoodDB(); renderTracker(); renderDashboard(); checkMilestones();
 }
 
 
-// ——— REWARDS & TOKENS SYSTEM ———
+// ——— REWARDS SYSTEM ———
 function checkMilestones() {
   if (!state.profile) return;
   const ms = state.profile.maxStreak || 0;
@@ -930,23 +918,17 @@ function checkMilestones() {
   if (!state.profile.unlockedBundles) state.profile.unlockedBundles = ['default'];
 
   const milestones = [1, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 100];
-  let triggered = false;
-  let highest = 0;
+  let triggered = false; let highest = 0;
 
   milestones.forEach(m => {
     if (ms >= m && !state.profile.claimedMilestones.includes(m)) {
       state.profile.claimedMilestones.push(m);
       state.profile.tokens++;
-      triggered = true;
-      highest = m;
+      triggered = true; highest = m;
     }
   });
 
-  if (triggered) {
-    save();
-    triggerCelebration(highest);
-  }
-  
+  if (triggered) { save(); triggerCelebration(highest); }
   const tokenDisplay = document.getElementById('profile-token-count');
   if(tokenDisplay) tokenDisplay.textContent = state.profile.tokens;
 }
@@ -956,14 +938,11 @@ function triggerCelebration(milestone) {
   document.getElementById('celebration-modal').style.display = 'flex';
   
   const container = document.getElementById('particles-container');
-  container.innerHTML = '';
-  const emojis = ['🔥', '🎉', '🏆', '⭐', '🔥'];
+  container.innerHTML = ''; const emojis = ['🔥', '🎉', '🏆', '⭐', '🔥'];
   for(let i=0; i<40; i++) {
     const p = document.createElement('div');
     p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    p.style.position = 'absolute';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.top = '110%';
+    p.style.position = 'absolute'; p.style.left = Math.random() * 100 + '%'; p.style.top = '110%';
     p.style.fontSize = (Math.random() * 20 + 15) + 'px';
     p.style.animation = `floatUp ${Math.random() * 1.5 + 1.2}s ease-out forwards`;
     p.style.animationDelay = (Math.random() * 0.4) + 's';
@@ -971,29 +950,13 @@ function triggerCelebration(milestone) {
   }
 }
 
-function closeCelebration() {
-  document.getElementById('celebration-modal').style.display = 'none';
-  document.getElementById('particles-container').innerHTML = '';
-}
-
-function claimReward() {
-  closeCelebration();
-  openRewardsModal();
-}
-
-function openRewardsModal() {
-  renderRewards();
-  document.getElementById('rewards-modal').style.display = 'flex';
-}
-
-function closeRewardsModal() {
-  document.getElementById('rewards-modal').style.display = 'none';
-  document.getElementById('profile-token-count').textContent = state.profile.tokens;
-}
+function closeCelebration() { document.getElementById('celebration-modal').style.display = 'none'; document.getElementById('particles-container').innerHTML = ''; }
+function claimReward() { closeCelebration(); openRewardsModal(); }
+function openRewardsModal() { renderRewards(); document.getElementById('rewards-modal').style.display = 'flex'; }
+function closeRewardsModal() { document.getElementById('rewards-modal').style.display = 'none'; document.getElementById('profile-token-count').textContent = state.profile.tokens; }
 
 function renderRewards() {
-  const list = document.getElementById('rewards-list');
-  list.innerHTML = '';
+  const list = document.getElementById('rewards-list'); list.innerHTML = '';
   document.getElementById('reward-tokens-display').textContent = state.profile.tokens;
 
   BUNDLES.forEach(b => {
@@ -1011,10 +974,7 @@ function renderRewards() {
     div.innerHTML = `
       <div style="display:flex; align-items:center; gap:12px;">
         ${avatarHtml}
-        <div>
-          <div style="font-weight:700;font-size:14px;color:${isEquipped ? 'var(--orange)' : 'var(--text)'};">${b.name}</div>
-          <div style="font-size:11px;color:var(--muted)">Includes Theme + ${b.title}</div>
-        </div>
+        <div><div style="font-weight:700;font-size:14px;color:${isEquipped ? 'var(--orange)' : 'var(--text)'};">${b.name}</div><div style="font-size:11px;color:var(--muted)">Includes Theme + ${b.title}</div></div>
       </div>
       <div>
         ${isUnlocked 
@@ -1027,38 +987,20 @@ function renderRewards() {
   });
 }
 
-function unlockBundle(id) {
-  if (state.profile.tokens <= 0) return;
-  state.profile.tokens--;
-  state.profile.unlockedBundles.push(id);
-  save();
-  equipBundle(id);
-}
-
+function unlockBundle(id) { if (state.profile.tokens <= 0) return; state.profile.tokens--; state.profile.unlockedBundles.push(id); save(); equipBundle(id); }
 function equipBundle(id) {
-  const b = BUNDLES.find(x => x.id === id);
-  if (!b) return;
-  
-  state.theme = b.theme;
-  state.profile.avatar = b.avatar;
-  save();
-  
-  applyThemeUI();
-  setAvatarElement('top-avatar', state.profile);
-  setAvatarElement('profile-avatar', state.profile);
-  renderRewards();
+  const b = BUNDLES.find(x => x.id === id); if (!b) return;
+  state.theme = b.theme; state.profile.avatar = b.avatar; save();
+  applyThemeUI(); setAvatarElement('top-avatar', state.profile); setAvatarElement('profile-avatar', state.profile); renderRewards();
 }
 
-function applyThemeUI() {
-  document.body.className = state.theme === 'default' ? '' : 'theme-' + state.theme;
-}
+function applyThemeUI() { document.body.className = state.theme === 'default' ? '' : 'theme-' + state.theme; }
 
 
 // ——— DYNAMIC TDEE NUDGE ———
 function checkTDEENudge() {
   if (!state.profile || !state.profile.lastWeightUpdate) return;
-  const lastUpdate = new Date(state.profile.lastWeightUpdate);
-  const now = new Date();
+  const lastUpdate = new Date(state.profile.lastWeightUpdate); const now = new Date();
   const diffDays = Math.floor((now - lastUpdate) / (1000 * 60 * 60 * 24));
   
   if (diffDays >= 14) {
@@ -1067,12 +1009,7 @@ function checkTDEENudge() {
   }
 }
 
-function snoozeTDEENudge() {
-  const d = new Date(); d.setDate(d.getDate() - 13);
-  state.profile.lastWeightUpdate = toLocalDateStr(d);
-  save(); document.getElementById('tdee-modal').style.display = 'none';
-}
-
+function snoozeTDEENudge() { const d = new Date(); d.setDate(d.getDate() - 13); state.profile.lastWeightUpdate = toLocalDateStr(d); save(); document.getElementById('tdee-modal').style.display = 'none'; }
 function saveTDEENudge() {
   const newW = parseFloat(document.getElementById('tm-weight').value);
   if (!newW || newW <= 0) return;
@@ -1085,30 +1022,22 @@ function saveTDEENudge() {
   p.dailyBudget = Math.round(p.tdee - p.deficit); p.weeklyBudget = p.dailyBudget * 7;
   p.lastWeightUpdate = today(); 
 
-  save(); document.getElementById('tdee-modal').style.display = 'none';
-  renderProfile(); renderDashboard();
+  save(); document.getElementById('tdee-modal').style.display = 'none'; renderProfile(); renderDashboard();
 }
 
 // ——— HEAD-TO-HEAD CHALLENGES ———
-function getUserId() {
-  if (!state.userId) { state.userId = 'user_' + Math.random().toString(36).substr(2, 9); save(); }
-  return state.userId;
-}
+function getUserId() { if (!state.userId) { state.userId = 'user_' + Math.random().toString(36).substr(2, 9); save(); } return state.userId; }
 
 async function handleChallengeDeepLink() {
-  const params = new URLSearchParams(window.location.search);
-  const challengeId = params.get('challenge');
+  const params = new URLSearchParams(window.location.search); const challengeId = params.get('challenge');
   if (challengeId && state.onboarded) {
     if (!state.activeChallenges.includes(challengeId)) {
       try {
-        const snap = await database.ref('challenges/' + challengeId).once('value');
-        const cData = snap.val();
+        const snap = await database.ref('challenges/' + challengeId).once('value'); const cData = snap.val();
         if (cData && cData.creatorId !== getUserId() && !cData.opponentId) {
           if (confirm(`Join 7-Day Consistency Battle against ${cData.creatorName}?`)) {
             await database.ref('challenges/' + challengeId).update({ opponentId: getUserId(), opponentName: state.profile.name });
-            state.activeChallenges.push(challengeId);
-            save(); window.history.replaceState({}, document.title, window.location.pathname); 
-            showTab('social');
+            state.activeChallenges.push(challengeId); save(); window.history.replaceState({}, document.title, window.location.pathname); showTab('social');
           }
         }
       } catch (e) { console.error(e); }
@@ -1120,8 +1049,7 @@ async function createChallenge() {
   const cId = 'chal_' + Math.random().toString(36).substr(2, 9);
   const cData = { creatorId: getUserId(), creatorName: state.profile.name, startDate: today() };
   await database.ref('challenges/' + cId).set(cData);
-  state.activeChallenges.push(cId);
-  save();
+  state.activeChallenges.push(cId); save();
   const link = window.location.origin + window.location.pathname + '?challenge=' + cId;
   prompt("Challenge created! Copy and send this link to a friend to start the 7-day battle:", link);
   renderSocial();
@@ -1130,13 +1058,12 @@ async function createChallenge() {
 // ——— SOCIAL & LEADERBOARD ———
 async function syncSocialScore() {
   if (!state.profile) return;
-  const currentStreak = calcStreak();
-  const publicHistory = {};
+  const currentStreak = calcStreak(); const publicHistory = {};
   for(let i=0; i<7; i++) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const key = toLocalDateStr(d);
+    const d = new Date(); d.setDate(d.getDate() - i); const key = toLocalDateStr(d);
     const spent = daySpent(key);
-    if(spent > 0) publicHistory[key] = spent <= state.profile.dailyBudget; 
+    const cheat = (state.dailyLog[key] || {}).cheatCalories || 0;
+    if(spent > 0) publicHistory[key] = spent <= (state.profile.dailyBudget + cheat); 
   }
   try {
     await database.ref('leaderboard/' + getUserId()).set({
@@ -1184,7 +1111,7 @@ async function renderSocial() {
     snapshot.forEach((child) => { users.push({ id: child.key, ...child.val() }); }); users.reverse(); let rank = 1;
     users.forEach((data) => {
       const isMe = data.id === getUserId(); const div = document.createElement('div');
-      div.style.cssText = `display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: ${isMe ? 'var(--orange-dim)' : 'var(--surface2)'}; border-radius: 12px; border: 1px solid ${isMe ? 'var(--orange-mid)' : 'transparent'};`;
+      div.style.cssText = `display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: ${isMe ? 'rgba(232,82,26,0.1)' : 'var(--surface2)'}; border-radius: 12px; border: 1px solid ${isMe ? 'var(--orange-mid)' : 'transparent'}; backdrop-filter:blur(4px);`;
       const avatarHtml = data.avatar 
         ? `<div style="width:30px; height:30px; border-radius:50%; background-image:url('${data.avatar}'); background-size:cover; background-position:center; border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; flex-shrink:0;"></div>`
         : `<div style="width:30px; height:30px; border-radius:50%; background-color:var(--surface3); border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:12px; font-weight:900; color:var(--text); flex-shrink:0;">${data.name.slice(0,2).toUpperCase()}</div>`;
@@ -1219,7 +1146,9 @@ function calcStreak() {
   let streak = 0; const d = new Date();
   while (true) {
     const key = toLocalDateStr(d); const spent = daySpent(key);
-    if (spent > 0 && spent <= state.profile.dailyBudget) { streak++; d.setDate(d.getDate() - 1); } else break;
+    const cheat = (state.dailyLog[key] || {}).cheatCalories || 0;
+    const budgetForDay = state.profile.dailyBudget + cheat;
+    if (spent > 0 && spent <= budgetForDay) { streak++; d.setDate(d.getDate() - 1); } else break;
   }
   if (streak > (state.profile.maxStreak || 0)) { state.profile.maxStreak = streak; save(); }
   return streak;
@@ -1285,33 +1214,51 @@ function showTab(tabId) {
 }
 
 function renderDashboard() {
-  const p = state.profile; const t = today(); const spent = daySpent(t); const left = p.dailyBudget - spent; const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+  const p = state.profile; const t = today(); 
+  
+  // Daily logic factoring cheat calories
+  const dailyCheat = (state.dailyLog[t] || {}).cheatCalories || 0;
+  const currentDailyBudget = p.dailyBudget + dailyCheat;
+  const spent = daySpent(t); 
+  const left = currentDailyBudget - spent; 
+  const pct = Math.min(100, (spent / currentDailyBudget) * 100);
+  
   const el = document.getElementById('daily-left'); el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left)); el.className = 'cal-left' + (left < 0 ? ' over' : '');
   document.getElementById('daily-bar').style.width = pct + '%'; document.getElementById('daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
-  document.getElementById('daily-spent').textContent = fmt(spent) + ' spent'; document.getElementById('daily-budget-label').textContent = fmt(p.dailyBudget) + ' budget';
+  document.getElementById('daily-spent').textContent = fmt(spent) + ' spent'; 
+  document.getElementById('daily-budget-label').textContent = fmt(currentDailyBudget) + ' budget' + (dailyCheat ? ' 🍕' : '');
 
-  // [NEW] Daily Macro Summary Calc
+  // Cheat Day Button UI
+  const weekStart = getWeekStart();
+  const cheatBtn = document.getElementById('cheat-day-btn');
+  if (state.profile.lastCheatWeek === weekStart) {
+    cheatBtn.textContent = "✅ CHEAT DAY USED THIS WEEK";
+    cheatBtn.disabled = true;
+    cheatBtn.style.opacity = "0.4";
+    cheatBtn.style.cursor = "not-allowed";
+    cheatBtn.style.borderColor = "transparent";
+    cheatBtn.style.color = "var(--faint)";
+  } else {
+    cheatBtn.textContent = "🍕 USE CHEAT DAY (+350 cal)";
+    cheatBtn.disabled = false;
+    cheatBtn.style.opacity = "1";
+    cheatBtn.style.cursor = "pointer";
+    cheatBtn.style.borderColor = "var(--orange)";
+    cheatBtn.style.color = "var(--orange)";
+  }
+
+  // Daily Macro Summary
   let totalP = 0, totalC = 0, totalF = 0;
   const currentLogs = state.dailyLog[t]?.transactions || [];
-  currentLogs.forEach(tx => {
-    totalP += (tx.p || 0); totalC += (tx.c || 0); totalF += (tx.f || 0);
-  });
-  document.getElementById('dash-p').textContent = totalP + 'g';
-  document.getElementById('dash-c').textContent = totalC + 'g';
-  document.getElementById('dash-f').textContent = totalF + 'g';
+  currentLogs.forEach(tx => { totalP += (tx.p || 0); totalC += (tx.c || 0); totalF += (tx.f || 0); });
+  document.getElementById('dash-p').textContent = totalP + 'g'; document.getElementById('dash-c').textContent = totalC + 'g'; document.getElementById('dash-f').textContent = totalF + 'g';
 
   const dailyWater = state.dailyLog[t]?.water || 0;
   document.getElementById('water-count').textContent = dailyWater + ' / 8';
-  const glassesEl = document.getElementById('water-glasses');
-  glassesEl.innerHTML = '';
+  const glassesEl = document.getElementById('water-glasses'); glassesEl.innerHTML = '';
   for(let i=0; i<8; i++) {
-     const g = document.createElement('div');
-     g.style.width = '16px';
-     g.style.height = '24px';
-     g.style.borderRadius = '2px 2px 6px 6px';
-     g.style.border = '2px solid var(--water)';
-     g.style.background = i < dailyWater ? 'var(--water)' : 'transparent';
-     g.style.opacity = i < dailyWater ? '1' : '0.4';
+     const g = document.createElement('div'); g.style.width = '16px'; g.style.height = '24px'; g.style.borderRadius = '2px 2px 6px 6px';
+     g.style.border = '2px solid var(--water)'; g.style.background = i < dailyWater ? 'var(--water)' : 'transparent'; g.style.opacity = i < dailyWater ? '1' : '0.4';
      glassesEl.appendChild(g);
   }
 
@@ -1320,14 +1267,24 @@ function renderDashboard() {
   const sl = document.getElementById('streak-label');
   if (streak > 0) { sl.className = 'streak-label'; sl.textContent = 'CONGRATULATIONS!'; } else { sl.className = 'streak-empty'; sl.textContent = 'Stay within budget to build your streak!'; }
 
-  const weekDays = getWeekDays(); const weekSpent = weekDays.reduce((s, d) => s + daySpent(d), 0); const weekLeft = p.weeklyBudget - weekSpent; const weekPct = Math.min(100, (weekSpent / p.weeklyBudget) * 100);
+  // Weekly logic factoring cheat calories
+  const weekDays = getWeekDays(); 
+  const weekSpent = weekDays.reduce((s, d) => s + daySpent(d), 0); 
+  const weeklyCheatSum = weekDays.reduce((s, d) => s + ((state.dailyLog[d] || {}).cheatCalories || 0), 0);
+  const currentWeeklyBudget = p.weeklyBudget + weeklyCheatSum;
+  const weekLeft = currentWeeklyBudget - weekSpent; 
+  const weekPct = Math.min(100, (weekSpent / currentWeeklyBudget) * 100);
+  
   const wl = document.getElementById('weekly-left'); wl.textContent = (weekLeft < 0 ? '-' : '') + fmt(Math.abs(weekLeft)); wl.style.color = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('weekly-bar').style.width = weekPct + '%'; document.getElementById('weekly-bar').style.background = weekLeft < 0 ? 'var(--red)' : 'var(--green)';
 
   const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S']; const dotsEl = document.getElementById('week-dots'); dotsEl.innerHTML = '';
   weekDays.forEach((d, i) => {
-    const s = daySpent(d); const isPast = d <= t; const inBudget = s > 0 && s <= p.dailyBudget; const isToday = d === t;
-    let bg = 'var(--surface2)'; let color = 'var(--faint)';
+    const s = daySpent(d); const isPast = d <= t; const isToday = d === t;
+    const dCheat = (state.dailyLog[d] || {}).cheatCalories || 0;
+    const inBudget = s > 0 && s <= (p.dailyBudget + dCheat); 
+    
+    let bg = 'rgba(255,255,255,0.05)'; let color = 'var(--faint)';
     if (isPast && s > 0) { bg = inBudget ? 'rgba(61,186,110,0.2)' : 'rgba(232,64,64,0.2)'; color = inBudget ? 'var(--green)' : 'var(--red)'; } else if (isToday && s === 0) { bg = 'var(--surface2)'; }
     const wrap = document.createElement('div'); wrap.className = 'dot-wrap';
     const dot = document.createElement('div'); dot.className = 'dot' + (isToday ? ' today' : ''); dot.style.cssText = `background:${bg};color:${color};border:1px solid ${isPast && s > 0 ? (inBudget ? 'var(--green)' : 'var(--red)') : 'transparent'}`;
@@ -1335,7 +1292,11 @@ function renderDashboard() {
     wrap.appendChild(dot); wrap.appendChild(dayLabelEl); dotsEl.appendChild(wrap);
   });
 
-  const monthDays = getMonthDays(); const daysInMonth = getDaysInMonth(); const monthlyBudget = p.dailyBudget * daysInMonth; const monthSpent = monthDays.reduce((s, d) => s + daySpent(d), 0);
+  // Monthly logic factoring cheat calories
+  const monthDays = getMonthDays(); const daysInMonth = getDaysInMonth(); 
+  const monthlyCheatSum = monthDays.reduce((s, d) => s + ((state.dailyLog[d] || {}).cheatCalories || 0), 0);
+  const monthlyBudget = (p.dailyBudget * daysInMonth) + monthlyCheatSum; 
+  const monthSpent = monthDays.reduce((s, d) => s + daySpent(d), 0);
   const monthLeft = monthlyBudget - monthSpent; const monthPct = Math.min(100, (monthSpent / monthlyBudget) * 100);
   const ml = document.getElementById('monthly-left'); ml.textContent = (monthLeft < 0 ? '-' : '') + fmt(Math.abs(monthLeft)); ml.style.color = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('monthly-bar').style.width = monthPct + '%'; document.getElementById('monthly-bar').style.background = monthLeft < 0 ? 'var(--red)' : 'var(--green)';
@@ -1351,7 +1312,11 @@ function renderDashboard() {
 }
 
 function renderTracker() {
-  const p = state.profile; const t = today(); const spent = daySpent(t); const left = p.dailyBudget - spent; const pct = Math.min(100, (spent / p.dailyBudget) * 100);
+  const p = state.profile; const t = today(); 
+  const dailyCheat = (state.dailyLog[t] || {}).cheatCalories || 0;
+  const currentDailyBudget = p.dailyBudget + dailyCheat;
+  
+  const spent = daySpent(t); const left = currentDailyBudget - spent; const pct = Math.min(100, (spent / currentDailyBudget) * 100);
   const el = document.getElementById('tracker-daily-left'); el.textContent = (left < 0 ? '-' : '') + fmt(Math.abs(left)); el.className = 'cal-left' + (left < 0 ? ' over' : '');
   document.getElementById('tracker-daily-bar').style.width = pct + '%'; document.getElementById('tracker-daily-bar').style.background = left < 0 ? 'var(--red)' : 'var(--orange)';
 
@@ -1365,15 +1330,9 @@ function renderTracker() {
       const mText = (tx.p || tx.c || tx.f) ? `${tx.p||0}P | ${tx.c||0}C | ${tx.f||0}F` : `Macros not logged`;
 
       div.innerHTML = `
-        <div>
-          <div class="txn-name">${tx.label}</div>
-          <div class="txn-time">${tx.time}</div>
-        </div>
+        <div><div class="txn-name">${tx.label}</div><div class="txn-time">${tx.time}</div></div>
         <div style="display:flex;align-items:center;gap:0">
-          <div>
-            <div class="txn-cal">${fmt(tx.amount)} cal</div>
-            <div class="txn-macros">${mText}</div>
-          </div>
+          <div><div class="txn-cal">${fmt(tx.amount)} cal</div><div class="txn-macros">${mText}</div></div>
           <button class="txn-del" data-idx="${realIdx}" title="Remove">✕</button>
         </div>
       `;
@@ -1399,7 +1358,11 @@ function renderProfile() {
 
   const calEl = document.getElementById('profile-calendar'); calEl.innerHTML = ''; const now = new Date();
   for (let i = 29; i >= 0; i--) {
-    const d = new Date(now); d.setDate(now.getDate() - i); const key = toLocalDateStr(d); const spent = daySpent(key); const hasData = spent > 0; const inBudget = hasData && spent <= p.dailyBudget;
+    const d = new Date(now); d.setDate(now.getDate() - i); const key = toLocalDateStr(d); 
+    const spent = daySpent(key); const hasData = spent > 0; 
+    const cheat = (state.dailyLog[key] || {}).cheatCalories || 0;
+    const inBudget = hasData && spent <= (p.dailyBudget + cheat);
+    
     const div = document.createElement('div'); div.className = 'cal-day ' + (!hasData ? 'empty' : inBudget ? 'good' : 'bad'); div.textContent = d.getDate(); div.title = key + ': ' + (hasData ? fmt(spent) + ' cal' : 'no data'); calEl.appendChild(div);
   }
 }
@@ -1433,12 +1396,7 @@ function saveEditModal() {
   p.dailyBudget = Math.round(p.tdee - p.deficit); 
   p.weeklyBudget = p.dailyBudget * 7;
   
-  save(); 
-  closeEditModal(); 
-  setAvatarElement('top-avatar', p);
-  setAvatarElement('profile-avatar', p);
-  renderProfile(); 
-  renderDashboard();
+  save(); closeEditModal(); setAvatarElement('top-avatar', p); setAvatarElement('profile-avatar', p); renderProfile(); renderDashboard();
 }
 
 document.getElementById('reset-btn').addEventListener('click', () => { if (confirm('Reset all your data and start over?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); } });
@@ -1455,9 +1413,7 @@ async function bootApp() {
   if (!state.profile.lastWeightUpdate) state.profile.lastWeightUpdate = today();
   if (!state.activeChallenges) state.activeChallenges = [];
   
-  // Kick off asynchronous CSV fetch
   fetchCSVDatabase();
-
   applyThemeUI();
   await handleChallengeDeepLink();
   syncSocialScore();
@@ -1467,9 +1423,7 @@ async function bootApp() {
 }
 
 load();
-if (state.onboarded && state.profile) {
-  bootApp();
-}
+if (state.onboarded && state.profile) { bootApp(); }
 </script>
 </body>
 </html>
