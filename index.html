@@ -1446,14 +1446,13 @@ document.getElementById('ob-next').addEventListener('click', () => {
     const bmr = calcBMR(w, h, age, gender); const tdee = bmr * activity; const dailyBudget = Math.round(tdee - deficit); const bmi = w / ((h / 100) ** 2);
     
     // Explicitly seed the exact structure so Firebase doesn't delete it
-    state.profile = { name, age, gender, currentWeight: w, height: h, targetWeight: target, bmi: parseFloat(bmi.toFixed(1)), bmr: Math.round(bmr), tdee: Math.round(tdee), dailyBudget, weeklyBudget: dailyBudget * 7, deficit, createdAt: new Date().toISOString(), journeyStartDate: today(), maxStreak: 0, lastWeightUpdate: today(), avatar: null, tokens: 0, claimedMilestones: [], unlockedBundles: ['default'], customMeals: [] };
+    state.profile = { name, age, gender, currentWeight: w, height: h, targetWeight: target, bmi: parseFloat(bmi.toFixed(1)), bmr: Math.round(bmr), tdee: Math.round(tdee), dailyBudget, weeklyBudget: dailyBudget * 7, deficit, createdAt: new Date().toISOString(), journeyStartDate: today(), maxStreak: 0, lastWeightUpdate: today(), avatar: null, tokens: 0, claimedMilestones: [], unlockedBundles: ['default'], customMeals: [], hasSeenTour: false };
     state.dailyLog = { "init": { water: 0 } }; // Dummy key so Firebase won't drop the object
     state.activeChallenges = ['init']; // Dummy challenge
     state.onboarded = true; 
     
     save(); 
     bootApp(); 
-    startTour(); // STARTS THE APP TOUR AFTER ONBOARDING
   }
 });
 
@@ -1782,6 +1781,17 @@ async function bootApp() {
   checkTDEENudge();
   checkMilestones(); 
   startReminders();
+
+  // --- BULLETPROOF TOUR TRIGGER ---
+  // Checks if the user has seen the tour. If not, it saves a flag and launches it.
+  if (!state.profile.hasSeenTour) {
+    state.profile.hasSeenTour = true;
+    save();
+    // A 500ms delay ensures the UI is fully rendered before the modal pops up
+    setTimeout(() => {
+      startTour();
+    }, 500);
+  }
 }
 </script>
 
