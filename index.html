@@ -14,8 +14,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Firebase Realtime Database SDKs -->
+<!-- Firebase Realtime Database & Auth SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
 
 <!-- Chart.js for Spider Chart -->
@@ -90,7 +91,7 @@
   }
 
   /* ——— ONBOARDING & INPUTS ——— */
-  #onboarding { position: relative; z-index: 1; min-height: 100vh; padding: 40px 24px 40px; display: flex; flex-direction: column; }
+  #onboarding, #auth-screen { position: relative; z-index: 1; min-height: 100vh; padding: 40px 24px 40px; display: none; flex-direction: column; }
   .ob-logo { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--orange); letter-spacing: 3px; margin-bottom: 36px; transition: color 0.4s; }
   .ob-progress { display: flex; gap: 6px; margin-bottom: 32px; }
   .ob-bar { height: 3px; flex: 1; border-radius: 2px; background: var(--surface3); transition: background 0.4s; }
@@ -131,6 +132,7 @@
   .btn-primary:disabled { background: var(--surface3); color: var(--faint); cursor: not-allowed; box-shadow: none; }
 
   /* ——— MAIN APP ——— */
+  #loading-screen { display: flex; align-items: center; justify-content: center; height: 100vh; color: var(--orange); font-family: var(--font-display); font-size: 24px; font-weight: 900; letter-spacing: 2px; }
   #main { display: none; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
   .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%); padding-top: env(safe-area-inset-top, 18px); }
   .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; transition: color 0.4s; }
@@ -242,28 +244,6 @@
   /* Glassmorphism Modals inner containers */
   .glass-modal { background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
-  /* Floating Chart Button */
-  .fab-btn {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--orange);
-    border: 2px solid rgba(255,255,255,0.2);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    z-index: 105;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    transition: transform 0.2s, background 0.4s;
-    backdrop-filter: blur(8px);
-  }
-  .fab-btn:active { transform: scale(0.92); }
-
   /* Animations */
   @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
   .celebrate-box { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
@@ -274,6 +254,21 @@
 </head>
 <body>
 <div id="app">
+
+  <!-- INITIAL LOADING SCREEN -->
+  <div id="loading-screen">CALCOUNT.</div>
+
+  <!-- AUTHENTICATION SCREEN -->
+  <div id="auth-screen">
+    <div class="ob-logo">CALCOUNT.</div>
+    <div class="ob-title">SIGN IN.</div>
+    <div class="ob-sub">Sync your data securely to the cloud.</div>
+    
+    <button class="btn-primary" style="margin-top:24px; background: #fff; color: #757575; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 12px; font-family: 'DM Sans', sans-serif; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onclick="signInWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width: 20px; height: 20px;" alt="Google Logo">
+      Sign in with Google
+    </button>
+  </div>
 
   <!-- ONBOARDING -->
   <div id="onboarding">
@@ -352,12 +347,15 @@
         <div class="pbar-track"><div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div></div>
         <div class="cal-meta" style="margin-bottom:8px;"><span id="daily-spent">0 spent</span><span id="daily-budget-label">0 budget</span></div>
         
-        <!-- Daily Macro Summary -->
-        <div style="border-top:1px solid var(--border); padding-top:8px; display:flex; justify-content:space-between; font-size:11px; color:var(--muted); font-weight:600;">
-          <span>Pro: <span id="dash-p" style="color:var(--text)">0g</span></span>
-          <span>Carb: <span id="dash-c" style="color:var(--text)">0g</span></span>
-          <span>Fat: <span id="dash-f" style="color:var(--text)">0g</span></span>
-          <span>Fiber: <span id="dash-fi" style="color:var(--text)">0g</span></span>
+        <!-- Daily Macro Summary with Subtle Chart Button -->
+        <div style="border-top:1px solid var(--border); padding-top:8px; display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted); font-weight:600;">
+          <div style="display:flex; gap: 12px;">
+            <span>Pro: <span id="dash-p" style="color:var(--text)">0g</span></span>
+            <span>Carb: <span id="dash-c" style="color:var(--text)">0g</span></span>
+            <span>Fat: <span id="dash-f" style="color:var(--text)">0g</span></span>
+            <span>Fiber: <span id="dash-fi" style="color:var(--text)">0g</span></span>
+          </div>
+          <button style="background:var(--surface2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:10px; padding:4px 8px; cursor:pointer;" onclick="openChartModal()">📊 Radar</button>
         </div>
         
         <!-- CHEAT DAY BUTTON -->
@@ -486,7 +484,9 @@
           <div class="leg-item"><div class="leg-dot" style="background:var(--surface2); border:1px solid var(--border);"></div>No data</div>
         </div>
       </div>
-      <button class="reset-btn" id="reset-btn">Reset & start over</button>
+      
+      <!-- LOGOUT BUTTON -->
+      <button class="reset-btn" style="color:var(--red); border-color:var(--red);" onclick="logOut()">Log Out</button>
     </div>
 
     <!-- Bottom Nav -->
@@ -496,9 +496,6 @@
       <button class="nav-btn" data-tab="social" onclick="showTab('social')"><div class="nav-icon">🏆</div><div class="nav-label">SOCIAL</div></button>
       <button class="nav-btn" data-tab="profile" onclick="showTab('profile')"><div class="nav-icon">◎</div><div class="nav-label">PROFILE</div></button>
     </div>
-
-    <!-- Floating Chart Button -->
-    <button id="fab-chart" class="fab-btn" onclick="openChartModal()">🕸️</button>
 
     <!-- Spider Chart Modal -->
     <div id="chart-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
@@ -638,7 +635,7 @@
     <div class="glass-modal" style="width:100%;max-width:400px;border-radius:18px;padding:24px;max-height:85vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
         <div>
-          <div class="ob-title" style="font-size:24px;margin-bottom:4px;">REWARDS STORE.</div>
+          <div class="ob-title" style="font-size:24px;margin:0;">REWARDS STORE.</div>
           <div class="ob-sub" style="margin:0;">Tokens available: <span id="reward-tokens-display" style="color:var(--orange);font-weight:bold;font-size:16px;">0</span></div>
         </div>
       </div>
@@ -684,14 +681,25 @@
 
 <script>
 // ——— FIREBASE SETUP ———
-const firebaseConfig = { databaseURL: "https://cal-count-bc597-default-rtdb.firebaseio.com/" };
+const firebaseConfig = {
+  apiKey: "AIzaSyBfNgXMrFzb0RSeHc6jwd7dcHU36jgCe7o",
+  authDomain: "cal-count-bc597.firebaseapp.com",
+  databaseURL: "https://cal-count-bc597-default-rtdb.firebaseio.com",
+  projectId: "cal-count-bc597",
+  storageBucket: "cal-count-bc597.firebasestorage.app",
+  messagingSenderId: "659314516892",
+  appId: "1:659314516892:web:e3e3ee5c3838017f88de59",
+  measurementId: "G-JFHNR2Y2VR"
+};
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+const auth = firebase.auth();
 
 // ——— STATE ———
 const STORAGE_KEY = 'calcount_v4';
 let state = { onboarded: false, profile: null, dailyLog: {}, userId: null, activeChallenges: [], theme: 'default' };
 let FOOD_DB = [];
+let currentUser = null;
 
 const BUNDLES = [
   { id: 'default', name: 'Default Dark', theme: 'default', avatar: null, title: 'Standard Initials' },
@@ -704,13 +712,65 @@ const BUNDLES = [
 
 let currentFoodTab = 'all';
 
-function load() {
-  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) state = { ...state, ...JSON.parse(raw) }; } catch(e) {}
+// ——— AUTH & SYNC LOGIC ———
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+function signInWithGoogle() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('loading-screen').style.display = 'flex';
+  auth.signInWithRedirect(googleProvider);
+}
+
+auth.getRedirectResult().catch((error) => {
+  console.error(error);
+  alert("Google Sign-In failed: " + error.message);
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+});
+
+auth.onAuthStateChanged(async (user) => {
+  document.getElementById('loading-screen').style.display = 'none';
+  if (user) {
+    currentUser = user;
+    state.userId = user.uid; // Unify local ID with Firebase Auth ID
+    document.getElementById('auth-screen').style.display = 'none';
+    await loadFromCloud();
+  } else {
+    currentUser = null;
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('onboarding').style.display = 'none';
+    document.getElementById('main').style.display = 'none';
+  }
+});
+
+function logOut() {
+  auth.signOut().then(() => { location.reload(); });
+}
+
+async function loadFromCloud() {
+  try {
+    const snap = await database.ref('users/' + currentUser.uid + '/appData').once('value');
+    const cloudData = snap.val();
+    
+    if (cloudData && cloudData.onboarded) {
+      state = cloudData;
+      bootApp();
+    } else {
+      // New user, show onboarding
+      document.getElementById('onboarding').style.display = 'flex';
+    }
+  } catch (e) {
+    console.error("Failed to load cloud data", e);
+    alert("Connection error loading your data.");
+  }
 }
 
 function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  syncSocialScore();
+  // Sync to Cloud
+  if (currentUser) {
+    database.ref('users/' + currentUser.uid + '/appData').set(state);
+  }
+  syncSocialScore(); // Keep updating the public leaderboard
 }
 
 // ——— DATE UTILS ———
@@ -807,7 +867,7 @@ function parseCSV(text) {
     const c = Math.round(parseFloat(cols[2])) || 0;
     const p = Math.round(parseFloat(cols[3])) || 0;
     const f = Math.round(parseFloat(cols[4])) || 0;
-    const fi = cols.length > 5 ? Math.round(parseFloat(cols[5])) || 0 : 0; // Default fiber to 0 if not in CSV
+    const fi = cols.length > 5 ? Math.round(parseFloat(cols[5])) || 0 : 0; 
     
     if (cal > 0) result.push({ label, cal, p, c, f, fi });
   }
@@ -1626,9 +1686,6 @@ async function bootApp() {
   checkMilestones(); 
   startReminders();
 }
-
-load();
-if (state.onboarded && state.profile) { bootApp(); }
 </script>
 
 <!-- PWA Service Worker Registration -->
