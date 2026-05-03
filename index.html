@@ -258,16 +258,19 @@
   <!-- INITIAL LOADING SCREEN -->
   <div id="loading-screen">CALCOUNT.</div>
 
-  <!-- AUTHENTICATION SCREEN -->
+  <!-- AUTHENTICATION SCREEN (EMAIL & PASSWORD) -->
   <div id="auth-screen">
     <div class="ob-logo">CALCOUNT.</div>
     <div class="ob-title">SIGN IN.</div>
     <div class="ob-sub">Sync your data securely to the cloud.</div>
     
-    <button class="btn-primary" style="margin-top:24px; background: #fff; color: #757575; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 12px; font-family: 'DM Sans', sans-serif; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onclick="signInWithGoogle()">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width: 20px; height: 20px;" alt="Google Logo">
-      Sign in with Google
-    </button>
+    <div class="field"><label class="field-label">EMAIL</label><input class="inp" id="auth-email" type="email" placeholder="you@email.com"></div>
+    <div class="field"><label class="field-label">PASSWORD</label><input class="inp" id="auth-pass" type="password" placeholder="••••••••"></div>
+    
+    <div style="display:flex; gap:10px; margin-top:24px;">
+      <button class="reset-btn" style="flex:1; margin:0;" onclick="handleSignUp()">Create Account</button>
+      <button class="btn-primary" style="flex:1; margin:0;" onclick="handleLogin()">Log In</button>
+    </div>
   </div>
 
   <!-- ONBOARDING -->
@@ -691,7 +694,6 @@ const firebaseConfig = {
   appId: "1:659314516892:web:e3e3ee5c3838017f88de59",
   measurementId: "G-JFHNR2Y2VR"
 };
-
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const auth = firebase.auth();
@@ -713,23 +715,40 @@ const BUNDLES = [
 
 let currentFoodTab = 'all';
 
-// ——— AUTH & SYNC LOGIC ———
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-function signInWithGoogle() {
+// ——— AUTH & SYNC LOGIC (RESTORED EMAIL/PASSWORD) ———
+async function handleLogin() {
+  const e = document.getElementById('auth-email').value;
+  const p = document.getElementById('auth-pass').value;
+  if (!e || !p) return alert("Please enter both email and password.");
+  
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('loading-screen').style.display = 'flex';
   
-  // Back to redirect method for PWAs
-  auth.signInWithRedirect(googleProvider);
+  try {
+    await auth.signInWithEmailAndPassword(e, p);
+  } catch(err) {
+    alert(err.message);
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('auth-screen').style.display = 'flex';
+  }
 }
 
-auth.getRedirectResult().catch((error) => {
-  console.error(error);
-  alert("Google Sign-In failed: " + error.message);
-  document.getElementById('loading-screen').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-});
+async function handleSignUp() {
+  const e = document.getElementById('auth-email').value;
+  const p = document.getElementById('auth-pass').value;
+  if (!e || !p) return alert("Please enter both email and password to sign up.");
+  
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('loading-screen').style.display = 'flex';
+  
+  try {
+    await auth.createUserWithEmailAndPassword(e, p);
+  } catch(err) {
+    alert(err.message);
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('auth-screen').style.display = 'flex';
+  }
+}
 
 auth.onAuthStateChanged(async (user) => {
   document.getElementById('loading-screen').style.display = 'none';
@@ -758,7 +777,7 @@ async function loadFromCloud() {
     if (cloudData && cloudData.onboarded) {
       state = cloudData;
       
-      // FIREBASE BUG FIX: Firebase deletes completely empty objects. 
+      // FIREBASE BUG FIX: Firebase deletes completely empty objects to save space. 
       // We must sanitize and restore them so the app doesn't crash on load!
       if (!state.dailyLog) state.dailyLog = {};
       if (!state.activeChallenges) state.activeChallenges = [];
@@ -910,7 +929,7 @@ function submitQuickAdd() {
   if (!cal || cal <= 0) return alert("Please enter valid calories.");
 
   const t = today();
-  if (!state.dailyLog) state.dailyLog = {}; // Defensive check
+  if (!state.dailyLog) state.dailyLog = {}; 
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
   state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, fi, time: timeNow() }); 
   
@@ -951,7 +970,7 @@ function saveAndLogCustomMeal() {
   }
   
   const t = today();
-  if (!state.dailyLog) state.dailyLog = {};
+  if (!state.dailyLog) state.dailyLog = {}; 
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
   state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, fi, time: timeNow() }); 
   
@@ -1035,7 +1054,7 @@ function addFoodFromDetail() {
   if (serv !== 1) finalLabel += ` (${serv})`;
 
   const t = today();
-  if (!state.dailyLog) state.dailyLog = {};
+  if (!state.dailyLog) state.dailyLog = {}; 
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
   state.dailyLog[t].transactions.push({ amount: c, label: finalLabel, p, c: cb, f, fi, time: timeNow() }); 
   
