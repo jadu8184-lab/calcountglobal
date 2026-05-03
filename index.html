@@ -46,16 +46,11 @@
     --font-body: 'DM Sans', sans-serif;
   }
   
-  /* Football Themes - Updated Opacities for Glassmorphism & Backgrounds */
+  /* Football Themes - Updated Opacities for Glassmorphism */
   body.theme-madrid {
     --orange: #b39b58; --orange-mid: rgba(179, 155, 88, 0.4); --orange-dim: rgba(179, 155, 88, 0.15);
     --bg: #07090f; --surface: rgba(15, 22, 38, 0.55); --surface2: rgba(25, 35, 55, 0.55); --surface3: rgba(40, 55, 80, 0.65);
     --text: #f8fafc; --green: #38bdf8; --red: #ef4444;
-    
-    background-image: url('madrid.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
   }
   body.theme-barcelona {
     --orange: #a50044; --orange-mid: rgba(165, 0, 68, 0.4); --orange-dim: rgba(165, 0, 68, 0.15);
@@ -79,14 +74,14 @@
   }
 
   html, body {
-    background-color: var(--bg); color: var(--text); font-family: var(--font-body);
-    min-height: 100vh; overscroll-behavior: none; transition: background-color 0.4s, color 0.4s;
+    background: var(--bg); color: var(--text); font-family: var(--font-body);
+    min-height: 100vh; overscroll-behavior: none; transition: background 0.4s, color 0.4s;
     -webkit-user-select: none; user-select: none;
   }
   
   #app {
     max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative;
-    transition: background 0.4s; overflow-x: hidden;
+    background: var(--bg); transition: background 0.4s; overflow-x: hidden;
   }
   
   /* Deeper background glows to interact with new glassmorphism */
@@ -1166,7 +1161,7 @@ function renderRewards() {
     div.style.cssText = `background:var(--surface2); border-radius:18px; padding:16px 14px; border:1px solid ${isEquipped ? 'var(--orange)' : 'rgba(255,255,255,0.1)'}; display:flex; justify-content:space-between; align-items:center; transition:all 0.3s ease; box-shadow:var(--glass-glow);`;
     
     const avatarHtml = b.avatar 
-        ? `<div style="width:44px;height:44px;border-radius:50%;background-image:url('${b.avatar}');background-size:cover;background-position:center;border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>`
+        ? `<div style="width:44px;height:44px;border-radius:50%;background-image:url('${b.avatar}');background-size:cover;border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>`
         : `<div style="width:44px;height:44px;border-radius:50%;background-color:var(--surface3);border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px;font-weight:900;color:var(--text);flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.3);">${state.profile.name.slice(0,2).toUpperCase()}</div>`;
 
     div.innerHTML = `
