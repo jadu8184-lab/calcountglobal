@@ -1,4 +1,4 @@
-const CACHE_NAME = 'calcount-v3';
+const CACHE_NAME = 'calcount-v4';
 const urlsToCache = [
   './',
   './index.html',
