@@ -26,49 +26,51 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --orange: #E8521A;
-    --orange-dim: #E8521A22;
-    --orange-mid: #E8521A66;
+    --orange-dim: rgba(232, 82, 26, 0.15);
+    --orange-mid: rgba(232, 82, 26, 0.4);
     --green: #3DBA6E;
     --red: #E84040;
     --water: #38bdf8;
-    --bg: #0f0f0f;
-    /* Glassmorphism */
-    --surface: #1a1a1aa6;
-    --surface2: #242424a6;
-    --surface3: #2e2e2ea6;
-    --border: rgba(255, 255, 255, 0.08);
+    --bg: #0a0a0a;
+    /* ENHANCED GLASSMORPHISM SURFACES */
+    --surface: rgba(25, 25, 25, 0.55);
+    --surface2: rgba(40, 40, 40, 0.55);
+    --surface3: rgba(55, 55, 55, 0.65);
+    --border: rgba(255, 255, 255, 0.12);
+    --glass-glow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    
     --text: #f0f0f0;
-    --muted: #888;
-    --faint: #555;
+    --muted: #999;
+    --faint: #666;
     --font-display: 'Barlow Condensed', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }
   
-  /* Football & Richmond Themes with Glass Opacity */
+  /* Football Themes - Updated Opacities for Glassmorphism */
   body.theme-madrid {
-    --orange: #b39b58; --orange-mid: #b39b5866; --orange-dim: #b39b5822;
-    --bg: #0a0e17; --surface: #121a2fa6; --surface2: #1e293ba6; --surface3: #334155a6;
-    --border: rgba(255, 255, 255, 0.08); --text: #f8fafc; --green: #38bdf8; --red: #ef4444;
+    --orange: #b39b58; --orange-mid: rgba(179, 155, 88, 0.4); --orange-dim: rgba(179, 155, 88, 0.15);
+    --bg: #07090f; --surface: rgba(15, 22, 38, 0.55); --surface2: rgba(25, 35, 55, 0.55); --surface3: rgba(40, 55, 80, 0.65);
+    --text: #f8fafc; --green: #38bdf8; --red: #ef4444;
   }
   body.theme-barcelona {
-    --orange: #a50044; --orange-mid: #a5004466; --orange-dim: #a5004422;
-    --bg: #05142b; --surface: #0a2147a6; --surface2: #133268a6; --surface3: #1d468aa6;
-    --border: rgba(255, 255, 255, 0.08); --text: #f8fafc; --green: #edbc00; --red: #e11d48;
+    --orange: #a50044; --orange-mid: rgba(165, 0, 68, 0.4); --orange-dim: rgba(165, 0, 68, 0.15);
+    --bg: #030c1a; --surface: rgba(8, 25, 55, 0.55); --surface2: rgba(15, 40, 80, 0.55); --surface3: rgba(25, 60, 110, 0.65);
+    --text: #f8fafc; --green: #edbc00; --red: #e11d48;
   }
   body.theme-bayern {
-    --orange: #dc052d; --orange-mid: #dc052d66; --orange-dim: #dc052d22;
-    --bg: #111111; --surface: #1f1f1fa6; --surface2: #2e2e2ea6; --surface3: #404040a6;
-    --border: rgba(255, 255, 255, 0.08); --text: #f5f5f5; --green: #0066b2; --red: #ff3333;
+    --orange: #dc052d; --orange-mid: rgba(220, 5, 45, 0.4); --orange-dim: rgba(220, 5, 45, 0.15);
+    --bg: #0d0d0d; --surface: rgba(25, 25, 25, 0.55); --surface2: rgba(40, 40, 40, 0.55); --surface3: rgba(55, 55, 55, 0.65);
+    --text: #f5f5f5; --green: #0066b2; --red: #ff3333;
   }
   body.theme-richmond {
-    --orange: #fbc531; --orange-mid: #fbc53166; --orange-dim: #fbc53122;
-    --bg: #192a56; --surface: #273c75a6; --surface2: #354a8aa6; --surface3: #435b9ea6;
-    --border: rgba(255, 255, 255, 0.08); --text: #f5f6fa; --green: #4cd137; --red: #e84118;
+    --orange: #fbc531; --orange-mid: rgba(251, 197, 49, 0.4); --orange-dim: rgba(251, 197, 49, 0.15);
+    --bg: #0f1830; --surface: rgba(28, 45, 90, 0.55); --surface2: rgba(40, 65, 120, 0.55); --surface3: rgba(55, 85, 150, 0.65);
+    --text: #f5f6fa; --green: #4cd137; --red: #e84118;
   }
   body.theme-psg {
-    --orange: #da291c; --orange-mid: #da291c66; --orange-dim: #da291c22;
-    --bg: #001530; --surface: #00224da6; --surface2: #003370a6; --surface3: #004599a6;
-    --border: rgba(255, 255, 255, 0.08); --text: #f5f6fa; --green: #ceab5d; --red: #e11d48;
+    --orange: #da291c; --orange-mid: rgba(218, 41, 28, 0.4); --orange-dim: rgba(218, 41, 28, 0.15);
+    --bg: #000c1c; --surface: rgba(0, 25, 60, 0.55); --surface2: rgba(0, 40, 90, 0.55); --surface3: rgba(0, 55, 120, 0.65);
+    --text: #f5f6fa; --green: #ceab5d; --red: #e11d48;
   }
 
   html, body {
@@ -81,14 +83,28 @@
     max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative;
     background: var(--bg); transition: background 0.4s; overflow-x: hidden;
   }
+  
+  /* Deeper background glows to interact with new glassmorphism */
   #app::before {
-    content: ""; position: fixed; top: -5%; left: -20%; width: 350px; height: 350px;
-    background: var(--orange); filter: blur(120px); opacity: 0.12; z-index: 0; pointer-events: none; transition: background 0.4s;
+    content: ""; position: fixed; top: -5%; left: -20%; width: 400px; height: 400px;
+    background: var(--orange); filter: blur(140px); opacity: 0.15; z-index: 0; pointer-events: none; transition: background 0.4s;
   }
   #app::after {
-    content: ""; position: fixed; bottom: 5%; right: -20%; width: 300px; height: 300px;
-    background: var(--water); filter: blur(100px); opacity: 0.08; z-index: 0; pointer-events: none;
+    content: ""; position: fixed; bottom: 5%; right: -20%; width: 350px; height: 350px;
+    background: var(--water); filter: blur(120px); opacity: 0.10; z-index: 0; pointer-events: none;
   }
+
+  /* LOADING ANIMATIONS */
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  
+  .loader-spinner { 
+    width: 44px; height: 44px; border: 4px solid rgba(255,255,255,0.1); 
+    border-top-color: var(--orange); border-radius: 50%; 
+    animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
+    margin-bottom: 20px; transition: border-top-color 0.4s;
+  }
+  .loader-spinner.small { width: 24px; height: 24px; border-width: 3px; margin: 0 auto 10px; }
 
   /* ——— ONBOARDING & INPUTS ——— */
   #onboarding, #auth-screen { position: relative; z-index: 1; min-height: 100vh; padding: 40px 24px 40px; display: none; flex-direction: column; }
@@ -101,17 +117,20 @@
   .field-label { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 1px; display: block; margin-bottom: 6px; }
   .field { margin-bottom: 18px; }
   
-  .inp { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s, background 0.4s; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); -webkit-user-select: text; user-select: text; }
-  .inp:focus { border-color: var(--orange-mid); background: var(--surface3); }
+  .inp { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s, background 0.4s, box-shadow 0.2s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); -webkit-user-select: text; user-select: text; box-shadow: var(--glass-glow); }
+  .inp:focus { border-color: var(--orange-mid); background: var(--surface3); box-shadow: 0 0 15px var(--orange-dim), inset 0 0 0 1px rgba(255, 255, 255, 0.1); }
   .inp::placeholder { color: var(--faint); }
+  
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
   
+  /* ENHANCED GLASSMORPHISM CARDS */
   .bmi-card, .preview-box, .card, .days-card { 
-    background: var(--surface); border-radius: 18px; border: 1px solid var(--border); 
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); transition: background 0.4s, border-color 0.4s; 
+    background: var(--surface); border-radius: 20px; border: 1px solid var(--border); 
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); 
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), var(--glass-glow); 
+    transition: background 0.4s, border-color 0.4s; 
   }
   
   .bmi-card { padding: 16px; margin-top: 4px; margin-bottom: 18px; }
@@ -126,201 +145,150 @@
   .preview-item .plabel { color: var(--muted); font-size: 10px; letter-spacing: 1px; margin-bottom: 2px; }
   
   select.inp { appearance: none; cursor: pointer; }
-  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 14px; padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: background 0.4s, opacity 0.2s, transform 0.1s; box-shadow: 0 4px 15px var(--orange-mid); }
-  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary { width: 100%; background: var(--orange); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 15px; font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: auto; transition: background 0.4s, opacity 0.2s, transform 0.1s, box-shadow 0.4s; box-shadow: 0 6px 20px var(--orange-dim), inset 0 2px 4px rgba(255,255,255,0.2); }
+  .btn-primary:hover { opacity: 0.9; box-shadow: 0 8px 25px var(--orange-mid), inset 0 2px 4px rgba(255,255,255,0.2); }
   .btn-primary:active { transform: scale(0.98); }
-  .btn-primary:disabled { background: var(--surface3); color: var(--faint); cursor: not-allowed; box-shadow: none; }
+  .btn-primary:disabled { background: var(--surface3); color: var(--faint); border-color: transparent; cursor: not-allowed; box-shadow: none; }
 
   /* ——— MAIN APP ——— */
-  #loading-screen { display: flex; align-items: center; justify-content: center; height: 100vh; color: var(--orange); font-family: var(--font-display); font-size: 24px; font-weight: 900; letter-spacing: 2px; }
-  #main { display: none; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
-  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%); padding-top: env(safe-area-inset-top, 18px); }
-  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; transition: color 0.4s; }
+  #loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; position: relative; z-index: 9999; background: var(--bg); }
+  .loading-text { color: var(--orange); font-family: var(--font-display); font-size: 24px; font-weight: 900; letter-spacing: 3px; animation: pulseText 1.5s ease-in-out infinite; transition: color 0.4s;}
   
-  .avatar { width: 38px; height: 38px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange-mid); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 14px; color: var(--orange); letter-spacing: 1px; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; }
+  #main { display: none; flex-direction: column; min-height: 100vh; position: relative; z-index: 1; }
+  
+  /* ENHANCED TOPBAR */
+  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%); padding-top: env(safe-area-inset-top, 18px); }
+  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: 3px; transition: color 0.4s; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+  
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange-mid); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 14px; color: var(--orange); letter-spacing: 1px; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3);}
 
   /* Tabs */
   .tab-content { display: none; padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)); }
-  .tab-content.active { display: block; }
+  .tab-content.active { display: block; animation: slideIn 0.3s ease; }
 
   /* Cards */
-  .card { margin: 0 16px 14px; padding: 16px 18px; }
-  .card-label { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 8px; }
-  .card-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-  .cal-left { font-family: var(--font-display); font-size: 28px; font-weight: 900; }
+  .card { margin: 0 16px 16px; padding: 18px 20px; }
+  .card-label { color: var(--text); opacity: 0.8; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .card-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .cal-left { font-family: var(--font-display); font-size: 32px; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
   .cal-left.over { color: var(--red); }
-  .cal-meta { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; margin-top: 7px; }
+  .cal-meta { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; margin-top: 8px; font-weight: 500; }
 
   /* Progress bar */
-  .pbar-track { height: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: background 0.4s; }
-  .pbar-fill { height: 100%; border-radius: 8px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.4s; }
+  .pbar-track { height: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; transition: background 0.4s; box-shadow: inset 0 2px 6px rgba(0,0,0,0.5); }
+  .pbar-fill { height: 100%; border-radius: 8px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1), background 0.4s; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
 
   /* Water Buttons */
-  .water-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--water); font-size: 24px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.2s; backdrop-filter: blur(4px); }
-  .water-btn:active { transform: scale(0.92); }
+  .water-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--water); font-size: 24px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.2s, box-shadow 0.2s; backdrop-filter: blur(8px); box-shadow: var(--glass-glow); }
+  .water-btn:active { transform: scale(0.92); background: rgba(56, 189, 248, 0.2); }
 
   /* Streak */
   .streak-center { text-align: center; padding: 14px 0 10px; }
-  .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; text-shadow: 0 4px 15px rgba(255,165,0,0.3); }
+  .streak-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; text-shadow: 0 4px 20px var(--orange-mid); }
   .streak-label { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange); letter-spacing: 2px; margin-top: 4px; transition: color 0.4s;}
   .streak-empty { color: var(--muted); font-size: 13px; margin-top: 6px; }
 
   /* Week dots */
-  .week-dots { display: flex; justify-content: space-between; margin-top: 12px; }
-  .dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-  .dot { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; transition: all 0.3s; backdrop-filter: blur(4px); }
-  .dot.today { box-shadow: 0 0 0 2px var(--orange); }
-  .dot-day { color: var(--faint); font-size: 9px; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.5px; }
+  .week-dots { display: flex; justify-content: space-between; margin-top: 14px; }
+  .dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; transition: all 0.3s; backdrop-filter: blur(8px); box-shadow: inset 0 2px 4px rgba(255,255,255,0.1); }
+  .dot.today { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--orange), inset 0 2px 4px rgba(255,255,255,0.2); }
+  .dot-day { color: var(--text); opacity: 0.6; font-size: 10px; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.5px; }
   
   /* Tracker List */
-  .txn { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 12px; padding: 13px 15px; margin-bottom: 8px; animation: slideIn 0.25s ease; border-left: 3px solid var(--orange); transition: background 0.4s, border-color 0.4s; backdrop-filter: blur(8px); }
-  .txn-name { font-weight: 500; font-size: 14px; }
+  .txn { display: flex; justify-content: space-between; align-items: center; background: var(--surface2); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-left: 4px solid var(--orange); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; backdrop-filter: blur(12px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+  .txn-name { font-weight: 600; font-size: 14px; letter-spacing: 0.2px; }
   .txn-time { color: var(--muted); font-size: 11px; margin-top: 4px; }
-  .txn-cal { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--orange); transition: color 0.4s; text-align: right; }
+  .txn-cal { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--orange); transition: color 0.4s; text-align: right; }
   .txn-macros { font-size: 10px; color: var(--faint); margin-top: 2px; text-align: right; letter-spacing: 0.5px; }
-  .txn-del { background: none; border: none; color: var(--faint); cursor: pointer; font-size: 16px; margin-left: 8px; padding: 4px; border-radius: 6px; transition: color 0.2s; }
-  .txn-del:hover { color: var(--red); }
-  .empty-state { text-align: center; padding: 32px; color: var(--faint); font-size: 14px; }
+  .txn-del { background: none; border: none; color: var(--faint); cursor: pointer; font-size: 18px; margin-left: 10px; padding: 4px; border-radius: 6px; transition: color 0.2s, transform 0.1s; }
+  .txn-del:hover { color: var(--red); transform: scale(1.1); }
+  .empty-state { text-align: center; padding: 40px; color: var(--faint); font-size: 14px; font-weight: 500; }
 
   /* Profile */
-  .profile-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-  .profile-avatar { width: 58px; height: 58px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--orange); flex-shrink: 0; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; }
-  .profile-name { font-family: var(--font-display); font-size: 24px; font-weight: 900; }
-  .profile-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .stat-box { background: var(--surface2); border-radius: 12px; padding: 12px 10px; text-align: center; transition: background 0.4s; border: 1px solid var(--border); backdrop-filter: blur(8px); }
-  .stat-box .sv { font-family: var(--font-display); font-size: 20px; font-weight: 900; }
-  .stat-box .sl { color: var(--muted); font-size: 10px; margin-bottom: 3px; letter-spacing: 0.5px; }
+  .profile-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background-color: var(--orange-dim); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--orange); flex-shrink: 0; transition: all 0.4s; background-size: cover; background-position: center; overflow: hidden; box-shadow: 0 6px 20px var(--orange-dim); }
+  .profile-name { font-family: var(--font-display); font-size: 26px; font-weight: 900; letter-spacing: 1px; }
+  .profile-sub { color: var(--muted); font-size: 13px; margin-top: 2px; font-weight: 500; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .stat-box { background: var(--surface2); border-radius: 16px; padding: 14px 10px; text-align: center; transition: background 0.4s; border: 1px solid var(--border); backdrop-filter: blur(12px); box-shadow: var(--glass-glow), 0 4px 12px rgba(0,0,0,0.2); }
+  .stat-box .sv { font-family: var(--font-display); font-size: 22px; font-weight: 900; }
+  .stat-box .sl { color: var(--text); opacity: 0.7; font-size: 10px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
   .stat-box .ss { color: var(--muted); font-size: 10px; margin-top: 2px; }
 
-  .days-card { margin: 0 16px 14px; background: rgba(232,82,26,0.1); border-color: var(--orange-mid); padding: 18px 18px; }
-  .days-label { color: var(--orange); font-size: 10px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 6px; transition: color 0.4s; }
-  .days-num { font-family: var(--font-display); font-size: 52px; font-weight: 900; line-height: 1; text-shadow: 0 4px 15px rgba(232,82,26,0.2); }
+  .days-card { margin: 0 16px 16px; background: linear-gradient(145deg, rgba(232,82,26,0.15) 0%, rgba(232,82,26,0.05) 100%); border-color: var(--orange-mid); padding: 20px; }
+  .days-label { color: var(--orange); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 8px; transition: color 0.4s; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+  .days-num { font-family: var(--font-display); font-size: 56px; font-weight: 900; line-height: 1; text-shadow: 0 4px 20px var(--orange-mid); }
   .days-unit { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--muted); margin-left: 6px; }
-  .days-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
-  .days-details { margin-top: 14px; border-top: 1px solid var(--orange-mid); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; transition: border-color 0.4s;}
-  .days-row { display: flex; justify-content: space-between; font-size: 12px; }
+  .days-sub { color: var(--muted); font-size: 13px; margin-top: 6px; font-weight: 500; }
+  .days-details { margin-top: 16px; border-top: 1px solid var(--orange-mid); padding-top: 14px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.4s;}
+  .days-row { display: flex; justify-content: space-between; font-size: 13px; }
   .days-row .dk { color: var(--muted); }
   .days-row .dv { font-weight: 600; }
 
   /* Calendar */
-  .cal-grid { display: flex; gap: 5px; flex-wrap: wrap; }
-  .cal-day { width: 34px; height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; border: 1px solid transparent; transition: all 0.2s; }
-  .cal-day.empty { background: var(--surface2); color: var(--faint); }
-  .cal-day.good { background: rgba(61,186,110,0.15); border-color: rgba(61,186,110,0.3); color: var(--green); }
-  .cal-day.bad { background: rgba(232,64,64,0.15); border-color: rgba(232,64,64,0.3); color: var(--red); }
-  .cal-legend { display: flex; gap: 16px; margin-top: 10px; }
-  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
-  .leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+  .cal-grid { display: flex; gap: 6px; flex-wrap: wrap; }
+  .cal-day { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid transparent; transition: all 0.2s; box-shadow: inset 0 2px 4px rgba(255,255,255,0.05); }
+  .cal-day.empty { background: var(--surface2); color: var(--faint); border-color: var(--border); }
+  .cal-day.good { background: rgba(61,186,110,0.2); border-color: rgba(61,186,110,0.4); color: var(--green); box-shadow: 0 2px 8px rgba(61,186,110,0.2), inset 0 2px 4px rgba(255,255,255,0.1); }
+  .cal-day.bad { background: rgba(232,64,64,0.2); border-color: rgba(232,64,64,0.4); color: var(--red); box-shadow: 0 2px 8px rgba(232,64,64,0.2), inset 0 2px 4px rgba(255,255,255,0.1); }
+  .cal-legend { display: flex; gap: 16px; margin-top: 12px; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 500; }
+  .leg-dot { width: 12px; height: 12px; border-radius: 4px; }
 
-  /* Bottom nav */
-  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding: 8px 12px calc(24px + env(safe-area-inset-bottom, 0px)); gap: 6px; z-index: 100; transition: background 0.4s, border-color 0.4s; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 -4px 30px rgba(0,0,0,0.2); }
-  .nav-btn { flex: 1; background: transparent; border: none; border-radius: 12px; padding: 10px 0 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: background 0.2s; }
-  .nav-btn.active { background: rgba(255,255,255,0.05); }
-  .nav-icon { font-size: 18px; line-height: 1; transition: color 0.4s;}
-  .nav-label { font-size: 10px; color: var(--muted); font-family: var(--font-body); font-weight: 500; }
+  /* ENHANCED BOTTOM NAV */
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: rgba(15, 15, 15, 0.7); border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; padding: 10px 12px calc(24px + env(safe-area-inset-bottom, 0px)); gap: 8px; z-index: 100; transition: background 0.4s, border-color 0.4s; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 -8px 40px rgba(0,0,0,0.4); }
+  .nav-btn { flex: 1; background: transparent; border: none; border-radius: 14px; padding: 12px 0 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.3s ease; }
+  .nav-btn.active { background: rgba(255,255,255,0.08); box-shadow: inset 0 2px 4px rgba(255,255,255,0.05); }
+  .nav-icon { font-size: 20px; line-height: 1; transition: color 0.4s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+  .nav-btn.active .nav-icon { transform: scale(1.15); }
+  .nav-label { font-size: 10px; color: var(--muted); font-family: var(--font-body); font-weight: 600; letter-spacing: 0.5px; }
   .nav-btn.active .nav-label { color: var(--orange); transition: color 0.4s;}
 
-  .reset-btn { width: calc(100% - 32px); margin: 0 16px; background: var(--surface2); color: var(--faint); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-family: var(--font-body); font-size: 13px; cursor: pointer; transition: color 0.2s, border-color 0.2s, transform 0.1s; backdrop-filter: blur(8px); }
-  .reset-btn:hover { color: var(--red); border-color: var(--red); }
+  .reset-btn { width: calc(100% - 32px); margin: 0 16px; background: var(--surface2); color: var(--text); border: 1px solid var(--border); border-radius: 14px; padding: 14px; font-family: var(--font-body); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; backdrop-filter: blur(12px); box-shadow: var(--glass-glow), 0 4px 12px rgba(0,0,0,0.2); }
+  .reset-btn:hover { background: var(--surface3); border-color: rgba(255,255,255,0.2); }
   .reset-btn:active { transform: scale(0.98); }
 
   .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .pill-radio { display: none; }
-  .pill-label { display: inline-block; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.2s; user-select: none; backdrop-filter: blur(4px); }
-  .pill-radio:checked + .pill-label { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 600; box-shadow: 0 4px 10px var(--orange-mid); }
+  .pill-label { display: inline-block; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); opacity: 0.8; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; user-select: none; backdrop-filter: blur(8px); box-shadow: var(--glass-glow); }
+  .pill-radio:checked + .pill-label { background: var(--orange); border-color: rgba(255,255,255,0.2); color: #fff; opacity: 1; font-weight: 700; box-shadow: 0 6px 15px var(--orange-mid), inset 0 2px 4px rgba(255,255,255,0.2); }
 
   /* Food DB Modal Specific */
   .db-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
-  .db-tab { flex: 1; text-align: center; padding: 10px; border-bottom: 2px solid var(--surface3); color: var(--muted); font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+  .db-tab { flex: 1; text-align: center; padding: 12px; border-bottom: 3px solid var(--surface3); color: var(--muted); font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; }
   .db-tab.active { border-color: var(--orange); color: var(--orange); }
-  .db-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border); }
+  .db-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 12px; border-bottom: 1px solid var(--border); }
   .db-item:last-child { border-bottom: none; }
-  .db-item-name { font-weight: 500; font-size: 14px; margin-bottom: 4px; color: var(--text); }
-  .db-item-meta { font-size: 11px; color: var(--muted); }
-  .db-add-btn { background: var(--surface3); color: var(--orange); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-  .db-add-btn:hover { background: var(--orange-dim); }
+  .db-item-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: var(--text); }
+  .db-item-meta { font-size: 12px; color: var(--muted); }
+  .db-add-btn { background: var(--surface3); color: var(--orange); border: 1px solid var(--border); border-radius: 10px; padding: 8px 16px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.2s; box-shadow: var(--glass-glow); }
+  .db-add-btn:hover { background: var(--orange-dim); border-color: var(--orange); transform: scale(1.05); }
 
-  /* Glassmorphism Modals inner containers */
-  .glass-modal { background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  /* ENHANCED GLASS MODALS */
+  .glass-modal { 
+    background: rgba(25, 25, 25, 0.7); 
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); 
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1); 
+  }
 
   /* Animations */
-  @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-  .celebrate-box { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  .celebrate-box { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
   @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
-  @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-  /* ——— REMOVING Z-INDEX TO ALLOW SPOTLIGHT TO WORK ——— */
-  body.tour-active #main,
-  body.tour-active .topbar,
-  body.tour-active .bottom-nav {
-    z-index: auto !important;
-  }
-
-  /* ——— NEW APP TOUR CSS MATCHING CONCEPT ART ——— */
-  @keyframes floatChar {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
-    100% { transform: translateY(0px); }
-  }
-  
-  .tour-highlight {
-    position: relative !important;
-    z-index: 2001 !important;
-    /* Clean white border & heavy shadow to pop over dark background */
-    box-shadow: 0 0 0 4px #fff, 0 20px 40px rgba(0,0,0,0.8) !important;
-    /* Do NOT override background so original glassmorphism is preserved */
-    transition: all 0.3s ease;
-  }
-  
-  #tour-overlay {
-    position: fixed; inset: 0; 
-    /* Deep semi-transparent dark background. No backdrop-filter to prevent blurring the highlighted card */
-    background: rgba(4, 11, 22, 0.85); 
-    z-index: 2000; 
-    display: none; flex-direction: column; justify-content: flex-end; align-items: flex-end;
-    padding: 20px;
-  }
-  
-  #tour-bubble {
-    background: #9d2933; /* Deep red from concept art */
-    color: #fff; padding: 20px; border-radius: 20px; 
-    width: 100%; max-width: 360px;
-    text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-    border: 2px solid rgba(255,255,255,0.9);
-    position: relative; z-index: 2002; 
-    margin-bottom: 20px; margin-right: 10px;
-    font-weight: 600; font-size: 15px; line-height: 1.5;
-    animation: popIn 0.4s ease forwards;
-  }
-  
-  /* Pointing tail aligned to the right character */
-  #tour-bubble::after {
-    content: ''; position: absolute; bottom: -12px; right: 50px;
-    border-width: 12px 12px 0; border-style: solid; border-color: #9d2933 transparent transparent transparent;
-  }
-  #tour-bubble::before {
-    content: ''; position: absolute; bottom: -15px; right: 48px;
-    border-width: 14px 14px 0; border-style: solid; border-color: rgba(255,255,255,0.9) transparent transparent transparent;
-  }
-
-  #tour-character {
-    /* Base 280x320 increased by 40% = 392x448 */
-    width: 392px; height: 448px; 
-    background-size: contain; background-repeat: no-repeat; background-position: bottom right;
-    animation: floatChar 3s ease-in-out infinite; 
-    z-index: 2002; pointer-events: none;
-    margin-bottom: -20px; margin-right: -20px; /* Snug into bottom right corner */
-  }
-
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- INITIAL LOADING SCREEN -->
-  <div id="loading-screen">CALCOUNT.</div>
+  <!-- ENHANCED INITIAL LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="loader-spinner"></div>
+    <div class="loading-text">CALCOUNT.</div>
+  </div>
 
   <!-- AUTHENTICATION SCREEN (EMAIL & PASSWORD) -->
   <div id="auth-screen">
@@ -331,7 +299,7 @@
     <div class="field"><label class="field-label">EMAIL</label><input class="inp" id="auth-email" type="email" placeholder="you@email.com"></div>
     <div class="field"><label class="field-label">PASSWORD</label><input class="inp" id="auth-pass" type="password" placeholder="••••••••"></div>
     
-    <div style="display:flex; gap:10px; margin-top:24px;">
+    <div style="display:flex; gap:12px; margin-top:32px;">
       <button class="reset-btn" style="flex:1; margin:0;" onclick="handleSignUp()">Create Account</button>
       <button class="btn-primary" style="flex:1; margin:0;" onclick="handleLogin()">Log In</button>
     </div>
@@ -409,33 +377,32 @@
 
     <!-- Dashboard Tab -->
     <div id="tab-dashboard" class="tab-content active">
-      <!-- ID ADDED HERE FOR TOUR -->
-      <div class="card" id="dash-main-card">
+      <div class="card">
         <div class="card-row"><div class="card-label">CALORIES LEFT TODAY</div><div class="cal-left" id="daily-left">—</div></div>
         <div class="pbar-track"><div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div></div>
-        <div class="cal-meta" style="margin-bottom:8px;"><span id="daily-spent">0 spent</span><span id="daily-budget-label">0 budget</span></div>
+        <div class="cal-meta" style="margin-bottom:10px;"><span id="daily-spent">0 spent</span><span id="daily-budget-label">0 budget</span></div>
         
         <!-- Daily Macro Summary with Subtle Chart Button -->
-        <div style="border-top:1px solid var(--border); padding-top:8px; display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted); font-weight:600;">
-          <div style="display:flex; gap: 12px;">
+        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted); font-weight:600;">
+          <div style="display:flex; gap: 14px;">
             <span>Pro: <span id="dash-p" style="color:var(--text)">0g</span></span>
             <span>Carb: <span id="dash-c" style="color:var(--text)">0g</span></span>
             <span>Fat: <span id="dash-f" style="color:var(--text)">0g</span></span>
-            <span>Fiber: <span id="dash-fi" style="color:var(--text)">0g</span></span>
+            <span>Fi: <span id="dash-fi" style="color:var(--text)">0g</span></span>
           </div>
-          <button style="background:var(--surface2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:10px; padding:4px 8px; cursor:pointer;" onclick="openChartModal()">📊 Radar</button>
+          <button style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:var(--text); font-size:11px; font-weight:700; padding:6px 10px; cursor:pointer; backdrop-filter:blur(4px); box-shadow:var(--glass-glow);" onclick="openChartModal()">📊 Radar</button>
         </div>
         
         <!-- CHEAT DAY BUTTON -->
-        <button id="cheat-day-btn" class="reset-btn" style="width:100%; margin:14px 0 0 0; font-weight:800; border-radius:12px; transition: all 0.3s ease;" onclick="useCheatDay()">🍕 USE CHEAT DAY (+350 cal)</button>
+        <button id="cheat-day-btn" class="reset-btn" style="width:100%; margin:16px 0 0 0; font-weight:800; border-radius:14px; transition: all 0.3s ease; background: rgba(232, 82, 26, 0.1);" onclick="useCheatDay()">🍕 USE CHEAT DAY (+350 cal)</button>
       </div>
 
       <!-- WATER TRACKER -->
       <div class="card">
-        <div class="card-row"><div class="card-label" style="color:var(--water)">WATER INTAKE (GLASSES)</div><div id="water-count" style="font-family:var(--font-display);font-size:24px;font-weight:900;color:var(--water)">0 / 8</div></div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+        <div class="card-row"><div class="card-label" style="color:var(--water)">WATER INTAKE (GLASSES)</div><div id="water-count" style="font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--water)">0 / 8</div></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
           <button class="water-btn" onclick="addWater(-1)">-</button>
-          <div style="display:flex; gap: 4px;" id="water-glasses"></div>
+          <div style="display:flex; gap: 6px;" id="water-glasses"></div>
           <button class="water-btn" onclick="addWater(1)">+</button>
         </div>
       </div>
@@ -449,23 +416,23 @@
       </div>
 
       <div class="card">
-        <div class="card-row"><div class="card-label">WEEKLY BUDGET LEFT</div><div id="weekly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div></div>
+        <div class="card-row"><div class="card-label">WEEKLY BUDGET LEFT</div><div id="weekly-left" style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--green)">—</div></div>
         <div class="pbar-track"><div class="pbar-fill" id="weekly-bar" style="width:0%;background:var(--green)"></div></div>
         <div class="week-dots" id="week-dots"></div>
       </div>
 
       <div class="card">
-        <div class="card-row"><div class="card-label">MONTHLY BUDGET LEFT</div><div id="monthly-left" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--green)">—</div></div>
+        <div class="card-row"><div class="card-label">MONTHLY BUDGET LEFT</div><div id="monthly-left" style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--green)">—</div></div>
         <div class="pbar-track"><div class="pbar-fill" id="monthly-bar" style="width:0%;background:var(--green)"></div></div>
         <div class="cal-meta"><span id="monthly-spent-label">0 spent</span><span id="monthly-budget-label">0 budget</span></div>
       </div>
 
-      <div class="card" style="border-color:var(--orange-mid);background:linear-gradient(135deg,var(--surface) 0%,var(--orange-dim) 100%)">
-        <div class="card-row"><div class="card-label" style="color:var(--orange)">TOTAL DEFICIT PROGRESS</div><div id="deficit-pct-label" style="font-family:var(--font-display);font-size:18px;font-weight:900;color:var(--orange)">0%</div></div>
-        <div class="pbar-track" style="height:14px;margin-bottom:8px; background:rgba(0,0,0,0.4);"><div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div></div>
+      <div class="card" style="border-color:var(--orange-mid);background:linear-gradient(135deg, rgba(232, 82, 26, 0.1) 0%, rgba(232, 82, 26, 0.02) 100%)">
+        <div class="card-row"><div class="card-label" style="color:var(--orange)">TOTAL DEFICIT PROGRESS</div><div id="deficit-pct-label" style="font-family:var(--font-display);font-size:20px;font-weight:900;color:var(--orange)">0%</div></div>
+        <div class="pbar-track" style="height:14px;margin-bottom:12px; background:rgba(0,0,0,0.5);"><div class="pbar-fill" id="deficit-bar" style="width:0%;background:linear-gradient(90deg,var(--orange),#ffb347)"></div></div>
         <div class="cal-meta"><span id="deficit-achieved-label" style="color:var(--orange)">0 cal deficit achieved</span><span id="deficit-goal-label">0 cal goal</span></div>
-        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;justify-content:space-between">
-          <span>Remaining: <span id="deficit-remaining-label" style="color:var(--text);font-weight:600">—</span></span><span>Est. <span id="deficit-days-label" style="color:var(--orange);font-weight:600">—</span> days left</span>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:12px;color:var(--muted);display:flex;justify-content:space-between">
+          <span>Remaining: <span id="deficit-remaining-label" style="color:var(--text);font-weight:700">—</span></span><span>Est. <span id="deficit-days-label" style="color:var(--orange);font-weight:700">—</span> days left</span>
         </div>
       </div>
 
@@ -474,41 +441,41 @@
 
     <!-- Tracker Tab -->
     <div id="tab-tracker" class="tab-content">
-      <!-- ID ADDED HERE FOR TOUR -->
-      <div class="card" id="tracker-main-card">
+      <div class="card">
         <div class="card-row"><div class="card-label">CALORIES LEFT TODAY</div><div class="cal-left" id="tracker-daily-left">—</div></div>
         <div class="pbar-track"><div class="pbar-fill" id="tracker-daily-bar" style="width:0%;background:var(--orange)"></div></div>
       </div>
 
       <!-- Action Buttons -->
-      <button class="btn-primary" style="margin: 0 16px 14px; width: calc(100% - 32px); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; padding: 16px; font-weight: 800;" onclick="openFoodDB()">
-        <span style="font-size:20px">🔍</span> SEARCH FOOD DATABASE
+      <button class="btn-primary" style="margin: 0 16px 16px; width: calc(100% - 32px); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 18px; padding: 18px; font-weight: 800;" onclick="openFoodDB()">
+        <span style="font-size:22px">🔍</span> SEARCH FOOD DATABASE
       </button>
 
-      <div style="display:flex; gap:10px; margin: 0 16px 14px;">
-        <button class="reset-btn" style="flex:1; margin:0; padding:12px; font-size:13px; font-weight:600; border-color:var(--border);" onclick="openQuickAddModal()">⚡ Quick Manual Entry</button>
-        <button class="reset-btn" style="flex:1; margin:0; padding:12px; font-size:13px; font-weight:600; color:var(--orange); border-color:var(--orange-mid);" onclick="openCustomMealModal()">➕ Create Meal</button>
+      <div style="display:flex; gap:12px; margin: 0 16px 16px;">
+        <button class="reset-btn" style="flex:1; margin:0; padding:14px; font-size:14px; font-weight:700;" onclick="openQuickAddModal()">⚡ Quick Add</button>
+        <button class="reset-btn" style="flex:1; margin:0; padding:14px; font-size:14px; font-weight:700; color:var(--orange); border-color:var(--orange-mid); background:var(--orange-dim);" onclick="openCustomMealModal()">➕ Create Meal</button>
       </div>
 
       <!-- Logs -->
-      <div class="card-label" style="margin: 0 16px 8px;">TODAY'S LOGS</div>
+      <div class="card-label" style="margin: 0 20px 10px;">TODAY'S LOGS</div>
       <div id="txn-list" style="margin:0 16px;"></div>
       <div id="txn-empty" class="empty-state" style="display:none">No entries yet today — start logging!</div>
     </div>
 
     <!-- Social Tab -->
     <div id="tab-social" class="tab-content">
-      <!-- ID ADDED HERE FOR TOUR -->
-      <div class="card" id="social-battle-card" style="border-color:var(--orange-mid);">
+      <div class="card" style="border-color:var(--orange-mid); background: linear-gradient(145deg, rgba(232,82,26,0.1) 0%, transparent 100%);">
         <div class="card-label" style="color:var(--orange)">7-DAY CONSISTENCY BATTLES</div>
-        <button class="btn-primary" style="margin-top:10px; font-size:14px; padding:12px;" onclick="createChallenge()">+ INVITE A FRIEND</button>
-        <div id="active-challenges-list" style="margin-top:14px; display:flex; flex-direction:column; gap:8px;"></div>
+        <button class="btn-primary" style="margin-top:12px; font-size:15px; padding:14px;" onclick="createChallenge()">+ INVITE A FRIEND</button>
+        <div id="active-challenges-list" style="margin-top:16px; display:flex; flex-direction:column; gap:10px;"></div>
       </div>
 
       <div class="card">
         <div class="card-label" style="color:var(--orange)">GLOBAL LEADERBOARD (TOP STREAKS)</div>
-        <div id="leaderboard-list" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
-          <div style="text-align: center; color: var(--muted); padding: 20px;">Loading top users...</div>
+        <div id="leaderboard-list" style="margin-top: 14px; display: flex; flex-direction: column; gap: 10px;">
+          <!-- ADDED SPINNER FOR LEADERBOARD -->
+          <div class="loader-spinner small"></div>
+          <div style="text-align: center; color: var(--muted); padding: 10px; font-weight: 500;">Loading top users...</div>
         </div>
       </div>
     </div>
@@ -522,7 +489,7 @@
             <div class="profile-name" id="profile-name">—</div>
             <div class="profile-sub" id="profile-sub">—</div>
           </div>
-          <button style="background:var(--surface2); border:1px solid var(--border); border-radius:10px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; transition:all 0.2s;" onclick="openEditModal()" title="Edit Profile">✏️</button>
+          <button style="background:var(--surface2); border:1px solid rgba(255,255,255,0.2); border-radius:12px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; transition:all 0.2s; box-shadow:var(--glass-glow);" onclick="openEditModal()" title="Edit Profile">✏️</button>
         </div>
         <div class="stat-grid">
           <div class="stat-box"><div class="sl">BMI</div><div class="sv" id="stat-bmi">—</div><div class="ss" id="stat-bmi-cat">—</div></div>
@@ -542,24 +509,21 @@
         </div>
       </div>
       
-      <!-- ADDED APP TOUR BUTTON -->
-      <button class="reset-btn" style="margin-bottom:12px;color:var(--text);border-color:var(--border);" onclick="startTour()">🗺️ Take the App Tour</button>
-
-      <button class="reset-btn" id="notif-btn" style="margin-bottom:12px;color:var(--water);border-color:var(--border);" onclick="enableNotifications()">🔔 Enable Smart Reminders</button>
-      <button class="reset-btn" style="margin-bottom:12px;color:var(--orange);border-color:var(--orange-mid);font-weight:600;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
+      <button class="reset-btn" id="notif-btn" style="margin-bottom:14px;color:var(--water);border-color:rgba(56, 189, 248, 0.3);background:rgba(56, 189, 248, 0.05);" onclick="enableNotifications()">🔔 Enable Smart Reminders</button>
+      <button class="reset-btn" style="margin-bottom:14px;color:var(--orange);border-color:var(--orange-mid);background:var(--orange-dim);font-weight:700;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
 
       <div class="card">
-        <div class="card-label" style="margin-bottom:12px">LAST 30 DAYS</div>
+        <div class="card-label" style="margin-bottom:14px">LAST 30 DAYS</div>
         <div class="cal-grid" id="profile-calendar"></div>
         <div class="cal-legend">
-          <div class="leg-item"><div class="leg-dot" style="background:rgba(61,186,110,0.3); border:1px solid var(--green);"></div>In budget</div>
-          <div class="leg-item"><div class="leg-dot" style="background:rgba(232,64,64,0.3); border:1px solid var(--red);"></div>Over budget</div>
-          <div class="leg-item"><div class="leg-dot" style="background:var(--surface2); border:1px solid var(--border);"></div>No data</div>
+          <div class="leg-item"><div class="leg-dot" style="background:rgba(61,186,110,0.4); border:1px solid var(--green);"></div>In budget</div>
+          <div class="leg-item"><div class="leg-dot" style="background:rgba(232,64,64,0.4); border:1px solid var(--red);"></div>Over budget</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--surface3); border:1px solid var(--border);"></div>No data</div>
         </div>
       </div>
       
       <!-- LOGOUT BUTTON -->
-      <button class="reset-btn" style="color:var(--red); border-color:var(--red);" onclick="logOut()">Log Out</button>
+      <button class="reset-btn" style="color:var(--red); border-color:rgba(232,64,64,0.3); background:rgba(232,64,64,0.05);" onclick="logOut()">Log Out</button>
     </div>
 
     <!-- Bottom Nav -->
@@ -571,13 +535,13 @@
     </div>
 
     <!-- Spider Chart Modal -->
-    <div id="chart-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-      <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;text-align:center;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <div class="ob-title" style="font-size:24px;margin:0;">MACRO RADAR.</div>
-          <button style="background:none;border:none;color:var(--faint);font-size:20px;cursor:pointer;" onclick="closeChartModal()">✕</button>
+    <div id="chart-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+      <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;text-align:center;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div class="ob-title" style="font-size:26px;margin:0;">MACRO RADAR.</div>
+          <button style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text);font-size:18px;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--glass-glow);" onclick="closeChartModal()">✕</button>
         </div>
-        <div style="position: relative; width: 100%; height: 300px;">
+        <div style="position: relative; width: 100%; height: 320px;">
           <canvas id="macroChart"></canvas>
         </div>
       </div>
@@ -585,181 +549,169 @@
   </div>
 
   <!-- HEALTHIFYME-STYLE PORTION ADJUSTER MODAL -->
-  <div id="food-detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1001;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:430px;border-radius:24px 24px 0 0;padding:24px 20px 40px;border-top:1px solid var(--border);animation: slideUp 0.3s ease;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+  <div id="food-detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1001;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:430px;border-radius:28px 28px 0 0;padding:28px 24px 44px;border-bottom:none;animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
         <div>
-          <div id="fd-name" style="font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--orange);line-height:1.1;margin-bottom:4px;">Food Name</div>
-          <div style="font-size:13px;color:var(--muted);">Adjust your serving size</div>
+          <div id="fd-name" style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--orange);line-height:1.1;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.5);">Food Name</div>
+          <div style="font-size:14px;color:var(--muted);font-weight:500;">Adjust your serving size</div>
         </div>
-        <button style="background:none;border:none;color:var(--faint);font-size:24px;cursor:pointer;line-height:1;" onclick="closeFoodDetail()">✕</button>
+        <button style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text);font-size:18px;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--glass-glow);flex-shrink:0;" onclick="closeFoodDetail()">✕</button>
       </div>
 
-      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);padding:16px;border-radius:16px;margin-bottom:20px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);padding:20px;border-radius:20px;margin-bottom:24px;border:1px solid rgba(255,255,255,0.1);box-shadow:var(--glass-glow), 0 8px 20px rgba(0,0,0,0.2);">
         <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">CALORIES</div>
-          <div id="fd-cal-val" style="font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--text);">0</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:4px;letter-spacing:1px;">CALORIES</div>
+          <div id="fd-cal-val" style="font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--text);text-shadow:0 2px 4px rgba(0,0,0,0.3);">0</div>
         </div>
-        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div style="width:1px;height:48px;background:rgba(255,255,255,0.1);"></div>
         <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">PRO</div>
-          <div style="font-weight:700;color:var(--text);"><span id="fd-p-val">0</span>g</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">CARB</div>
-          <div style="font-weight:700;color:var(--text);"><span id="fd-c-val">0</span>g</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px;letter-spacing:1px;">PRO</div>
+          <div style="font-weight:800;color:var(--text);font-size:16px;"><span id="fd-p-val">0</span>g</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">FAT</div>
-          <div style="font-weight:700;color:var(--text);"><span id="fd-f-val">0</span>g</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px;letter-spacing:1px;">CARB</div>
+          <div style="font-weight:800;color:var(--text);font-size:16px;"><span id="fd-c-val">0</span>g</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;">FIBER</div>
-          <div style="font-weight:700;color:var(--text);"><span id="fd-fi-val">0</span>g</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px;letter-spacing:1px;">FAT</div>
+          <div style="font-weight:800;color:var(--text);font-size:16px;"><span id="fd-f-val">0</span>g</div>
         </div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-        <div style="font-weight:600;font-size:15px;">Number of Servings</div>
-        <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);padding:6px;border-radius:12px;border:1px solid var(--border);">
-          <button style="width:36px;height:36px;border-radius:8px;border:none;background:var(--surface3);color:var(--text);font-size:18px;cursor:pointer;" onclick="adjServing(-0.25)">-</button>
-          <input type="number" id="fd-servings" value="1" step="0.25" min="0.25" style="width:50px;background:transparent;border:none;color:var(--text);font-size:18px;font-weight:700;text-align:center;outline:none;" oninput="updateFoodDetail()">
-          <button style="width:36px;height:36px;border-radius:8px;border:none;background:var(--surface3);color:var(--text);font-size:18px;cursor:pointer;" onclick="adjServing(0.25)">+</button>
+        <div style="text-align:center;">
+          <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px;letter-spacing:1px;">FIBER</div>
+          <div style="font-weight:800;color:var(--text);font-size:16px;"><span id="fd-fi-val">0</span>g</div>
         </div>
       </div>
 
-      <button class="btn-primary" style="width:100%;" onclick="addFoodFromDetail()">ADD TO DIARY</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+        <div style="font-weight:700;font-size:16px;">Number of Servings</div>
+        <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);padding:8px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 2px 4px rgba(0,0,0,0.3);">
+          <button style="width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:var(--surface3);color:var(--text);font-size:22px;font-weight:600;cursor:pointer;box-shadow:var(--glass-glow);" onclick="adjServing(-0.25)">-</button>
+          <input type="number" id="fd-servings" value="1" step="0.25" min="0.25" style="width:56px;background:transparent;border:none;color:var(--text);font-size:22px;font-weight:800;text-align:center;outline:none;" oninput="updateFoodDetail()">
+          <button style="width:40px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:var(--surface3);color:var(--text);font-size:22px;font-weight:600;cursor:pointer;box-shadow:var(--glass-glow);" onclick="adjServing(0.25)">+</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="width:100%;padding:18px;font-size:20px;" onclick="addFoodFromDetail()">ADD TO DIARY</button>
     </div>
   </div>
 
   <!-- QUICK ADD MANUAL MODAL -->
-  <div id="quick-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;">
-      <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">QUICK ADD.</div>
+  <div id="quick-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;">
+      <div class="ob-title" style="font-size:26px;margin-bottom:24px;text-align:center;">QUICK ADD.</div>
       <div class="field"><label class="field-label">MEAL NAME</label><input class="inp" id="qa-name" type="text" placeholder="e.g. Random Snack"></div>
       <div class="field"><label class="field-label">TOTAL CALORIES</label><input class="inp" id="qa-cal" type="number" placeholder="e.g. 250"></div>
-      <div class="grid4" style="margin-bottom: 18px;">
+      <div class="grid4" style="margin-bottom: 24px;">
         <div class="field" style="margin-bottom:0;"><label class="field-label">PRO</label><input class="inp" id="qa-p" type="number" placeholder="0"></div>
         <div class="field" style="margin-bottom:0;"><label class="field-label">CARB</label><input class="inp" id="qa-c" type="number" placeholder="0"></div>
         <div class="field" style="margin-bottom:0;"><label class="field-label">FAT</label><input class="inp" id="qa-f" type="number" placeholder="0"></div>
         <div class="field" style="margin-bottom:0;"><label class="field-label">FIBER</label><input class="inp" id="qa-fi" type="number" placeholder="0"></div>
       </div>
       <div class="grid2">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="closeQuickAddModal()">CANCEL</button>
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,0.1);box-shadow:var(--glass-glow);" onclick="closeQuickAddModal()">CANCEL</button>
         <button class="btn-primary" onclick="submitQuickAdd()">LOG IT</button>
       </div>
     </div>
   </div>
 
   <!-- CUSTOM MEAL MODAL -->
-  <div id="custom-meal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;">
-      <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">CREATE MEAL.</div>
+  <div id="custom-meal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;">
+      <div class="ob-title" style="font-size:26px;margin-bottom:24px;text-align:center;">CREATE MEAL.</div>
       <div class="field"><label class="field-label">MEAL NAME</label><input class="inp" id="cm-name" type="text" placeholder="e.g. My Protein Shake"></div>
       <div class="field"><label class="field-label">TOTAL CALORIES</label><input class="inp" id="cm-cal" type="number" placeholder="e.g. 350"></div>
-      <div class="grid4" style="margin-bottom: 18px;">
+      <div class="grid4" style="margin-bottom: 24px;">
         <div class="field" style="margin-bottom:0;"><label class="field-label">PRO</label><input class="inp" id="cm-p" type="number"></div>
         <div class="field" style="margin-bottom:0;"><label class="field-label">CARB</label><input class="inp" id="cm-c" type="number"></div>
         <div class="field" style="margin-bottom:0;"><label class="field-label">FAT</label><input class="inp" id="cm-f" type="number"></div>
         <div class="field" style="margin-bottom:0;"><label class="field-label">FIBER</label><input class="inp" id="cm-fi" type="number"></div>
       </div>
       <div class="grid2">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="closeCustomMealModal()">CANCEL</button>
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,0.1);box-shadow:var(--glass-glow);" onclick="closeCustomMealModal()">CANCEL</button>
         <button class="btn-primary" onclick="saveAndLogCustomMeal()">SAVE & LOG</button>
       </div>
     </div>
   </div>
 
   <!-- FOOD DATABASE MODAL -->
-  <div id="food-db-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:400px;border-radius:18px;padding:24px 16px;max-height:85vh;display:flex;flex-direction:column;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <div class="ob-title" style="font-size:24px;margin:0;">FOOD DATABASE</div>
-        <button style="background:none;border:none;color:var(--faint);font-size:20px;cursor:pointer;" onclick="closeFoodDB()">✕</button>
+  <div id="food-db-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:400px;border-radius:24px;padding:28px 20px;max-height:85vh;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <div class="ob-title" style="font-size:26px;margin:0;">FOOD DATABASE</div>
+        <button style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text);font-size:18px;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--glass-glow);" onclick="closeFoodDB()">✕</button>
       </div>
       
-      <input class="inp" id="food-search" type="text" placeholder="Search foods..." style="margin-bottom:16px;" oninput="renderFoodList()">
+      <input class="inp" id="food-search" type="text" placeholder="Search foods..." style="margin-bottom:20px;" oninput="renderFoodList()">
       
       <div class="db-tabs">
         <div class="db-tab active" id="tab-db-all" onclick="switchFoodTab('all')">Indian Database</div>
         <div class="db-tab" id="tab-db-custom" onclick="switchFoodTab('custom')">My Meals</div>
       </div>
       
-      <div id="food-list-container" style="flex:1;overflow-y:auto;padding-right:4px;">
+      <div id="food-list-container" style="flex:1;overflow-y:auto;padding-right:8px;">
         <!-- Filled by JS -->
       </div>
     </div>
   </div>
 
   <!-- CELEBRATION MODAL -->
-  <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+  <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
     <div id="particles-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;"></div>
-    <div class="celebrate-box" style="background:var(--surface);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);width:100%;max-width:380px;border-radius:18px;padding:32px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 50px rgba(232,82,26,0.4);z-index:2;">
-      <div style="font-size:60px;margin-bottom:10px;line-height:1;">🏆</div>
-      <div class="ob-title" style="font-size:28px;margin-bottom:8px;color:var(--orange);">MILESTONE REACHED!</div>
-      <div class="ob-sub" style="margin-bottom:24px;font-size:15px;">You hit a <span id="celeb-streak-text" style="font-weight:bold;color:var(--text);"></span> day streak. You earned 1 Unlock Token!</div>
-      <button class="btn-primary" style="margin-bottom:12px;" onclick="claimReward()">CHOOSE REWARD</button>
-      <button class="reset-btn" style="margin:0;border:none;" onclick="closeCelebration()">Save Token For Later</button>
+    <div class="celebrate-box glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:36px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 50px rgba(232,82,26,0.4), var(--glass-glow);z-index:2;">
+      <div style="font-size:64px;margin-bottom:12px;line-height:1;text-shadow:0 10px 20px rgba(0,0,0,0.5);">🏆</div>
+      <div class="ob-title" style="font-size:30px;margin-bottom:10px;color:var(--orange);">MILESTONE REACHED!</div>
+      <div class="ob-sub" style="margin-bottom:28px;font-size:16px;">You hit a <span id="celeb-streak-text" style="font-weight:900;color:var(--text);font-size:18px;"></span> day streak. You earned 1 Unlock Token!</div>
+      <button class="btn-primary" style="margin-bottom:14px;padding:16px;" onclick="claimReward()">CHOOSE REWARD</button>
+      <button class="reset-btn" style="margin:0;border:none;box-shadow:none;background:transparent;" onclick="closeCelebration()">Save Token For Later</button>
     </div>
   </div>
 
   <!-- REWARDS STORE MODAL -->
-  <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:400px;border-radius:18px;padding:24px;max-height:85vh;display:flex;flex-direction:column;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
+  <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:400px;border-radius:24px;padding:28px;max-height:85vh;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;">
         <div>
-          <div class="ob-title" style="font-size:24px;margin:0;">REWARDS STORE.</div>
-          <div class="ob-sub" style="margin:0;">Tokens available: <span id="reward-tokens-display" style="color:var(--orange);font-weight:bold;font-size:16px;">0</span></div>
+          <div class="ob-title" style="font-size:26px;margin:0;">REWARDS STORE.</div>
+          <div class="ob-sub" style="margin:0;font-size:15px;">Tokens available: <span id="reward-tokens-display" style="color:var(--orange);font-weight:800;font-size:18px;">0</span></div>
         </div>
       </div>
-      <div id="rewards-list" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;padding-bottom:10px;flex:1;">
+      <div id="rewards-list" style="display:flex;flex-direction:column;gap:12px;overflow-y:auto;padding-bottom:12px;flex:1;padding-right:8px;">
         <!-- Filled by JS -->
       </div>
-      <button class="btn-primary" style="margin-top:16px;background:var(--surface3);color:var(--text);border:1px solid var(--border);flex-shrink:0;" onclick="closeRewardsModal()">CLOSE</button>
+      <button class="btn-primary" style="margin-top:20px;background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,0.1);flex-shrink:0;box-shadow:var(--glass-glow);" onclick="closeRewardsModal()">CLOSE</button>
     </div>
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;">
-      <div class="ob-title" style="font-size:24px;margin-bottom:20px;text-align:center;">EDIT METRICS.</div>
+  <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;">
+      <div class="ob-title" style="font-size:26px;margin-bottom:24px;text-align:center;">EDIT METRICS.</div>
       <div class="field"><label class="field-label">NAME</label><input class="inp" id="em-name" type="text"></div>
       <div class="grid2">
         <div class="field"><label class="field-label">WEIGHT (kg)</label><input class="inp" id="em-weight" type="number"></div>
         <div class="field"><label class="field-label">HEIGHT (cm)</label><input class="inp" id="em-height" type="number"></div>
       </div>
       <div class="field"><label class="field-label">TARGET WEIGHT (kg)</label><input class="inp" id="em-target" type="number"></div>
-      <div class="grid2" style="margin-top:24px;">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="closeEditModal()">CANCEL</button>
+      <div class="grid2" style="margin-top:28px;">
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,0.1);box-shadow:var(--glass-glow);" onclick="closeEditModal()">CANCEL</button>
         <button class="btn-primary" onclick="saveEditModal()">SAVE</button>
       </div>
     </div>
   </div>
 
   <!-- TDEE NUDGE MODAL -->
-  <div id="tdee-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);">
-    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:18px;padding:24px;text-align:center;">
-      <div style="font-size:40px;margin-bottom:10px;">⚖️</div>
-      <div class="ob-title" style="font-size:24px;margin-bottom:10px;">14-DAY CHECK IN</div>
-      <div class="ob-sub" style="margin-bottom:20px;">As you lose weight, your metabolism drops. Enter your current weight to recalculate your TDEE and keep your calorie budget deadly accurate.</div>
-      <div class="field" style="text-align:left;"><label class="field-label">CURRENT WEIGHT (kg)</label><input class="inp" id="tm-weight" type="number"></div>
-      <div class="grid2" style="margin-top:24px;">
-        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid var(--border);" onclick="snoozeTDEENudge()">LATER</button>
+  <div id="tdee-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:32px 24px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;text-shadow:0 10px 20px rgba(0,0,0,0.5);">⚖️</div>
+      <div class="ob-title" style="font-size:26px;margin-bottom:12px;">14-DAY CHECK IN</div>
+      <div class="ob-sub" style="margin-bottom:24px;font-size:15px;line-height:1.5;">As you lose weight, your metabolism drops. Enter your current weight to recalculate your TDEE and keep your calorie budget deadly accurate.</div>
+      <div class="field" style="text-align:left;"><label class="field-label">CURRENT WEIGHT (kg)</label><input class="inp" id="tm-weight" type="number" style="font-size:20px;font-weight:700;"></div>
+      <div class="grid2" style="margin-top:28px;">
+        <button class="btn-primary" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,0.1);box-shadow:var(--glass-glow);" onclick="snoozeTDEENudge()">LATER</button>
         <button class="btn-primary" onclick="saveTDEENudge()">UPDATE BUDGET</button>
       </div>
     </div>
-  </div>
-
-  <!-- NEW APP TOUR SPOTLIGHT OVERLAY -->
-  <div id="tour-overlay">
-    <div id="tour-bubble">
-      <div id="tour-text"></div>
-      <div style="display:flex; gap:10px; justify-content:center; margin-top:16px;">
-        <button class="reset-btn" style="flex:1; margin:0; color:#fff; border-color:rgba(255,255,255,0.3); padding:8px;" onclick="closeTour()">Skip</button>
-        <button class="btn-primary" id="tour-btn" style="flex:1; margin:0; background:#fff; color:#9d2933; padding:8px;" onclick="nextTourStep()">Next</button>
-      </div>
-    </div>
-    <div id="tour-character"></div>
   </div>
 
 </div>
@@ -796,79 +748,6 @@ const BUNDLES = [
 ];
 
 let currentFoodTab = 'all';
-
-// ——— NEW APP TOUR LOGIC ———
-const tourSteps = [
-  { 
-    tab: 'dashboard', 
-    target: 'dash-main-card', 
-    img: 'introduction3.png', 
-    text: 'Welcome to your Dashboard! Think of this as your locker room. Stay in the green on your budget, hit those 8 glasses of water, and keep your streak alive!' 
-  },
-  { 
-    tab: 'tracker', 
-    target: 'tracker-main-card', 
-    img: 'introduction.png', 
-    text: 'Precision is everything. Use the search bar to access the Food Database or create custom meals. Log accurately, and the results will follow.' 
-  },
-  { 
-    tab: 'social', 
-    target: 'social-battle-card', 
-    img: 'introduction2.png', 
-    text: 'Invite your mates to 7-Day Consistency Battles and climb the Leaderboard. Stick to the game plan to earn Unlock Tokens. Let’s get out there and win it!' 
-  }
-];
-
-let currentTourStep = 0;
-let currentTourTarget = null;
-
-function startTour() {
-  currentTourStep = 0;
-  // This class temporarily removes z-indexes that trap the spotlighted element!
-  document.body.classList.add('tour-active');
-  document.getElementById('tour-overlay').style.display = 'flex';
-  renderTourStep();
-}
-
-function renderTourStep() {
-  if (currentTourTarget) {
-    currentTourTarget.classList.remove('tour-highlight');
-  }
-
-  const step = tourSteps[currentTourStep];
-  showTab(step.tab);
-
-  currentTourTarget = document.getElementById(step.target);
-  if (currentTourTarget) {
-    currentTourTarget.classList.add('tour-highlight');
-    setTimeout(() => {
-      currentTourTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 50);
-  }
-
-  document.getElementById('tour-character').style.backgroundImage = `url('${step.img}')`;
-  document.getElementById('tour-text').textContent = step.text;
-  document.getElementById('tour-btn').textContent = currentTourStep === tourSteps.length - 1 ? "Got It!" : "Next";
-}
-
-function nextTourStep() {
-  currentTourStep++;
-  if (currentTourStep >= tourSteps.length) {
-    closeTour();
-  } else {
-    renderTourStep();
-  }
-}
-
-function closeTour() {
-  if (currentTourTarget) {
-    currentTourTarget.classList.remove('tour-highlight');
-    currentTourTarget = null;
-  }
-  document.getElementById('tour-overlay').style.display = 'none';
-  document.body.classList.remove('tour-active');
-  showTab('dashboard'); 
-}
 
 // ——— AUTH & SYNC LOGIC (RESTORED EMAIL/PASSWORD) ———
 async function handleLogin() {
@@ -1153,7 +1032,7 @@ function renderFoodList() {
   let filtered = source.filter(f => f.label.toLowerCase().includes(query));
   
   if (filtered.length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:13px;">No foods found.</div>`;
+    container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--muted); font-size:14px; font-weight:500;">No foods found.</div>`;
     return;
   }
 
@@ -1279,21 +1158,21 @@ function renderRewards() {
     const isEquipped = state.theme === b.theme;
     
     const div = document.createElement('div');
-    div.style.cssText = `background:var(--surface2); border-radius:14px; padding:12px 14px; border:1px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'}; display:flex; justify-content:space-between; align-items:center; transition:border-color 0.2s;`;
+    div.style.cssText = `background:var(--surface2); border-radius:18px; padding:16px 14px; border:1px solid ${isEquipped ? 'var(--orange)' : 'rgba(255,255,255,0.1)'}; display:flex; justify-content:space-between; align-items:center; transition:all 0.3s ease; box-shadow:var(--glass-glow);`;
     
     const avatarHtml = b.avatar 
-        ? `<div style="width:40px;height:40px;border-radius:50%;background-image:url('${b.avatar}');background-size:cover;border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};flex-shrink:0;"></div>`
-        : `<div style="width:40px;height:40px;border-radius:50%;background-color:var(--surface3);border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:900;color:var(--text);flex-shrink:0;">${state.profile.name.slice(0,2).toUpperCase()}</div>`;
+        ? `<div style="width:44px;height:44px;border-radius:50%;background-image:url('${b.avatar}');background-size:cover;border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>`
+        : `<div style="width:44px;height:44px;border-radius:50%;background-color:var(--surface3);border:2px solid ${isEquipped ? 'var(--orange)' : 'var(--border)'};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px;font-weight:900;color:var(--text);flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.3);">${state.profile.name.slice(0,2).toUpperCase()}</div>`;
 
     div.innerHTML = `
-      <div style="display:flex; align-items:center; gap:12px;">
+      <div style="display:flex; align-items:center; gap:14px;">
         ${avatarHtml}
-        <div><div style="font-weight:700;font-size:14px;color:${isEquipped ? 'var(--orange)' : 'var(--text)'};">${b.name}</div><div style="font-size:11px;color:var(--muted)">Includes Theme + ${b.title}</div></div>
+        <div><div style="font-weight:800;font-size:15px;color:${isEquipped ? 'var(--orange)' : 'var(--text)'}; letter-spacing:0.5px;">${b.name}</div><div style="font-size:12px;color:var(--muted);font-weight:500;margin-top:2px;">Theme + ${b.title}</div></div>
       </div>
       <div>
         ${isUnlocked 
-          ? `<button class="reset-btn" style="margin:0;padding:8px 14px;font-size:12px;${isEquipped ? 'opacity:0.4;cursor:default;' : 'color:var(--orange);border-color:var(--orange-mid);'}" ${isEquipped ? 'disabled' : `onclick="equipBundle('${b.id}')"`}>${isEquipped ? 'Equipped' : 'Equip'}</button>`
-          : `<button class="btn-primary" style="margin:0;padding:8px 14px;font-size:12px;width:auto;" ${canUnlock ? `onclick="unlockBundle('${b.id}')"` : 'disabled'}>🔒 Unlock (1)</button>`
+          ? `<button class="reset-btn" style="margin:0;padding:10px 16px;font-size:13px;${isEquipped ? 'opacity:0.4;cursor:default;' : 'color:var(--orange);border-color:var(--orange-mid);background:var(--orange-dim);'}" ${isEquipped ? 'disabled' : `onclick="equipBundle('${b.id}')"`}>${isEquipped ? 'Equipped' : 'Equip'}</button>`
+          : `<button class="btn-primary" style="margin:0;padding:10px 16px;font-size:13px;width:auto;" ${canUnlock ? `onclick="unlockBundle('${b.id}')"` : 'disabled'}>🔒 Unlock (1)</button>`
         }
       </div>
     `;
@@ -1429,10 +1308,10 @@ async function renderSocial() {
     state.activeChallenges.forEach(async (cId) => {
       const snap = await database.ref('challenges/' + cId).once('value'); const cData = snap.val(); if (!cData) return;
       const div = document.createElement('div');
-      div.style.cssText = `background:var(--surface2); border-radius:12px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center;`;
+      div.style.cssText = `background:var(--surface2); border-radius:16px; padding:16px; display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(255,255,255,0.05); box-shadow:var(--glass-glow);`;
       if (!cData.opponentId) {
-        div.innerHTML = `<div style="font-size:13px; color:var(--muted);">Waiting for opponent...</div>
-                         <button class="btn-primary" style="padding:6px 12px; font-size:11px; width:auto; border-radius:8px;" onclick="prompt('Send this link:', '${window.location.origin + window.location.pathname}?challenge=${cId}')">Copy Link</button>`;
+        div.innerHTML = `<div style="font-size:13px; color:var(--muted); font-weight:500;">Waiting for opponent...</div>
+                         <button class="btn-primary" style="padding:8px 14px; font-size:12px; width:auto; border-radius:10px; box-shadow:none;" onclick="prompt('Send this link:', '${window.location.origin + window.location.pathname}?challenge=${cId}')">Copy Link</button>`;
       } else {
         const mySnap = await database.ref('leaderboard/' + getUserId()).once('value');
         const oppId = cData.creatorId === getUserId() ? cData.opponentId : cData.creatorId;
@@ -1447,33 +1326,35 @@ async function renderSocial() {
         }
         const isOver = Math.floor((new Date() - new Date(cData.startDate)) / 86400000) >= 7;
         div.innerHTML = `
-          <div><div style="font-size:10px; color:var(--muted); margin-bottom:4px; letter-spacing:1px;">${isOver ? 'FINISHED' : 'ACTIVE BATTLE'}</div><div style="font-weight:600; font-size:14px;">vs. ${oppName}</div></div>
-          <div style="text-align:right;"><div style="font-family:var(--font-display); font-size:24px; font-weight:900; color:var(--orange);"><span style="${myScore >= oppScore ? 'color:var(--green)' : ''}">${myScore}</span> <span style="font-size:16px;color:var(--muted)">-</span> <span style="${oppScore >= myScore ? 'color:var(--red)' : ''}">${oppScore}</span></div></div>
+          <div><div style="font-size:10px; color:var(--muted); margin-bottom:4px; letter-spacing:1px; font-weight:700;">${isOver ? 'FINISHED' : 'ACTIVE BATTLE'}</div><div style="font-weight:800; font-size:16px;">vs. ${oppName}</div></div>
+          <div style="text-align:right;"><div style="font-family:var(--font-display); font-size:28px; font-weight:900; color:var(--orange); text-shadow:0 2px 4px rgba(0,0,0,0.3);"><span style="${myScore >= oppScore ? 'color:var(--green)' : ''}">${myScore}</span> <span style="font-size:18px;color:var(--muted)">-</span> <span style="${oppScore >= myScore ? 'color:var(--red)' : ''}">${oppScore}</span></div></div>
         `;
       }
       chalList.appendChild(div);
     });
   }
 
-  const listEl = document.getElementById('leaderboard-list'); listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">Fetching global stats...</div>';
+  const listEl = document.getElementById('leaderboard-list'); 
+  listEl.innerHTML = '<div class="loader-spinner small"></div><div style="text-align: center; color: var(--muted); padding: 10px; font-weight: 500;">Loading top users...</div>';
+  
   try {
     const snapshot = await database.ref('leaderboard').orderByChild('streak').limitToLast(10).once('value');
     listEl.innerHTML = ''; const users = [];
     snapshot.forEach((child) => { users.push({ id: child.key, ...child.val() }); }); users.reverse(); let rank = 1;
     users.forEach((data) => {
       const isMe = data.id === getUserId(); const div = document.createElement('div');
-      div.style.cssText = `display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: ${isMe ? 'rgba(232,82,26,0.1)' : 'var(--surface2)'}; border-radius: 12px; border: 1px solid ${isMe ? 'var(--orange-mid)' : 'transparent'}; backdrop-filter:blur(4px);`;
+      div.style.cssText = `display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: ${isMe ? 'rgba(232,82,26,0.15)' : 'var(--surface2)'}; border-radius: 16px; border: 1px solid ${isMe ? 'var(--orange-mid)' : 'rgba(255,255,255,0.05)'}; backdrop-filter:blur(12px); box-shadow:var(--glass-glow), 0 4px 10px rgba(0,0,0,0.2);`;
       const avatarHtml = data.avatar 
-        ? `<div style="width:30px; height:30px; border-radius:50%; background-image:url('${data.avatar}'); background-size:cover; background-position:center; border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; flex-shrink:0;"></div>`
-        : `<div style="width:30px; height:30px; border-radius:50%; background-color:var(--surface3); border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:12px; font-weight:900; color:var(--text); flex-shrink:0;">${data.name.slice(0,2).toUpperCase()}</div>`;
+        ? `<div style="width:36px; height:36px; border-radius:50%; background-image:url('${data.avatar}'); background-size:cover; background-position:center; border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; flex-shrink:0; box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>`
+        : `<div style="width:36px; height:36px; border-radius:50%; background-color:var(--surface3); border:2px solid ${isMe ? 'var(--orange)' : 'var(--border)'}; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:14px; font-weight:900; color:var(--text); flex-shrink:0; box-shadow:0 2px 8px rgba(0,0,0,0.3);">${data.name.slice(0,2).toUpperCase()}</div>`;
       div.innerHTML = `
-        <div style="display:flex; align-items:center; gap: 12px;"><div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: var(--muted); width: 20px;">#${rank}</div>${avatarHtml}<div style="font-weight: 600; font-size: 15px;">${data.name} ${isMe ? '(You)' : ''}</div></div>
-        <div style="font-family:var(--font-display); font-size: 20px; font-weight: 800; color: var(--orange);">🔥 ${data.streak}</div>
+        <div style="display:flex; align-items:center; gap: 14px;"><div style="font-family:var(--font-display); font-size: 20px; font-weight: 800; color: var(--muted); width: 24px;">#${rank}</div>${avatarHtml}<div style="font-weight: 700; font-size: 15px; letter-spacing:0.3px;">${data.name} ${isMe ? '<span style="color:var(--orange); font-size:12px; margin-left:4px;">(You)</span>' : ''}</div></div>
+        <div style="font-family:var(--font-display); font-size: 24px; font-weight: 800; color: var(--orange); text-shadow:0 2px 4px rgba(0,0,0,0.3);">🔥 ${data.streak}</div>
       `;
       listEl.appendChild(div); rank++;
     });
-    if (users.length === 0) listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px;">No users found yet. Start your streak!</div>';
-  } catch (e) { listEl.innerHTML = '<div style="text-align: center; color: var(--red); padding: 20px;">Failed to load leaderboard.</div>'; }
+    if (users.length === 0) listEl.innerHTML = '<div style="text-align: center; color: var(--muted); padding: 20px; font-weight:500;">No users found yet. Start your streak!</div>';
+  } catch (e) { listEl.innerHTML = '<div style="text-align: center; color: var(--red); padding: 20px; font-weight:500;">Failed to load leaderboard.</div>'; }
 }
 
 function calcTotalDeficit() {
@@ -1552,7 +1433,7 @@ document.getElementById('ob-next').addEventListener('click', () => {
     const bmr = calcBMR(w, h, age, gender); const tdee = bmr * activity; const dailyBudget = Math.round(tdee - deficit); const bmi = w / ((h / 100) ** 2);
     
     // Explicitly seed the exact structure so Firebase doesn't delete it
-    state.profile = { name, age, gender, currentWeight: w, height: h, targetWeight: target, bmi: parseFloat(bmi.toFixed(1)), bmr: Math.round(bmr), tdee: Math.round(tdee), dailyBudget, weeklyBudget: dailyBudget * 7, deficit, createdAt: new Date().toISOString(), journeyStartDate: today(), maxStreak: 0, lastWeightUpdate: today(), avatar: null, tokens: 0, claimedMilestones: [], unlockedBundles: ['default'], customMeals: [], hasSeenTour: false };
+    state.profile = { name, age, gender, currentWeight: w, height: h, targetWeight: target, bmi: parseFloat(bmi.toFixed(1)), bmr: Math.round(bmr), tdee: Math.round(tdee), dailyBudget, weeklyBudget: dailyBudget * 7, deficit, createdAt: new Date().toISOString(), journeyStartDate: today(), maxStreak: 0, lastWeightUpdate: today(), avatar: null, tokens: 0, claimedMilestones: [], unlockedBundles: ['default'], customMeals: [] };
     state.dailyLog = { "init": { water: 0 } }; // Dummy key so Firebase won't drop the object
     state.activeChallenges = ['init']; // Dummy challenge
     state.onboarded = true; 
@@ -1598,6 +1479,7 @@ function renderDashboard() {
     cheatBtn.style.cursor = "not-allowed";
     cheatBtn.style.borderColor = "transparent";
     cheatBtn.style.color = "var(--faint)";
+    cheatBtn.style.background = "var(--surface3)";
   } else {
     cheatBtn.textContent = "🍕 USE CHEAT DAY (+350 cal)";
     cheatBtn.disabled = false;
@@ -1605,6 +1487,7 @@ function renderDashboard() {
     cheatBtn.style.cursor = "pointer";
     cheatBtn.style.borderColor = "var(--orange)";
     cheatBtn.style.color = "var(--orange)";
+    cheatBtn.style.background = "rgba(232, 82, 26, 0.1)";
   }
 
   let totalP = 0, totalC = 0, totalF = 0, totalFi = 0;
@@ -1619,8 +1502,9 @@ function renderDashboard() {
   document.getElementById('water-count').textContent = dailyWater + ' / 8';
   const glassesEl = document.getElementById('water-glasses'); glassesEl.innerHTML = '';
   for(let i=0; i<8; i++) {
-     const g = document.createElement('div'); g.style.width = '16px'; g.style.height = '24px'; g.style.borderRadius = '2px 2px 6px 6px';
+     const g = document.createElement('div'); g.style.width = '18px'; g.style.height = '26px'; g.style.borderRadius = '3px 3px 8px 8px';
      g.style.border = '2px solid var(--water)'; g.style.background = i < dailyWater ? 'var(--water)' : 'transparent'; g.style.opacity = i < dailyWater ? '1' : '0.4';
+     g.style.boxShadow = i < dailyWater ? '0 0 8px rgba(56, 189, 248, 0.5)' : 'none';
      glassesEl.appendChild(g);
   }
 
@@ -1800,7 +1684,7 @@ function openChartModal() {
         r: {
           angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
           grid: { color: 'rgba(255, 255, 255, 0.1)' },
-          pointLabels: { color: '#f0f0f0', font: { family: "'DM Sans', sans-serif", size: 12, weight: 'bold' } },
+          pointLabels: { color: '#f0f0f0', font: { family: "'DM Sans', sans-serif", size: 13, weight: 'bold' } },
           ticks: { display: false, backdropColor: 'transparent' }
         }
       },
@@ -1887,17 +1771,6 @@ async function bootApp() {
   checkTDEENudge();
   checkMilestones(); 
   startReminders();
-
-  // --- BULLETPROOF TOUR TRIGGER ---
-  // Checks if the user has seen the tour. If not, it saves a flag and launches it.
-  if (!state.profile.hasSeenTour) {
-    state.profile.hasSeenTour = true;
-    save();
-    // A 500ms delay ensures the UI is fully rendered before the modal pops up
-    setTimeout(() => {
-      startTour();
-    }, 500);
-  }
 }
 </script>
 
