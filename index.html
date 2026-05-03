@@ -474,6 +474,9 @@
           <div class="days-row"><span class="dk">Daily deficit</span><span class="dv" id="di-deficit" style="color:var(--green)">—</span></div>
         </div>
       </div>
+      
+      <!-- ADDED APP TOUR BUTTON -->
+      <button class="reset-btn" style="margin-bottom:12px;color:var(--text);border-color:var(--border);" onclick="startTour()">🗺️ Take the App Tour</button>
 
       <button class="reset-btn" id="notif-btn" style="margin-bottom:12px;color:var(--water);border-color:var(--border);" onclick="enableNotifications()">🔔 Enable Smart Reminders</button>
       <button class="reset-btn" style="margin-bottom:12px;color:var(--orange);border-color:var(--orange-mid);font-weight:600;" onclick="openRewardsModal()">🎁 Themes & Avatars Store (<span id="profile-token-count">0</span>)</button>
@@ -680,6 +683,17 @@
     </div>
   </div>
 
+  <!-- ADDED APP TOUR MODAL -->
+  <div id="tour-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
+    <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:32px 24px;text-align:center;position:relative;overflow:hidden;animation: popIn 0.4s ease forwards;">
+       <div id="tour-img" style="width:140px;height:140px;margin:0 auto 20px;border-radius:50%;background-size:cover;background-position:top;border:4px solid var(--orange);box-shadow:0 10px 30px rgba(0,0,0,0.5);"></div>
+       <div class="ob-title" id="tour-title" style="font-size:22px;margin-bottom:12px;color:var(--orange);">TITLE</div>
+       <div class="ob-sub" id="tour-text" style="font-size:15px;line-height:1.5;margin-bottom:24px;color:var(--text);">Text</div>
+       <button class="btn-primary" id="tour-btn" onclick="nextTourStep()">NEXT</button>
+       <button class="reset-btn" style="margin-top:12px;border:none;" onclick="closeTour()">Skip Tour</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -714,6 +728,41 @@ const BUNDLES = [
 ];
 
 let currentFoodTab = 'all';
+
+// ——— APP TOUR LOGIC ———
+const tourSteps = [
+  { img: 'introduction3.jpg', title: 'TED LASSO says:', text: '"Welcome to your Dashboard! Think of this as your locker room. Stay in the green on your budget, hit those 8 glasses of water, and keep your streak alive! But hey, if you need a break, hit the Cheat Day button for a 350-calorie cushion. Believe!"' },
+  { img: 'introduction.jpg', title: 'LEWANDOWSKI says:', text: '"Let us move to the Tracker. Precision is everything. Use the search bar to access the Food Database or create custom meals. Watch your Macro Radar—Protein, Carbs, Fat, and Fiber. Log accurately, and the results will follow."' },
+  { img: 'introduction2.jpg', title: 'HARRY KANE says:', text: '"Brilliant stuff. In the Social tab, invite your mates to 7-Day Consistency Battles and climb the Leaderboard. Stick to the game plan to earn Unlock Tokens for new themes and avatars in the Rewards Store. Let’s get out there and win it!"' }
+];
+let currentTourStep = 0;
+
+function startTour() {
+  currentTourStep = 0;
+  renderTourStep();
+  document.getElementById('tour-modal').style.display = 'flex';
+}
+
+function renderTourStep() {
+  const step = tourSteps[currentTourStep];
+  document.getElementById('tour-img').style.backgroundImage = `url('${step.img}')`;
+  document.getElementById('tour-title').textContent = step.title;
+  document.getElementById('tour-text').textContent = step.text;
+  document.getElementById('tour-btn').textContent = currentTourStep === tourSteps.length - 1 ? "LET'S GO!" : "NEXT →";
+}
+
+function nextTourStep() {
+  currentTourStep++;
+  if (currentTourStep >= tourSteps.length) {
+    closeTour();
+  } else {
+    renderTourStep();
+  }
+}
+
+function closeTour() {
+  document.getElementById('tour-modal').style.display = 'none';
+}
 
 // ——— AUTH & SYNC LOGIC (RESTORED EMAIL/PASSWORD) ———
 async function handleLogin() {
@@ -1402,7 +1451,9 @@ document.getElementById('ob-next').addEventListener('click', () => {
     state.activeChallenges = ['init']; // Dummy challenge
     state.onboarded = true; 
     
-    save(); bootApp();
+    save(); 
+    bootApp(); 
+    startTour(); // STARTS THE APP TOUR AFTER ONBOARDING
   }
 });
 
