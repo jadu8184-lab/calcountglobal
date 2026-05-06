@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CALCOUNT.</title>
 
-<!-- PWA Manifest & iOS Support -->
 <link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,12 +13,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- Firebase Realtime Database & Auth SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
 
-<!-- Chart.js for Spider Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -304,13 +301,11 @@
 <body>
 <div id="app">
 
-  <!-- ENHANCED INITIAL LOADING SCREEN -->
   <div id="loading-screen">
     <div class="loader-spinner"></div>
     <div class="loading-text">CALCOUNT.</div>
   </div>
 
-  <!-- AUTHENTICATION SCREEN (EMAIL & PASSWORD) -->
   <div id="auth-screen">
     <div class="ob-logo">CALCOUNT.</div>
     <div class="ob-title">SIGN IN.</div>
@@ -325,7 +320,6 @@
     </div>
   </div>
 
-  <!-- ONBOARDING -->
   <div id="onboarding">
     <div class="ob-logo">CALCOUNT.</div>
     <div class="ob-progress">
@@ -388,21 +382,16 @@
     <button class="btn-primary" id="ob-next">CONTINUE →</button>
   </div>
 
-  <!-- MAIN APP -->
   <div id="main">
     <div class="topbar">
       <div class="logo">CALCOUNT.</div>
       <div class="avatar" id="top-avatar">??</div>
     </div>
 
-    <!-- Dashboard Tab -->
     <div id="tab-dashboard" class="tab-content active">
-      <!-- DASHBOARD MAIN CARD WITH RADAR & GRID FIX -->
       <div class="card" style="position:relative;overflow:hidden;">
-        <!-- Subtle corner accent -->
         <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,var(--orange) 0%,transparent 70%);opacity:0.08;pointer-events:none;"></div>
         
-        <!-- HEADER WITH RADAR BUTTON -->
         <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px;">
           <div class="card-label" style="margin-bottom:0;">CALORIES REMAINING</div>
           <button style="background:var(--surface3); border:1px solid var(--border); border-radius:8px; color:var(--orange); padding:5px 10px; font-size:10px; font-family:var(--font-mono); font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px; box-shadow:var(--glass-glow); transition:all 0.2s;" onclick="openChartModal()">
@@ -420,7 +409,6 @@
         <div class="pbar-track" style="height:4px;margin-bottom:14px;"><div class="pbar-fill" id="daily-bar" style="width:0%;background:var(--orange)"></div></div>
         <div class="cal-meta" style="margin-bottom:16px;"><span id="daily-spent" style="color:var(--muted);">0 spent</span></div>
         
-        <!-- 4-COLUMN MACRO GRID -->
         <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
           <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:10px 4px; text-align:center;">
             <div style="font-size:9px;color:var(--faint);font-family:var(--font-mono);font-weight:700;letter-spacing:1px;margin-bottom:4px;">PRO</div>
@@ -440,11 +428,9 @@
           </div>
         </div>
         
-        <!-- CHEAT DAY BUTTON -->
         <button id="cheat-day-btn" class="reset-btn" style="width:100%; margin:16px 0 0 0; font-weight:700; border-radius:var(--radius-xs); background:rgba(255,90,31,0.06); color:var(--muted); font-size:13px; letter-spacing:0.5px;" onclick="useCheatDay()">🍕 USE CHEAT DAY  <span style="color:var(--faint)">+350 cal</span></button>
       </div>
 
-      <!-- WATER TRACKER -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
           <div class="card-label" style="color:var(--water);margin-bottom:0;">HYDRATION</div>
@@ -489,7 +475,6 @@
       <button class="btn-primary" style="margin:0 16px 20px; width:calc(100% - 32px); letter-spacing:3px; font-size:16px;" onclick="showTab('tracker')">+ LOG FOOD</button>
     </div>
 
-    <!-- Tracker Tab -->
     <div id="tab-tracker" class="tab-content">
       <div class="card">
         <div class="card-label">TODAY'S CALORIES</div>
@@ -500,7 +485,6 @@
         <div class="pbar-track"><div class="pbar-fill" id="tracker-daily-bar" style="width:0%;background:var(--orange)"></div></div>
       </div>
 
-      <!-- Action Buttons -->
       <button class="btn-primary" style="margin: 0 16px 12px; width: calc(100% - 32px); display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; padding: 18px; letter-spacing: 3px;" onclick="openFoodDB()">
         <span style="font-size:18px">🔍</span> SEARCH DATABASE
       </button>
@@ -510,13 +494,11 @@
         <button class="reset-btn" style="flex:1; margin:0; padding:13px; font-size:12px; font-weight:700; letter-spacing:1px; font-family:var(--font-mono); color:var(--orange); border-color:var(--orange-mid); background:var(--orange-dim);" onclick="openCustomMealModal()">＋ CREATE MEAL</button>
       </div>
 
-      <!-- Logs -->
       <div class="card-label" style="margin: 0 20px 10px; font-size:9px;">TODAY'S LOG</div>
       <div id="txn-list" style="margin:0 16px;"></div>
       <div id="txn-empty" class="empty-state" style="display:none">No entries yet — start logging!</div>
     </div>
 
-    <!-- Social Tab -->
     <div id="tab-social" class="tab-content">
       <div class="card" style="border-color:var(--orange-mid); background: linear-gradient(145deg, rgba(255,90,31,0.08) 0%, transparent 100%);">
         <div class="card-label" style="color:var(--orange)">7-DAY BATTLES</div>
@@ -533,7 +515,6 @@
       </div>
     </div>
 
-    <!-- Profile Tab -->
     <div id="tab-profile" class="tab-content">
       <div class="card">
         <div class="profile-hero">
@@ -575,12 +556,10 @@
         </div>
       </div>
       
-      <!-- LOGOUT BUTTON -->
       <button class="reset-btn" style="color:var(--red); border-color:rgba(255,68,68,0.2); background:rgba(255,68,68,0.04); font-family:var(--font-mono); font-size:12px; letter-spacing:1px; font-weight:700; margin-bottom:10px;" onclick="logOut()">↩  LOG OUT</button>
       <button class="reset-btn" id="reset-btn" style="margin-bottom:30px; color:var(--faint); border-color:rgba(255,255,255,0.05); background:transparent; font-family:var(--font-mono); font-size:10px; letter-spacing:2px;">RESET ALL DATA</button>
     </div>
 
-    <!-- Bottom Nav -->
     <div class="bottom-nav">
       <button class="nav-btn active" data-tab="dashboard" onclick="showTab('dashboard')"><div class="nav-icon">⊞</div><div class="nav-label">HOME</div></button>
       <button class="nav-btn" data-tab="tracker" onclick="showTab('tracker')" id="nav-tracker"><div class="nav-icon" id="nav-streak-icon">🔥</div><div class="nav-label">TRACK</div></button>
@@ -588,7 +567,6 @@
       <button class="nav-btn" data-tab="profile" onclick="showTab('profile')"><div class="nav-icon">◎</div><div class="nav-label">PROFILE</div></button>
     </div>
 
-    <!-- Spider Chart Modal -->
     <div id="chart-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
       <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;text-align:center;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -602,10 +580,8 @@
     </div>
   </div>
 
-  <!-- HEALTHIFYME-STYLE PORTION ADJUSTER MODAL -->
   <div id="food-detail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1001;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
     <div class="glass-modal" style="width:100%;max-width:430px;border-radius:28px 28px 0 0;padding:28px 24px 48px;border-bottom:none;animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-      <!-- Drag handle -->
       <div style="width:36px;height:3px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 24px;"></div>
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
         <div>
@@ -652,7 +628,6 @@
     </div>
   </div>
 
-  <!-- QUICK ADD MANUAL MODAL -->
   <div id="quick-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
     <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;">
       <div class="ob-title" style="font-size:30px;margin-bottom:6px;text-align:center;letter-spacing:3px;">QUICK ADD</div>
@@ -672,7 +647,6 @@
     </div>
   </div>
 
-  <!-- CUSTOM MEAL MODAL -->
   <div id="custom-meal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
     <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;">
       <div class="ob-title" style="font-size:26px;margin-bottom:24px;text-align:center;">CREATE MEAL.</div>
@@ -691,7 +665,6 @@
     </div>
   </div>
 
-  <!-- FOOD DATABASE MODAL -->
   <div id="food-db-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
     <div class="glass-modal" style="width:100%;max-width:400px;border-radius:24px;padding:24px 20px;max-height:85vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -710,12 +683,10 @@
       </div>
       
       <div id="food-list-container" style="flex:1;overflow-y:auto;padding-right:4px;">
-        <!-- Filled by JS -->
-      </div>
+        </div>
     </div>
   </div>
 
-  <!-- CELEBRATION MODAL -->
   <div id="celebration-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
     <div id="particles-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;"></div>
     <div class="celebrate-box glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:36px 24px;border:2px solid var(--orange);text-align:center;box-shadow:0 10px 50px rgba(232,82,26,0.4), var(--glass-glow);z-index:2;">
@@ -727,7 +698,6 @@
     </div>
   </div>
 
-  <!-- REWARDS STORE MODAL -->
   <div id="rewards-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
     <div class="glass-modal" style="width:100%;max-width:400px;border-radius:24px;padding:28px;max-height:85vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;">
@@ -737,13 +707,11 @@
         </div>
       </div>
       <div id="rewards-list" style="display:flex;flex-direction:column;gap:12px;overflow-y:auto;padding-bottom:12px;flex:1;padding-right:8px;">
-        <!-- Filled by JS -->
-      </div>
+        </div>
       <button class="btn-primary" style="margin-top:20px;background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,0.1);flex-shrink:0;box-shadow:var(--glass-glow);" onclick="closeRewardsModal()">CLOSE</button>
     </div>
   </div>
 
-  <!-- EDIT PROFILE MODAL -->
   <div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
     <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:28px;">
       <div class="ob-title" style="font-size:26px;margin-bottom:24px;text-align:center;">EDIT METRICS.</div>
@@ -760,7 +728,6 @@
     </div>
   </div>
 
-  <!-- TDEE NUDGE MODAL -->
   <div id="tdee-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">
     <div class="glass-modal" style="width:100%;max-width:380px;border-radius:24px;padding:32px 24px;text-align:center;">
       <div style="font-size:48px;margin-bottom:16px;text-shadow:0 10px 20px rgba(0,0,0,0.5);">⚖️</div>
@@ -1025,6 +992,10 @@ function submitQuickAdd() {
   const t = today();
   if (!state.dailyLog) state.dailyLog = {}; 
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  
+  // FIX: Restore the array if Firebase deleted it
+  if (!state.dailyLog[t].transactions) state.dailyLog[t].transactions = [];
+  
   state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, fi, time: timeNow() }); 
   
   save(); closeQuickAddModal(); renderTracker(); renderDashboard(); checkMilestones();
@@ -1066,6 +1037,10 @@ function saveAndLogCustomMeal() {
   const t = today();
   if (!state.dailyLog) state.dailyLog = {}; 
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  
+  // FIX: Restore the array if Firebase deleted it
+  if (!state.dailyLog[t].transactions) state.dailyLog[t].transactions = [];
+  
   state.dailyLog[t].transactions.push({ amount: cal, label, p, c, f, fi, time: timeNow() }); 
   
   save(); closeCustomMealModal(); renderTracker(); renderDashboard(); checkMilestones();
@@ -1150,6 +1125,10 @@ function addFoodFromDetail() {
   const t = today();
   if (!state.dailyLog) state.dailyLog = {}; 
   if (!state.dailyLog[t]) state.dailyLog[t] = { transactions: [], water: 0 };
+  
+  // FIX: Restore the array if Firebase deleted it
+  if (!state.dailyLog[t].transactions) state.dailyLog[t].transactions = [];
+  
   state.dailyLog[t].transactions.push({ amount: c, label: finalLabel, p, c: cb, f, fi, time: timeNow() }); 
   
   save(); closeFoodDetail(); closeFoodDB(); renderTracker(); renderDashboard(); checkMilestones();
@@ -1395,7 +1374,7 @@ async function renderSocial() {
   }
 
   const listEl = document.getElementById('leaderboard-list'); 
-  listEl.innerHTML = '<div class="loader-spinner small"></div><div style="text-align: center; color: var(--muted); padding: 10px; font-weight: 500;">Loading top users...</div>';
+  listEl.innerHTML = '<div class="loader-spinner small"></div><div style="text-align: center; color: var(--muted); padding: 10px; font-weight: 600; font-size:12px; font-family:var(--font-mono);">LOADING...</div>';
   
   try {
     const snapshot = await database.ref('leaderboard').orderByChild('streak').limitToLast(10).once('value');
@@ -1834,7 +1813,6 @@ async function bootApp() {
 }
 </script>
 
-<!-- PWA Service Worker Registration -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
