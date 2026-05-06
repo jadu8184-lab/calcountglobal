@@ -306,6 +306,10 @@
     <div class="loading-text">CALCOUNT.</div>
   </div>
 
+  <div id="update-toast" style="display:none; position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:var(--orange); color:#fff; padding:12px 20px; border-radius:100px; font-size:12px; font-weight:700; z-index:9999; box-shadow:0 4px 20px var(--orange-mid); cursor:pointer; font-family:var(--font-mono); letter-spacing:1px; align-items:center; gap:10px; animation: fadeUp 0.4s ease forwards;">
+    🚀 NEW VERSION AVAILABLE <span style="background:rgba(0,0,0,0.2); padding:6px 10px; border-radius:12px;">UPDATE NOW</span>
+  </div>
+
   <div id="auth-screen">
     <div class="ob-logo">CALCOUNT.</div>
     <div class="ob-title">SIGN IN.</div>
@@ -318,6 +322,7 @@
       <button class="reset-btn" style="flex:1; margin:0; font-family:var(--font-mono); font-size:12px; letter-spacing:1px; font-weight:700;" onclick="handleSignUp()">CREATE ACCOUNT</button>
       <button class="btn-primary" style="flex:1; margin:0; font-size:15px; letter-spacing:3px;" onclick="handleLogin()">LOG IN</button>
     </div>
+    <button class="reset-btn" style="margin-top: 16px; width: 100%; border: none; background: transparent; color: var(--faint); font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px;" onclick="handleForgotPassword()">FORGOT PASSWORD?</button>
   </div>
 
   <div id="onboarding">
@@ -557,7 +562,9 @@
       </div>
       
       <button class="reset-btn" style="color:var(--red); border-color:rgba(255,68,68,0.2); background:rgba(255,68,68,0.04); font-family:var(--font-mono); font-size:12px; letter-spacing:1px; font-weight:700; margin-bottom:10px;" onclick="logOut()">↩  LOG OUT</button>
-      <button class="reset-btn" id="reset-btn" style="margin-bottom:30px; color:var(--faint); border-color:rgba(255,255,255,0.05); background:transparent; font-family:var(--font-mono); font-size:10px; letter-spacing:2px;">RESET ALL DATA</button>
+      <button class="reset-btn" id="reset-btn" style="margin-bottom:20px; color:var(--faint); border-color:rgba(255,255,255,0.05); background:transparent; font-family:var(--font-mono); font-size:10px; letter-spacing:2px;">RESET ALL DATA</button>
+      
+      <div style="text-align:center; color:var(--faint); font-family:var(--font-mono); font-size:10px; margin-bottom:20px;">VERSION 5.0.1</div>
     </div>
 
     <div class="bottom-nav">
@@ -808,6 +815,20 @@ async function handleSignUp() {
     alert(err.message);
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('auth-screen').style.display = 'flex';
+  }
+}
+
+async function handleForgotPassword() {
+  const e = document.getElementById('auth-email').value;
+  if (!e) {
+    return alert("Please enter your email address in the field above to reset your password.");
+  }
+  
+  try {
+    await auth.sendPasswordResetEmail(e);
+    alert("Password reset email sent! Check your inbox.");
+  } catch(err) {
+    alert(err.message);
   }
 }
 
@@ -1814,16 +1835,45 @@ async function bootApp() {
 </script>
 
 <script>
+  let newWorker;
+  const updateToast = document.getElementById('update-toast');
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js')
         .then(registration => {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        }, err => {
-          console.log('ServiceWorker registration failed: ', err);
-        });
+          console.log('ServiceWorker registered with scope:', registration.scope);
+
+          // Detect if a new service worker is installing
+          registration.addEventListener('updatefound', () => {
+            newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              // If it's installed and a previous worker exists, an update is ready!
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                updateToast.style.display = 'flex';
+              }
+            });
+          });
+        })
+        .catch(err => console.log('ServiceWorker registration failed:', err));
+
+      // Reload the page exactly once when the new service worker takes over
+      let refreshing;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+      });
     });
   }
+
+  // When the user clicks the toast, tell the waiting worker to skip waiting
+  updateToast.addEventListener('click', () => {
+    if (newWorker) {
+      updateToast.innerHTML = 'UPDATING... ⏳';
+      newWorker.postMessage({ action: 'skipWaiting' });
+    }
+  });
 </script>
 </body>
 </html>
