@@ -1,4 +1,4 @@
-const CACHE_NAME = 'calcount-v14';
+const CACHE_NAME = 'calcount-v15';
 const urlsToCache = [
   './',
   './index.html',
@@ -35,7 +35,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// ——— NEW: BACKGROUND SYNC ———
+// ——— BACKGROUND SYNC ———
 self.addEventListener('sync', event => {
   if (event.tag === 'sync-leaderboard') {
     console.log('[Service Worker] Syncing Leaderboard Data in background...');
@@ -79,3 +79,11 @@ async function syncLeaderboardData() {
     request.onerror = () => reject();
   });
 }
+
+// ——— NEW: SKIP WAITING LOGIC FOR MANUAL UPDATES ———
+// Listen for messages from the client (the "UPDATE NOW" toast) to trigger an immediate update
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
